@@ -99,13 +99,63 @@ L'API Wasiyah implémente plusieurs niveaux de sécurité :
 
 ## Contribution
 
-Les contributions au projet Wasiyah API sont les bienvenues ! Voici comment vous pouvez participer :
+Les contributions au projet Wasiyah API sont les bienvenues ! Ce projet utilise Git Flow pour gérer le cycle de développement.
+
+### Workflow Git Flow
+
+Nous utilisons [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) pour organiser notre travail. Voici les principales branches :
+
+- `main` : Code en production
+- `develop` : Code en développement, intégration continue
+- `feature/*` : Nouvelles fonctionnalités
+- `release/*` : Préparation des versions pour la production
+- `hotfix/*` : Corrections urgentes en production
+- `bugfix/*` : Corrections de bugs en développement
+
+### Comment contribuer
 
 1. Forkez le dépôt
-2. Créez une branche pour votre fonctionnalité (`git checkout -b feature/amazing-feature`)
-3. Committez vos changements (`git commit -m 'feat: ajouter une fonctionnalité incroyable'`)
-4. Poussez vers la branche (`git push origin feature/amazing-feature`)
-5. Ouvrez une Pull Request
+2. Clonez votre fork et configurez Git Flow
+   ```bash
+   git clone https://github.com/votre-username/wasiyah-api.git
+   cd wasiyah-api
+   git flow init -d
+   ```
+
+3. Créez une branche de fonctionnalité
+   ```bash
+   git flow feature start nom-de-votre-fonctionnalite
+   ```
+
+4. Travaillez sur votre fonctionnalité et committez vos changements
+   ```bash
+   git add .
+   git commit -m 'feat: ajouter une fonctionnalité incroyable'
+   ```
+
+5. Publiez votre branche de fonctionnalité
+   ```bash
+   git flow feature publish nom-de-votre-fonctionnalite
+   ```
+
+6. Ouvrez une Pull Request vers la branche `develop`
+
+7. Une fois la PR approuvée et fusionnée, terminez votre branche de fonctionnalité
+   ```bash
+   git flow feature finish nom-de-votre-fonctionnalite
+   ```
+
+### Conventions de commit
+
+Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) pour nos messages de commit :
+
+- `feat:` - Nouvelle fonctionnalité
+- `fix:` - Correction de bug
+- `docs:` - Modifications de la documentation
+- `style:` - Formatage, point-virgules manquants, etc.
+- `refactor:` - Refactorisation du code
+- `test:` - Ajout ou correction de tests
+- `chore:` - Tâches de maintenance, mises à jour de dépendances, etc.
 
 Veuillez vous assurer que votre code respecte les normes de codage du projet et inclut des tests appropriés.
 
