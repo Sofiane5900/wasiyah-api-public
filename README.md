@@ -21,13 +21,16 @@ Wasiyah API est le backend d'une application web sécurisée destinée à créer
 - [TypeORM](https://typeorm.io/) - ORM pour TypeScript et JavaScript
 - [JWT](https://jwt.io/) - Authentification sécurisée
 - [Swagger](https://swagger.io/) - Documentation de l'API
+- [PNPM](https://pnpm.io/) - Gestionnaire de paquets rapide et économe en espace disque
+- [Vitest](https://vitest.dev/) - Framework de test unitaire et d'intégration
+- [Playwright](https://playwright.dev/) - Framework de test end-to-end
 
 ## Installation
 
 ### Prérequis
 - Node.js (v18 ou supérieur)
 - PostgreSQL (v14 ou supérieur)
-- npm ou yarn
+- PNPM (v8 ou supérieur)
 
 ### Étapes d'installation
 
@@ -37,9 +40,9 @@ git clone https://github.com/votre-username/wasiyah-api.git
 cd wasiyah-api
 ```
 
-2. Installer les dépendances
+2. Installer les dépendances avec PNPM
 ```bash
-npm install
+pnpm install
 ```
 
 3. Configuration
@@ -51,11 +54,11 @@ cp .env.example .env
 4. Démarrer le service
 ```bash
 # Mode développement
-npm run start:dev
+pnpm dev
 
 # Mode production
-npm run build
-npm run start:prod
+pnpm build
+pnpm start
 ```
 
 ## Structure du projet
@@ -70,9 +73,39 @@ wasiyah-api/
 │   ├── testaments/            # Gestion des testaments
 │   ├── crypto/                # Services de cryptographie
 │   └── common/                # Utilitaires partagés
-├── test/                      # Tests
+├── test/
+│   ├── unit/                  # Tests unitaires (Vitest)
+│   ├── integration/           # Tests d'intégration (Vitest)
+│   └── e2e/                   # Tests end-to-end (Playwright)
 ├── dist/                      # Code compilé
 └── ...
+```
+
+## Tests
+
+Le projet utilise plusieurs niveaux de tests pour assurer la qualité du code :
+
+### Tests unitaires et d'intégration (Vitest)
+
+```bash
+# Exécuter tous les tests
+pnpm test
+
+# Exécuter les tests en mode watch
+pnpm test:watch
+
+# Générer un rapport de couverture
+pnpm test:coverage
+```
+
+### Tests end-to-end (Playwright)
+
+```bash
+# Exécuter les tests e2e en mode headless
+pnpm test:e2e
+
+# Générer un rapport HTML des tests e2e
+pnpm test:e2e:report
 ```
 
 ## API Endpoints
@@ -122,25 +155,36 @@ Nous utilisons [Git Flow](https://nvie.com/posts/a-successful-git-branching-mode
    git flow init -d
    ```
 
-3. Créez une branche de fonctionnalité
+3. Installez les dépendances avec PNPM
+   ```bash
+   pnpm install
+   ```
+
+4. Créez une branche de fonctionnalité
    ```bash
    git flow feature start nom-de-votre-fonctionnalite
    ```
 
-4. Travaillez sur votre fonctionnalité et committez vos changements
+5. Travaillez sur votre fonctionnalité et committez vos changements
    ```bash
    git add .
    git commit -m 'feat: ajouter une fonctionnalité incroyable'
    ```
 
-5. Publiez votre branche de fonctionnalité
+6. Assurez-vous que les tests passent
+   ```bash
+   pnpm test
+   pnpm test:e2e
+   ```
+
+7. Publiez votre branche de fonctionnalité
    ```bash
    git flow feature publish nom-de-votre-fonctionnalite
    ```
 
-6. Ouvrez une Pull Request vers la branche `develop`
+8. Ouvrez une Pull Request vers la branche `develop`
 
-7. Une fois la PR approuvée et fusionnée, terminez votre branche de fonctionnalité
+9. Une fois la PR approuvée et fusionnée, terminez votre branche de fonctionnalité
    ```bash
    git flow feature finish nom-de-votre-fonctionnalite
    ```
