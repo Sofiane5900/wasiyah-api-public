@@ -17,6 +17,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - 🆓 Application entièrement gratuite
 - 🔄 Code source ouvert et communautaire
 - 🔒 Aucune dépendance à des services tiers
+- 💫 Créée par la communauté, pour la communauté
 
 ### 1.3 **Utilisateurs cibles**
 - **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
@@ -26,28 +27,30 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 ---
 
-## 📊 **2. OBJECTIFS COMMERCIAUX**
+## 📊 **2. OBJECTIFS DU PROJET**
 
 ### 2.1 **Objectifs à court terme (6 mois)**
-- Lancement de la version MVP (Minimum Viable Product)
-- Acquisition de 5 000 utilisateurs actifs
+- Lancement de la version MVP (Minimum Viable Product) fonctionnelle
+- Création d'une communauté initiale d'utilisateurs et testeurs
 - Mise en place d'un système de feedback utilisateur
-- Taux de rétention de 50% après 3 mois d'utilisation
 - Publication du code source avec une licence open source
+- Documentation précise des règles islamiques de succession implémentées
 
 ### 2.2 **Objectifs à moyen terme (1-2 ans)**
-- Croissance à 25 000 utilisateurs actifs
+- Stabilisation de l'application et correction des bugs identifiés
+- Amélioration de l'expérience utilisateur selon les retours
 - Extension des fonctionnalités en conservant l'indépendance du système
-- Construction d'une communauté de contributeurs
-- Partenariats avec des experts juridiques et religieux
-- Traduction collaborative dans au moins 5 langues
+- Constitution d'une petite communauté de contributeurs
+- Partenariats avec des experts religieux pour validation
+- Traduction collaborative dans au moins 3 langues principales (arabe, français, anglais)
 
 ### 2.3 **Objectifs à long terme (3-5 ans)**
-- Plateforme de référence mondiale pour la gestion de succession islamique
-- Expansion à d'autres contextes religieux et culturels 
+- Outil de référence pour la communauté musulmane francophone
+- Expansion progressive à d'autres langues selon les contributions
 - Création d'une communauté active d'utilisateurs et de développeurs
 - Documentation complète du code et des règles islamiques
 - Maintien de l'indépendance vis-à-vis des services et technologies propriétaires
+- Outil pédagogique sur les règles de succession islamique
 
 ---
 
@@ -458,10 +461,11 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ## 📊 **7. MÉTRIQUES DE SUCCÈS**
 
-### 7.1 **Métriques d'acquisition**
-- Nombre de nouveaux utilisateurs inscrits par mois
-- Taux de conversion visiteur → utilisateur inscrit
-- Sources de trafic et leur efficacité
+### 7.1 **Métriques d'impact**
+- Nombre d'utilisateurs actifs 
+- Retours qualitatifs des utilisateurs
+- Nombre de testaments finalisés
+- Sources de trafic et bouche-à-oreille
 - Diversité géographique des utilisateurs
 
 ### 7.2 **Métriques d'engagement**
