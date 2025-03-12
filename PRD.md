@@ -16,6 +16,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - 📱 Interface utilisateur intuitive et épurée
 - 🆓 Application entièrement gratuite
 - 🔄 Code source ouvert et communautaire
+- 🔒 Aucune dépendance à des services tiers
 
 ### 1.3 **Utilisateurs cibles**
 - **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
@@ -36,7 +37,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 ### 2.2 **Objectifs à moyen terme (1-2 ans)**
 - Croissance à 25 000 utilisateurs actifs
-- Extension des fonctionnalités (intégration API bancaires, etc.)
+- Extension des fonctionnalités en conservant l'indépendance du système
 - Construction d'une communauté de contributeurs
 - Partenariats avec des experts juridiques et religieux
 - Traduction collaborative dans au moins 5 langues
@@ -45,8 +46,8 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Plateforme de référence mondiale pour la gestion de succession islamique
 - Expansion à d'autres contextes religieux et culturels 
 - Création d'une communauté active d'utilisateurs et de développeurs
-- Intégration avec des services gouvernementaux (si possible)
 - Documentation complète du code et des règles islamiques
+- Maintien de l'indépendance vis-à-vis des services et technologies propriétaires
 
 ---
 
@@ -269,6 +270,18 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Planification personnalisable des rappels
   - Escalade aux Wakils si nécessaire
 
+### 3.7 **Autonomie et indépendance**
+
+#### 3.7.1 **Architecture autonome**
+- **Priorité** : Critique
+- **Description** : L'application doit fonctionner de manière totalement autonome, sans dépendance à des API tierces.
+- **Exigences détaillées** :
+  - Aucune intégration avec des services bancaires externes
+  - Aucune utilisation de services d'authentification tiers (Google, Facebook, etc.)
+  - Auto-hébergement possible pour les utilisateurs avancés
+  - Fonctionnement complet sans accès internet après installation
+  - Capacité à exporter/importer toutes les données en formats ouverts
+
 ---
 
 ## 📱 **4. EXIGENCES NON FONCTIONNELLES**
@@ -317,6 +330,13 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Processus de revue de code transparent
 - Gestion publique des problèmes et des demandes d'amélioration
 - Organisation de sprints communautaires
+
+### 4.8 **Indépendance**
+- Aucune dépendance à des services cloud propriétaires
+- Aucune API tierce requise pour les fonctionnalités essentielles
+- Utilisation exclusive de formats de données ouverts
+- Déploiement possible sur serveurs auto-hébergés ou mutualisés standards
+- Documentation complète pour un déploiement autonome
 
 ---
 
@@ -404,6 +424,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Base de données PostgreSQL
 - Chiffrement E2EE avec gestion des clés côté client
 - Dépôt de code GitHub public avec CI/CD
+- Système entièrement autonome sans dépendances externes
 
 ### 6.2 **Endpoints API principaux**
 - `/api/auth` : Authentification, 2FA, gestion de session
@@ -498,11 +519,11 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Support multilingue
 
 ### 8.4 **Phase 4 : Évolution (ongoing)**
-- Intégrations avec services tiers
 - Application mobile native
-- Fonctionnalités premium
+- Améliorations des fonctionnalités existantes
 - Support international
 - Adaptations à d'autres systèmes juridiques
+- Outils d'auto-hébergement simplifiés
 
 ---
 
@@ -524,6 +545,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Chiffrement E2EE limitant certaines fonctionnalités côté serveur
 - Performance du chiffrement/déchiffrement côté client
 - Risque de perte d'accès aux données en cas de perte des clés
+- Développement sans recours à des API tierces imposant des défis supplémentaires
+- Nécessité de développer en interne des fonctionnalités alternatives aux services tiers
 
 ### 9.4 **Risques identifiés**
 - Tentatives de fraude pour accéder aux avoirs
