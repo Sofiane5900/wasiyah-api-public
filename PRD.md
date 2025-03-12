@@ -18,7 +18,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 ### 1.3 **Utilisateurs cibles**
 - **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
 - **Utilisateurs secondaires** : Non-musulmans cherchant une solution sécurisée de gestion testamentaire
-- **Parties prenantes** : Personnes de confiance désignées par l'utilisateur, héritiers potentiels, conseillers juridiques
+- **Parties prenantes** : Wakils (mandataires désignés par l'utilisateur), héritiers potentiels, conseillers juridiques
 
 ---
 
@@ -105,15 +105,15 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - Suggestions de répartition équitable
     - Modèles prédéfinis optionnels
 
-#### 3.2.3 **Gestion des personnes de confiance**
+#### 3.2.3 **Gestion des Wakils**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir désigner des personnes de confiance pour gérer ses données après son décès.
+- **Description** : L'utilisateur doit pouvoir désigner des Wakils (وكيل, mandataires) pour gérer ses données et exécuter ses volontés après son décès.
 - **Exigences détaillées** :
-  - Ajout de jusqu'à 5 personnes de confiance
-  - Attribution de rôles spécifiques par personne
+  - Ajout de jusqu'à 5 Wakils
+  - Attribution de rôles spécifiques par Wakil
   - Système d'invitation et confirmation bidirectionnelle
   - Définition des niveaux d'accès (lecture seule, gestion partielle, gestion totale)
-  - Possibilité de révoquer une personne de confiance
+  - Possibilité de révoquer un Wakil
   - Système de remplacement (hiérarchie)
 
 #### 3.2.4 **Arbre relationnel**
@@ -180,8 +180,8 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Priorité** : Critique
 - **Description** : Le système doit permettre la déclaration et la confirmation du décès de l'utilisateur.
 - **Exigences détaillées** :
-  - Formulaire de déclaration accessible aux personnes de confiance
-  - Nécessité de confirmation par au moins 2 personnes de confiance
+  - Formulaire de déclaration accessible aux Wakils
+  - Nécessité de confirmation par au moins 2 Wakils
   - Système de QR Code unique envoyé aux bénéficiaires
   - Délai de sécurité de 30 jours avant activation
   - Système d'alerte à l'utilisateur en cas de déclaration (protection contre les fraudes)
@@ -203,7 +203,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Demande de confirmation trimestrielle
   - Méthodes variées de confirmation (connexion, réponse à un email, code SMS)
-  - Escalade aux personnes de confiance après 3 rappels sans réponse
+  - Escalade aux Wakils après 3 rappels sans réponse
   - Option de désactivation temporaire pour longues absences planifiées
 
 ### 3.5 **Gestion des Documents**
@@ -261,7 +261,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Rappel annuel pour validation des dettes
   - Rappel trimestriel de confirmation de vie
   - Planification personnalisable des rappels
-  - Escalade aux personnes de confiance si nécessaire
+  - Escalade aux Wakils si nécessaire
 
 ---
 
@@ -322,16 +322,16 @@ En tant qu'utilisateur, je veux pouvoir choisir entre mode musulman et non-musul
 **US-004 : Configuration de l'authentification à deux facteurs**  
 En tant qu'utilisateur, je veux configurer ma méthode de 2FA préférée afin de sécuriser mon compte.
 
-### 5.2 **Gestion des personnes de confiance**
+### 5.2 **Gestion des Wakils**
 
-**US-005 : Ajout de personnes de confiance**  
-En tant qu'utilisateur, je veux pouvoir désigner jusqu'à 5 personnes de confiance afin qu'elles puissent gérer mes affaires après mon décès.
+**US-005 : Ajout de Wakils**  
+En tant qu'utilisateur, je veux pouvoir désigner jusqu'à 5 Wakils afin qu'ils puissent gérer mes affaires après mon décès.
 
 **US-006 : Attribution de rôles spécifiques**  
-En tant qu'utilisateur, je veux attribuer des rôles spécifiques à mes personnes de confiance afin de répartir les responsabilités.
+En tant qu'utilisateur, je veux attribuer des rôles spécifiques à mes Wakils afin de répartir les responsabilités.
 
-**US-007 : Révocation d'une personne de confiance**  
-En tant qu'utilisateur, je veux pouvoir révoquer une personne de confiance afin de m'adapter aux changements dans mes relations.
+**US-007 : Révocation d'un Wakil**  
+En tant qu'utilisateur, je veux pouvoir révoquer un Wakil afin de m'adapter aux changements dans mes relations.
 
 ### 5.3 **Gestion des actifs**
 
@@ -372,10 +372,10 @@ En tant qu'utilisateur, je veux pouvoir stocker mes mots de passe et accès num�
 ### 5.6 **Gestion du décès**
 
 **US-018 : Déclaration de décès**  
-En tant que personne de confiance, je veux pouvoir déclarer le décès de l'utilisateur afin d'initier le processus de succession.
+En tant que Wakil, je veux pouvoir déclarer le décès de l'utilisateur afin d'initier le processus de succession.
 
 **US-019 : Confirmation du décès**  
-En tant que personne de confiance secondaire, je veux pouvoir confirmer une déclaration de décès afin de valider l'information.
+En tant que Wakil secondaire, je veux pouvoir confirmer une déclaration de décès afin de valider l'information.
 
 **US-020 : Accès aux informations post-mortem**  
 En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me concernent après confirmation du décès afin de connaître mes droits et responsabilités.
@@ -392,7 +392,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 6.2 **Endpoints API principaux**
 - `/api/auth` : Authentification, 2FA, gestion de session
-- `/api/users` : Profils, préférences, personnes de confiance
+- `/api/users` : Profils, préférences, Wakils
 - `/api/relations` : Arbre relationnel et bénéficiaires
 - `/api/assets` : Gestion des actifs et valorisations
 - `/api/inheritance` : Calcul des parts selon règles islamiques
@@ -402,7 +402,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 6.3 **Modèles de données principaux**
 - **User** : Informations d'utilisateur, préférences, paramètres
-- **TrustedPerson** : Personnes de confiance et leurs permissions
+- **Wakil** : Wakils et leurs permissions
 - **Relation** : Relations familiales (arbre généalogique)
 - **Asset** : Actifs de l'utilisateur avec métadonnées
 - **Debt** : Dettes et créances
@@ -462,7 +462,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 8.2 **Phase 2 : Améliorations (3 mois)**
 - Arbre relationnel complet
-- Gestion avancée des personnes de confiance
+- Gestion avancée des Wakils
 - Coffres-forts numériques séparés
 - Calcul avancé des parts d'héritage
 - Interface utilisateur améliorée
@@ -517,6 +517,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 10.1 **Glossaire des termes**
 - **Wasiyah** : Testament islamique, autorisant la disposition libre d'un tiers des avoirs
+- **Wakil** (وكيل) : Mandataire désigné pour exécuter les volontés testamentaires
 - **Farâ'id** : Science des règles de succession en Islam
 - **E2EE** : End-to-End Encryption (chiffrement de bout en bout)
 - **2FA** : Two-Factor Authentication (authentification à deux facteurs)
