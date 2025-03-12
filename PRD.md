@@ -14,11 +14,14 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - 🌐 Accessibilité depuis tous les appareils
 - 🤝 Simplification des démarches testamentaires
 - 📱 Interface utilisateur intuitive et épurée
+- 🆓 Application entièrement gratuite
+- 🔄 Code source ouvert et communautaire
 
 ### 1.3 **Utilisateurs cibles**
 - **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
 - **Utilisateurs secondaires** : Non-musulmans cherchant une solution sécurisée de gestion testamentaire
 - **Parties prenantes** : Wakils (mandataires désignés par l'utilisateur), héritiers potentiels, conseillers juridiques
+- **Contributeurs** : Développeurs souhaitant participer au projet open source
 
 ---
 
@@ -29,18 +32,21 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Acquisition de 5 000 utilisateurs actifs
 - Mise en place d'un système de feedback utilisateur
 - Taux de rétention de 50% après 3 mois d'utilisation
+- Publication du code source avec une licence open source
 
 ### 2.2 **Objectifs à moyen terme (1-2 ans)**
 - Croissance à 25 000 utilisateurs actifs
 - Extension des fonctionnalités (intégration API bancaires, etc.)
-- Mise en place d'un modèle d'abonnement freemium
+- Construction d'une communauté de contributeurs
 - Partenariats avec des experts juridiques et religieux
+- Traduction collaborative dans au moins 5 langues
 
 ### 2.3 **Objectifs à long terme (3-5 ans)**
 - Plateforme de référence mondiale pour la gestion de succession islamique
-- Expansion à d'autres contextes religieux et culturels
-- Création d'une communauté active d'utilisateurs
+- Expansion à d'autres contextes religieux et culturels 
+- Création d'une communauté active d'utilisateurs et de développeurs
 - Intégration avec des services gouvernementaux (si possible)
+- Documentation complète du code et des règles islamiques
 
 ---
 
@@ -304,6 +310,14 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Support des 3 dernières versions majeures de chaque navigateur
 - Compatibilité mobile (iOS 14+, Android 9+)
 
+### 4.7 **Open Source**
+- Licence open source (GPL v3 ou MIT)
+- Documentation complète du code et de l'architecture
+- Guide de contribution pour les développeurs externes
+- Processus de revue de code transparent
+- Gestion publique des problèmes et des demandes d'amélioration
+- Organisation de sprints communautaires
+
 ---
 
 ## 👥 **5. USER STORIES ET PARCOURS UTILISATEUR**
@@ -389,6 +403,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Backend NestJS avec Fastify
 - Base de données PostgreSQL
 - Chiffrement E2EE avec gestion des clés côté client
+- Dépôt de code GitHub public avec CI/CD
 
 ### 6.2 **Endpoints API principaux**
 - `/api/auth` : Authentification, 2FA, gestion de session
@@ -425,8 +440,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 ### 7.1 **Métriques d'acquisition**
 - Nombre de nouveaux utilisateurs inscrits par mois
 - Taux de conversion visiteur → utilisateur inscrit
-- Coût d'acquisition par utilisateur
 - Sources de trafic et leur efficacité
+- Diversité géographique des utilisateurs
 
 ### 7.2 **Métriques d'engagement**
 - Nombre d'utilisateurs actifs (DAU, WAU, MAU)
@@ -447,6 +462,13 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Taux d'erreurs
 - Performance du chiffrement/déchiffrement
 - Consommation des ressources serveur
+
+### 7.5 **Métriques de la communauté open source**
+- Nombre de contributeurs actifs
+- Nombre de pull requests et d'issues traitées
+- Temps moyen de réponse aux issues
+- Diversité des contributeurs
+- Qualité de la documentation (mesurée par des enquêtes)
 
 ---
 
@@ -510,6 +532,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Contestations entre héritiers
 - Incertitudes juridiques sur la validité des testaments numériques
 - Évolution des lois sur les successions
+- Difficulté à maintenir une communauté active de contributeurs
+- Risques liés à la sécurité du code open source
 
 ---
 
@@ -522,12 +546,14 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **E2EE** : End-to-End Encryption (chiffrement de bout en bout)
 - **2FA** : Two-Factor Authentication (authentification à deux facteurs)
 - **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques
+- **Open Source** : Modèle de développement logiciel où le code source est librement accessible et modifiable
 
 ### 10.2 **Références**
 - Règles islamiques de succession
 - Réglementations sur la protection des données
 - Meilleures pratiques en matière de sécurité numérique
 - Études sur les comportements utilisateurs en matière de planification successorale
+- Licences open source et bonnes pratiques
 
 ### 10.3 **Maquettes conceptuelles**
 - Écrans d'authentification
