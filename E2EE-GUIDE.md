@@ -24,7 +24,10 @@ Wasiyah repose sur les principes de sécurité suivants :
 #### 2.1.1 **Processus d'inscription**
 1. L'utilisateur crée un compte avec **email + mot de passe**
 2. L'email est vérifié via un lien ou code de confirmation
-3. Un **2FA** est configuré (code SMS, email ou application d'authentification)
+3. Le système propose la configuration d'une **authentification à deux facteurs (2FA)** :
+   - Fortement recommandée mais optionnelle
+   - Plusieurs méthodes proposées : email, application d'authentification
+   - Incitation visuelle indiquant le niveau de sécurité du compte
 4. Le navigateur ou l'application génère **localement** une paire de clés cryptographiques :
    - **Clé publique** (utilisée pour chiffrer les données)
    - **Clé privée** (utilisée pour déchiffrer, jamais transmise au serveur)
@@ -51,7 +54,7 @@ Wasiyah repose sur les principes de sécurité suivants :
 
 #### 3.1.1 **Processus de connexion**
 1. L'utilisateur entre son email et mot de passe
-2. Le serveur vérifie les identifiants et demande le code 2FA
+2. Si le 2FA est activé, le serveur demande également le code 2FA
 3. Après authentification réussie, l'application récupère la clé privée chiffrée
 
 #### 3.1.2 **Déchiffrement et accès**
@@ -139,6 +142,35 @@ Cette étape de rechiffrement est **cruciale** car :
 - Détection des tentatives d'extraction de clés
 - Chiffrement en couches pour les données critiques
 - Limitation stricte du temps de conservation des clés en mémoire
+- **Niveaux de sécurité du compte clairement indiqués**
+
+### 4.4 **Niveaux de sécurité du compte**
+Wasiyah implémente un système de niveaux de sécurité visibles par l'utilisateur :
+
+#### 4.4.1 **Niveau de base**
+- Authentification par email et mot de passe uniquement
+- **Limitations** : 
+  - Alertes de sécurité plus fréquentes
+  - Restrictions sur certaines opérations sensibles
+  - Délai de sécurité plus long pour la validation du décès (45 jours)
+  - Limitations sur le nombre de Wakils (maximum 3)
+
+#### 4.4.2 **Niveau standard**
+- Authentification à deux facteurs (2FA) activée
+- **Avantages** :
+  - Délai de sécurité standard pour la validation du décès (30 jours)
+  - Nombre maximal de Wakils autorisé (5)
+  - Accès à toutes les fonctionnalités de gestion des actifs
+
+#### 4.4.3 **Niveau renforcé**
+- 2FA via application d'authentification (TOTP)
+- Vérification périodique d'identité
+- **Avantages supplémentaires** :
+  - Option de délai de sécurité personnalisable (15-30 jours)
+  - Possibilité de créer des règles d'accès avancées pour les Wakils
+  - Notifications de sécurité prioritaires
+
+L'objectif est d'encourager tous les utilisateurs à adopter au minimum le niveau standard, tout en rendant l'application accessible aux utilisateurs moins technophiles.
 
 ---
 
@@ -155,6 +187,8 @@ Cette étape de rechiffrement est **cruciale** car :
 - Envisager des solutions comme coffre bancaire ou notaire
 - Ne jamais partager la phrase avec quiconque avant le décès
 - Considérer des mécanismes de transmission sécurisée aux Wakils
+- **Activer l'authentification à deux facteurs** (2FA) pour renforcer la sécurité du compte
+- Privilégier les applications d'authentification (TOTP) plutôt que les SMS quand c'est possible
 
 ---
 
