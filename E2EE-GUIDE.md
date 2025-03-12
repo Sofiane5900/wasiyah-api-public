@@ -42,7 +42,7 @@ Wasiyah repose sur les principes de sécurité suivants :
 1. La **clé privée est chiffrée** avec une clé dérivée du mot de passe de l'utilisateur
    - Utilisation de fonctions de dérivation sécurisées (PBKDF2, Argon2) avec sel et étirement
 2. La clé privée chiffrée est stockée localement (localStorage, IndexedDB ou fichier local)
-3. La **clé d'accès post-mortem** est chiffrée avec la clé publique du système
+3. Toutes les données sensibles de l'utilisateur sont chiffrées avec sa clé publique
 4. Les données chiffrées par le système incluent des métadonnées sur qui peut y accéder et quand
 
 ### 2.2 **Désignation des Wakils et gestion des accès post-mortem**
