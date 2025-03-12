@@ -31,7 +31,6 @@ Wasiyah repose sur les principes de sécurité suivants :
 4. Le navigateur ou l'application génère **localement** une paire de clés cryptographiques :
    - **Clé publique** (utilisée pour chiffrer les données)
    - **Clé privée** (utilisée pour déchiffrer, jamais transmise au serveur)
-5. Le système génère également une **clé d'accès post-mortem** aléatoire (pour l'accès des Wakils après décès)
 
 #### 2.1.2 **Création et stockage de la phrase mnémonique**
 1. Une **phrase mnémonique BIP39** est générée (12 ou 24 mots)
@@ -45,6 +44,32 @@ Wasiyah repose sur les principes de sécurité suivants :
 2. La clé privée chiffrée est stockée localement (localStorage, IndexedDB ou fichier local)
 3. La **clé d'accès post-mortem** est chiffrée avec la clé publique du système
 4. Les données chiffrées par le système incluent des métadonnées sur qui peut y accéder et quand
+
+### 2.2 **Désignation des Wakils et gestion des accès post-mortem**
+
+#### 2.2.1 **Processus de désignation d'un Wakil**
+1. L'utilisateur invite une personne de confiance à devenir Wakil
+2. Le Wakil crée son compte et génère également sa propre paire de clés
+3. La **clé publique du Wakil** est partagée avec l'utilisateur
+4. L'utilisateur utilise cette clé publique pour chiffrer une **copie de sa propre clé privée**
+5. Cette **copie chiffrée** est stockée sur le serveur, mais reste indéchiffrable par celui-ci
+6. L'utilisateur peut définir des **restrictions d'accès** précises pour chaque Wakil (quelles données seront accessibles)
+
+#### 2.2.2 **Sécurisation des accès conditionnels**
+1. Les copies chiffrées de la clé privée de l'utilisateur sont stockées sur le serveur
+2. Ces copies sont **inaccessibles** aux Wakils durant la vie de l'utilisateur
+3. Chaque copie est associée à des **métadonnées d'accès** définissant :
+   - Les droits précis du Wakil (quelles données il pourra consulter)
+   - Les conditions temporelles (délai de sécurité)
+   - Les actions autorisées (lecture seule, gestion, etc.)
+4. L'utilisateur peut à tout moment **révoquer ou modifier** ces accès
+
+#### 2.2.3 **Intégrité du modèle E2EE**
+- Cette approche préserve l'intégrité du modèle E2EE car :
+  - Le serveur ne stocke que des **données chiffrées** qu'il ne peut jamais déchiffrer
+  - Seuls les Wakils désignés peuvent déchiffrer leur copie de clé respective
+  - Aucune "clé maître" ou "porte dérobée" n'existe dans le système
+  - Même les administrateurs système ne peuvent accéder aux données
 
 ---
 
@@ -111,14 +136,21 @@ Cette étape de rechiffrement est **cruciale** car :
 #### 3.4.1 **Déclaration et confirmation du décès**
 1. Un Wakil déclare le décès de l'utilisateur via l'interface dédiée
 2. D'autres Wakils (au moins 1) doivent confirmer la déclaration
-3. Un délai de sécurité de 30 jours est enclenché
+3. Un délai de sécurité est enclenché (30-45 jours selon le niveau de sécurité)
 4. L'utilisateur reçoit des notifications (protection contre les fausses déclarations)
 
 #### 3.4.2 **Activation des accès post-mortem**
-1. Après confirmation et expiration du délai, le système active la procédure de transmission
-2. La clé d'accès post-mortem est déchiffrée par le système
-3. Cette clé permet de créer des accès temporaires et limités pour chaque Wakil
-4. Chaque Wakil ne peut accéder qu'aux données correspondant à son rôle prédéfini
+1. Après confirmation et expiration du délai de sécurité, le système active la procédure de transmission
+2. Les **copies chiffrées** de la clé privée de l'utilisateur sont rendues accessibles aux Wakils respectifs
+3. Chaque Wakil peut télécharger sa copie et la déchiffrer avec **sa propre clé privée**
+4. Une fois déchiffrée, cette copie permet d'accéder aux données selon les droits prédéfinis
+5. Chaque Wakil n'a accès qu'aux données spécifiques que l'utilisateur a désignées pour lui
+
+#### 3.4.3 **Segmentation et limitation des accès**
+- Le système garantit que chaque Wakil n'accède qu'aux données autorisées par l'utilisateur
+- Un journal d'accès horodaté enregistre toutes les consultations
+- Les accès peuvent être limités dans le temps selon les volontés de l'utilisateur décédé
+- Aucune possibilité pour le système d'outrepasser ces restrictions
 
 ---
 
@@ -130,9 +162,11 @@ Cette étape de rechiffrement est **cruciale** car :
 - Dérivation de clés : **Argon2id** ou **PBKDF2** avec itérations nombreuses
 - Standard mnémonique : **BIP39** (utilisé dans les wallets cryptographiques)
 - Signatures : **Ed25519** pour authentifier les messages et requêtes
+- Distribution sécurisée des clés : protocole **ECDH** (Elliptic Curve Diffie-Hellman)
 
 ### 4.2 **Stockage et synchronisation**
 - Clé privée chiffrée stockée dans un espace sécurisé local
+- Copies de clés pour les Wakils chiffrées avec leurs clés publiques respectives
 - Synchronisation des données chiffrées uniquement
 - Vérification d'intégrité des données par hachage et signatures
 - Horodatage et versionnement des données pour prévenir les conflits
@@ -178,9 +212,10 @@ L'objectif est d'encourager tous les utilisateurs à adopter au minimum le nivea
 
 ### 5.1 **Risques inhérents au modèle**
 - **Perte définitive des données** en cas de perte de la phrase mnémonique
-- Impossibilité de récupération par l'équipe Wasiyah
+- Impossibilité de récupération par l'équipe Wasiyah (garantie de sécurité E2EE)
 - Nécessité d'une sauvegarde rigoureuse par l'utilisateur
 - Risque de fausses déclarations de décès (atténué par le système de confirmation multiple)
+- Risque de perte d'accès si tous les Wakils perdent leurs clés privées
 
 ### 5.2 **Bonnes pratiques pour les utilisateurs**
 - Stocker la phrase mnémonique dans plusieurs endroits physiques sécurisés
