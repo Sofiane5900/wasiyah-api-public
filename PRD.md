@@ -69,7 +69,9 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Choix de méthode 2FA (SMS, email, authentificateur)
   - Protection contre les tentatives de force brute
   - Détection des connexions suspectes (nouvelle localisation, appareil)
-  - Récupération de compte avec processus de vérification renforcé
+  - Phrase mnémonique BIP39 obligatoire comme SEULE méthode de sauvegarde cryptographique
+  - Avertissement clair que la perte de la phrase mnémonique entraîne la perte définitive des données
+  - Documentation détaillée sur la conservation sécurisée de la phrase mnémonique
 
 #### 3.1.2 **Gestion des sessions**
 - **Priorité** : Élevée
@@ -86,13 +88,15 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Chiffrement E2EE pour tous les documents et informations sensibles
   - Gestion des clés de chiffrement exclusivement côté client (zero-knowledge)
-  - Phrase mnémonique de récupération (BIP39) obligatoire avec instructions de conservation sécurisée
+  - Phrase mnémonique (BIP39) obligatoire pour sauvegarde cryptographique des clés avec instructions de conservation sécurisée
+  - Avertissement explicite que la perte de la phrase mnémonique entraîne la perte définitive et irréversible des données
   - Double chiffrement des données particulièrement sensibles (clés de coffres-forts avec clés séparées)
   - Option d'export sécurisé de la clé de chiffrement
   - Impossibilité technique pour l'équipe Wasiyah d'accéder aux données déchiffrées
   - Transparence totale du code de chiffrement/déchiffrement
   - Pas de génération de clés sur le serveur
   - Pas de transmission des clés privées non chiffrées via le réseau
+  - Absence totale de "porte dérobée" ou de mécanisme de récupération traditionnel
 
 ### 3.2 **Gestion des Profils Utilisateur**
 
@@ -587,6 +591,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Impossibilité pour quiconque (y compris les administrateurs) d'accéder aux données déchiffrées
 - Performance du chiffrement/déchiffrement côté client
 - Risque de perte d'accès aux données en cas de perte des clés
+- Absence totale de mécanisme de récupération traditionnel (incompatible avec l'E2EE véritable)
+- Nécessité d'éduquer les utilisateurs sur l'importance de la sauvegarde de leur phrase mnémonique
 - Développement sans recours à des API tierces imposant des défis supplémentaires
 - Nécessité de développer en interne des fonctionnalités alternatives aux services tiers
 
@@ -612,7 +618,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Zero-knowledge** : Approche de sécurité où le serveur ne possède jamais les informations nécessaires pour déchiffrer les données
 - **Chiffrement à double clé** : Technique où une donnée est protégée par deux couches de chiffrement distinctes, nécessitant deux clés différentes pour y accéder
 - **2FA** : Two-Factor Authentication (authentification à deux facteurs)
-- **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques
+- **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques permettant de sauvegarder des clés cryptographiques sous forme de 12 à 24 mots. Dans un système E2EE, cette phrase représente la SEULE méthode de sauvegarde des clés et sa perte entraîne la perte définitive des données.
+- **Sauvegarde cryptographique** : Processus de conservation sécurisée des clés de chiffrement, fondamentalement différent d'une "récupération de compte" traditionnelle qui compromettrait le modèle E2EE.
 - **Open Source** : Modèle de développement logiciel où le code source est librement accessible et modifiable
 
 ### 10.2 **Références**
