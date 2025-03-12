@@ -122,7 +122,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.3 **Gestion des Wakils**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir désigner des Wakils (وكيل, mandataires) pour gérer ses données et exécuter ses volontés après son décès.
+- **Description** : L'utilisateur doit pouvoir désigner des Wakils (وكيل, mandataires) pour gérer ses données et exécuter ses volontés UNIQUEMENT après son décès confirmé.
 - **Exigences détaillées** :
   - Ajout de jusqu'à 5 Wakils
   - Attribution de rôles spécifiques par Wakil
@@ -130,6 +130,8 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Définition des niveaux d'accès (lecture seule, gestion partielle, gestion totale)
   - Possibilité de révoquer un Wakil
   - Système de remplacement (hiérarchie)
+  - Aucun accès aux données de l'utilisateur avant la validation du décès
+  - Séparation stricte entre le rôle de déclaration du décès et l'accès aux données
 
 #### 3.2.4 **Arbre relationnel**
 - **Priorité** : Moyenne
@@ -193,7 +195,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.4.1 **Déclaration et confirmation**
 - **Priorité** : Critique
-- **Description** : Le système doit permettre la déclaration et la confirmation du décès de l'utilisateur.
+- **Description** : Le système doit permettre la déclaration et la confirmation du décès de l'utilisateur, sans donner accès aux données avant validation complète.
 - **Exigences détaillées** :
   - Formulaire de déclaration accessible aux Wakils
   - Nécessité de confirmation par au moins 2 Wakils
@@ -201,16 +203,19 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Délai de sécurité de 30 jours avant activation
   - Système d'alerte à l'utilisateur en cas de déclaration (protection contre les fraudes)
   - Processus de contestation pendant le délai de sécurité
+  - Architecture cryptographique garantissant l'impossibilité d'accès aux données pendant la période de confirmation
 
 #### 3.4.2 **Activation des dispositions testamentaires**
 - **Priorité** : Critique
-- **Description** : Après confirmation du décès, le système doit activer les dispositions testamentaires.
+- **Description** : Après confirmation du décès et expiration du délai de sécurité, le système doit activer les dispositions testamentaires.
 - **Exigences détaillées** :
+  - Déverrouillage cryptographique automatique des accès selon les rôles prédéfinis
   - Notification à tous les bénéficiaires
   - Accès sécurisé aux informations pertinentes pour chaque bénéficiaire
   - Instructions détaillées pour chaque actif et bénéficiaire
   - Système de confirmation de réception des informations
   - Archive sécurisée de toutes les transactions post-mortem
+  - Journal des accès pour audit
 
 #### 3.4.3 **Vérifications périodiques de vie**
 - **Priorité** : Moyenne
@@ -466,20 +471,27 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 ### 6.5 **Architecture de chiffrement E2EE**
 - **Client-side encryption** : Toutes les données sensibles sont chiffrées avant de quitter l'appareil de l'utilisateur
 - **Structure à deux niveaux** :
-  - Clé principale dérivée du mot de passe utilisateur (avec sel et étirement)
-  - Sous-clés pour chaque type de données (profil, actifs, documents, etc.)
+  - Clé principale utilisateur dérivée du mot de passe (avec sel et étirement)
+  - Clé d'accès post-mortem générée aléatoirement par le système
 - **Stockage sécurisé** :
-  - Aucune clé privée non chiffrée stockée sur le serveur
-  - Stockage uniquement de données chiffrées et métadonnées non sensibles
+  - Données utilisateur chiffrées avec la clé principale
+  - Clé d'accès post-mortem chiffrée elle-même avec la clé publique du système
+  - Aucune clé en clair stockée sur le serveur
   - Sauvegarde de la clé principale via phrase mnémonique (BIP39)
-- **Transmission des clés aux Wakils** :
-  - Processus cryptographique permettant le partage sécurisé des clés aux Wakils
-  - Accès limité aux informations selon le rôle attribué
-  - Chiffrement asymétrique pour l'échange de clés
+- **Mécanisme de succession simple et sécurisé** :
+  - Lors de la déclaration de décès, le processus de validation est initié
+  - Après confirmation par au moins 2 Wakils et expiration du délai de sécurité (30 jours)
+  - Le système autorise le déchiffrement de la clé d'accès post-mortem
+  - Cette clé permet alors de déchiffrer une copie des données selon les niveaux d'accès prédéfinis
+  - Séparation claire entre authentification des Wakils et autorisation d'accès
+- **Transmission des accès aux Wakils** :
+  - Aucune transmission de clé avant la validation complète du décès
+  - Après validation, création d'accès temporaires spécifiques pour chaque Wakil
+  - Permissions d'accès strictement limitées au périmètre prédéfini par l'utilisateur
 - **Auditabilité** :
-  - Journal d'accès aux données chiffrées
+  - Journal d'accès horodaté pour chaque consultation
   - Notifications en cas d'accès aux données
-  - Processus de preuve d'accès sans révéler les clés
+  - Impossibilité technique d'accès avant la validation du décès
 
 ---
 
@@ -598,6 +610,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Farâ'id** : Science des règles de succession en Islam
 - **E2EE** : End-to-End Encryption (chiffrement de bout en bout), système où seuls l'émetteur et le destinataire peuvent lire les données
 - **Zero-knowledge** : Approche de sécurité où le serveur ne possède jamais les informations nécessaires pour déchiffrer les données
+- **Chiffrement à double clé** : Technique où une donnée est protégée par deux couches de chiffrement distinctes, nécessitant deux clés différentes pour y accéder
 - **2FA** : Two-Factor Authentication (authentification à deux facteurs)
 - **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques
 - **Open Source** : Modèle de développement logiciel où le code source est librement accessible et modifiable
