@@ -13,7 +13,7 @@ Wasiyah repose sur les principes de sécurité suivants :
 - **Zero-knowledge** : Le serveur n'a jamais accès aux données déchiffrées
 - **E2EE intégral** : Seul l'utilisateur (et ses Wakils après son décès) peuvent accéder aux données
 - **Absence de porte dérobée** : Aucun mécanisme de récupération classique qui compromettrait la sécurité
-- **Transparence totale** : Code de chiffrement open source et auditabl
+- **Transparence totale** : Code de chiffrement open source et auditable
 
 ---
 
@@ -101,7 +101,7 @@ Cette étape de rechiffrement est **cruciale** car :
 - Si l'utilisateur perd à la fois l'accès à son appareil et sa phrase mnémonique :
   - **Les données sont définitivement inaccessibles**
   - Aucune procédure de récupération n'existe (garantie de sécurité)
-  - Des avertissements clairs sont affichés lors de la création du compte
+- Des avertissements clairs sont affichés lors de la création du compte
 
 ### 3.4 **Transmission aux Wakils après décès**
 
@@ -161,7 +161,7 @@ Cette étape de rechiffrement est **cruciale** car :
 ## 🔍 **6. VÉRIFIABILITÉ ET AUDIT**
 
 ### 6.1 **Transparence du code**
-- Code source du chiffrement disponible et auditabl
+- Code source du chiffrement disponible et auditable
 - Documentation technique détaillée des fonctions cryptographiques
 - Possibilité d'audit indépendant du système de gestion des clés
 
