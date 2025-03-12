@@ -18,6 +18,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - 🔄 Code source ouvert et communautaire
 - 🔒 Aucune dépendance à des services tiers
 - 💫 Créée par la communauté, pour la communauté
+- 🛡️ Chiffrement de bout en bout pour une confidentialité totale
 
 ### 1.3 **Utilisateurs cibles**
 - **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
@@ -80,14 +81,18 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Notifications de connexion sur nouvel appareil
 
 #### 3.1.3 **Chiffrement des données**
-- **Priorité** : Critique
-- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout.
+- **Priorité** : CRITIQUE (Fondement du projet)
+- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout, rendant impossible l'accès aux informations pour quiconque autre que l'utilisateur et ses Wakils explicitement désignés.
 - **Exigences détaillées** :
   - Chiffrement E2EE pour tous les documents et informations sensibles
-  - Gestion des clés de chiffrement côté client (zero-knowledge)
-  - Phrase mnémonique de récupération (BIP39)
+  - Gestion des clés de chiffrement exclusivement côté client (zero-knowledge)
+  - Phrase mnémonique de récupération (BIP39) obligatoire avec instructions de conservation sécurisée
+  - Double chiffrement des données particulièrement sensibles (clés de coffres-forts avec clés séparées)
   - Option d'export sécurisé de la clé de chiffrement
-  - Impossibilité pour l'équipe Wasiyah d'accéder aux données déchiffrées
+  - Impossibilité technique pour l'équipe Wasiyah d'accéder aux données déchiffrées
+  - Transparence totale du code de chiffrement/déchiffrement
+  - Pas de génération de clés sur le serveur
+  - Pas de transmission des clés privées non chiffrées via le réseau
 
 ### 3.2 **Gestion des Profils Utilisateur**
 
@@ -428,6 +433,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Chiffrement E2EE avec gestion des clés côté client
 - Dépôt de code GitHub public avec CI/CD
 - Système entièrement autonome sans dépendances externes
+- Modèle "zero-knowledge" où le serveur ne possède jamais les clés de déchiffrement
 
 ### 6.2 **Endpoints API principaux**
 - `/api/auth` : Authentification, 2FA, gestion de session
@@ -456,6 +462,24 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Rate limiting sur les endpoints sensibles
 - HTTPS obligatoire avec HSTS
 - CSP strict et autres en-têtes de sécurité
+
+### 6.5 **Architecture de chiffrement E2EE**
+- **Client-side encryption** : Toutes les données sensibles sont chiffrées avant de quitter l'appareil de l'utilisateur
+- **Structure à deux niveaux** :
+  - Clé principale dérivée du mot de passe utilisateur (avec sel et étirement)
+  - Sous-clés pour chaque type de données (profil, actifs, documents, etc.)
+- **Stockage sécurisé** :
+  - Aucune clé privée non chiffrée stockée sur le serveur
+  - Stockage uniquement de données chiffrées et métadonnées non sensibles
+  - Sauvegarde de la clé principale via phrase mnémonique (BIP39)
+- **Transmission des clés aux Wakils** :
+  - Processus cryptographique permettant le partage sécurisé des clés aux Wakils
+  - Accès limité aux informations selon le rôle attribué
+  - Chiffrement asymétrique pour l'échange de clés
+- **Auditabilité** :
+  - Journal d'accès aux données chiffrées
+  - Notifications en cas d'accès aux données
+  - Processus de preuve d'accès sans révéler les clés
 
 ---
 
@@ -487,6 +511,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Taux d'erreurs
 - Performance du chiffrement/déchiffrement
 - Consommation des ressources serveur
+- Tests d'intrusion et scores de sécurité
 
 ### 7.5 **Métriques de la communauté open source**
 - Nombre de contributeurs actifs
@@ -546,7 +571,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 9.3 **Contraintes techniques**
 - Sécurité maximale requise
-- Chiffrement E2EE limitant certaines fonctionnalités côté serveur
+- Chiffrement E2EE comme principe fondamental et non négociable
+- Impossibilité pour quiconque (y compris les administrateurs) d'accéder aux données déchiffrées
 - Performance du chiffrement/déchiffrement côté client
 - Risque de perte d'accès aux données en cas de perte des clés
 - Développement sans recours à des API tierces imposant des défis supplémentaires
@@ -570,7 +596,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Wasiyah** : Testament islamique, autorisant la disposition libre d'un tiers des avoirs
 - **Wakil** (وكيل) : Mandataire désigné pour exécuter les volontés testamentaires
 - **Farâ'id** : Science des règles de succession en Islam
-- **E2EE** : End-to-End Encryption (chiffrement de bout en bout)
+- **E2EE** : End-to-End Encryption (chiffrement de bout en bout), système où seuls l'émetteur et le destinataire peuvent lire les données
+- **Zero-knowledge** : Approche de sécurité où le serveur ne possède jamais les informations nécessaires pour déchiffrer les données
 - **2FA** : Two-Factor Authentication (authentification à deux facteurs)
 - **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques
 - **Open Source** : Modèle de développement logiciel où le code source est librement accessible et modifiable
