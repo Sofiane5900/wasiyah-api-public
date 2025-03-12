@@ -55,7 +55,32 @@ Wasiyah repose sur les principes de sécurité suivants :
 5. Cette **copie chiffrée** est stockée sur le serveur, mais reste indéchiffrable par celui-ci
 6. L'utilisateur peut définir des **restrictions d'accès** précises pour chaque Wakil (quelles données seront accessibles)
 
-#### 2.2.2 **Sécurisation des accès conditionnels**
+#### 2.2.2 **Flux automatique et stockage en base de données**
+La désignation d'un Wakil déclenche automatiquement les actions suivantes :
+
+1. **Préparation des données** :
+   - Création d'une copie de la clé privée de l'utilisateur en mémoire locale
+   - Chiffrement de cette copie avec la clé publique du Wakil désigné
+   - Création d'un bundle de métadonnées d'accès définissant les permissions
+
+2. **Stockage sécurisé** :
+   - La copie chiffrée est enregistrée en base de données dans une table dédiée `wakil_keys`
+   - Association à un identifiant unique et à l'ID de l'utilisateur et du Wakil
+   - Les métadonnées d'accès sont chiffrées séparément et stockées dans une table `wakil_permissions`
+   - Un horodatage et une empreinte de vérification sont ajoutés pour garantir l'intégrité
+
+3. **Restrictions d'accès** :
+   - Un drapeau `is_accessible` est défini à `false` par défaut
+   - Seule la validation complète du décès pourra modifier ce drapeau
+   - Des contrôles périodiques vérifient que ce drapeau n'a pas été altéré
+   - Le Wakil reçoit uniquement une confirmation de sa désignation, sans aucun accès aux données
+
+4. **Journal d'audit** :
+   - Toutes ces opérations sont consignées dans un journal d'audit immuable
+   - Ces entrées de journal sont signées cryptographiquement pour prévenir toute altération
+   - L'utilisateur peut consulter l'historique complet des désignations et modifications
+
+#### 2.2.3 **Sécurisation des accès conditionnels**
 1. Les copies chiffrées de la clé privée de l'utilisateur sont stockées sur le serveur
 2. Ces copies sont **inaccessibles** aux Wakils durant la vie de l'utilisateur
 3. Chaque copie est associée à des **métadonnées d'accès** définissant :
@@ -64,7 +89,7 @@ Wasiyah repose sur les principes de sécurité suivants :
    - Les actions autorisées (lecture seule, gestion, etc.)
 4. L'utilisateur peut à tout moment **révoquer ou modifier** ces accès
 
-#### 2.2.3 **Intégrité du modèle E2EE**
+#### 2.2.4 **Intégrité du modèle E2EE**
 - Cette approche préserve l'intégrité du modèle E2EE car :
   - Le serveur ne stocke que des **données chiffrées** qu'il ne peut jamais déchiffrer
   - Seuls les Wakils désignés peuvent déchiffrer leur copie de clé respective
