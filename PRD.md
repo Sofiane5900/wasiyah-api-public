@@ -35,7 +35,8 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Création d'une communauté initiale d'utilisateurs et testeurs
 - Mise en place d'un système de feedback utilisateur
 - Publication du code source avec une licence open source
-- Documentation précise des règles islamiques de succession implémentées
+- Développement de rappels informatifs sur les règles islamiques de succession (sans implémentation de partage automatique)
+- Création d'une documentation complète avec tutoriels d'utilisation
 
 ### 2.2 **Objectifs à moyen terme (1-2 ans)**
 - Stabilisation de l'application et correction des bugs identifiés
@@ -51,7 +52,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Création d'une communauté active d'utilisateurs et de développeurs
 - Documentation complète du code et des règles islamiques
 - Maintien de l'indépendance vis-à-vis des services et technologies propriétaires
-- Outil pédagogique sur les règles de succession islamique
+- Ressource pédagogique informative sur les règles de succession islamique (sans calculateur automatique)
 
 ---
 
@@ -105,24 +106,24 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Description** : L'utilisateur doit pouvoir configurer son profil avec ses informations personnelles.
 - **Exigences détaillées** :
   - Informations de base (nom, prénom, date de naissance)
-  - Choix du mode de succession (Musulman ou Non-Musulman)
+  - Choix du profil d'utilisateur (Musulman ou Non-Musulman) pour personnaliser les ressources informatives
   - Configuration des préférences de notification
   - Photo de profil (optionnelle)
   - Informations de contact alternatives
 
-#### 3.2.2 **Mode Musulman vs Non-Musulman**
+#### 3.2.2 **Profil Musulman vs Non-Musulman**
 - **Priorité** : Élevée
-- **Description** : L'application doit proposer deux modes selon la confession de l'utilisateur.
+- **Description** : L'application doit proposer deux modes de ressources informatives selon le choix de l'utilisateur.
 - **Exigences détaillées** :
-  - **Mode Musulman** :
-    - Calcul automatique de 2/3 (66,67%) des avoirs selon les règles islamiques
-    - Attribution libre de 1/3 (33,33%) des avoirs (wasiyah)
-    - Suggestion de répartition conforme à la charia
-    - Alertes en cas de non-conformité
-  - **Mode Non-Musulman** :
-    - Liberté totale de répartition des avoirs (100%)
-    - Suggestions de répartition équitable
-    - Modèles prédéfinis optionnels
+  - **Profil Musulman** :
+    - Rappels informatifs sur les principes du testament en Islam
+    - Ressources pédagogiques sur les règles de succession islamique
+    - Informations sur la répartition recommandée (sans calcul automatique)
+    - Documentation de référence sur les principes de la wasiyah
+  - **Profil Non-Musulman** :
+    - Ressources générales sur la planification successorale
+    - Suggestions de considérations importantes
+    - Documentation sur les bonnes pratiques testamentaires
 
 #### 3.2.3 **Gestion des Wakils**
 - **Priorité** : Élevée
@@ -139,13 +140,12 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.4 **Arbre relationnel**
 - **Priorité** : Moyenne
-- **Description** : L'utilisateur doit pouvoir définir son arbre relationnel pour identifier ses héritiers légaux.
+- **Description** : L'utilisateur doit pouvoir définir son arbre relationnel pour identifier ses proches.
 - **Exigences détaillées** :
   - Interface intuitive de création d'arbre familial
   - Ajout des relations principales (conjoint, enfants, parents, frères/sœurs)
-  - Classification automatique des types d'héritiers selon la loi islamique
-  - Calcul dynamique des parts en fonction de l'arbre
-  - Visualisation graphique de l'arbre et des parts
+  - Informations sur les types d'héritiers selon la loi islamique
+  - Visualisation graphique de l'arbre
   - Mise à jour facile (naissance, mariage, décès)
 
 ### 3.3 **Gestion des Actifs et du Capital**
@@ -168,20 +168,21 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Saisie des dettes actives (ce que l'utilisateur doit)
   - Saisie des créances (ce qu'on doit à l'utilisateur)
   - Détails des modalités (montant, échéances, intérêts si applicable)
-  - Calcul automatique du solde net après remboursement des dettes
-  - Priorité de remboursement des dettes sur la distribution des actifs
+  - Visualisation du solde net après remboursement des dettes
+  - Informations sur la priorité de remboursement des dettes sur la distribution des actifs
 
 #### 3.3.3 **Attribution des bénéficiaires**
 - **Priorité** : Critique
 - **Description** : L'utilisateur doit pouvoir désigner les bénéficiaires de ses actifs.
 - **Exigences détaillées** :
-  - En mode musulman :
-    - Calcul automatique des parts obligatoires (2/3)
-    - Interface de répartition du tiers libre (wasiyah)
-    - Alertes en cas de violation des règles islamiques
-  - En mode non-musulman :
-    - Interface de répartition libre
-    - Attribution par actif ou par pourcentage global
+  - Selon le profil choisi :
+    - **Profil musulman** :
+      - Ressources informatives sur les parts selon les règles islamiques
+      - Interface de répartition des actifs avec rappels informatifs
+      - Guides explicatifs sur les principes de la wasiyah (testament islamique)
+    - **Profil non-musulman** :
+      - Interface de répartition libre
+      - Attribution par actif ou par pourcentage global
   - Désignation d'organisations caritatives ou religieuses
   - Conditions d'attribution (âge minimum, situation, etc.)
 
@@ -398,16 +399,16 @@ En tant qu'utilisateur, je veux pouvoir enregistrer mes dettes afin qu'elles soi
 ### 5.4 **Répartition des biens**
 
 **US-011 : Création de l'arbre relationnel**  
-En tant qu'utilisateur, je veux créer mon arbre familial afin d'identifier mes héritiers légaux.
+En tant qu'utilisateur, je veux créer mon arbre familial afin d'identifier mes proches.
 
-**US-012 : Répartition automatique selon les règles islamiques**  
-En tant qu'utilisateur musulman, je veux que le système calcule automatiquement la répartition des 2/3 de mes avoirs selon la charia afin d'être conforme à mes obligations religieuses.
+**US-012 : Ressources sur les règles islamiques de succession**  
+En tant qu'utilisateur musulman, je veux accéder à des ressources informatives sur les règles islamiques de succession afin de comprendre les principes applicables à ma situation.
 
-**US-013 : Attribution du tiers libre (wasiyah)**  
-En tant qu'utilisateur musulman, je veux pouvoir attribuer librement le tiers restant de mes avoirs afin d'exprimer mes volontés personnelles.
+**US-013 : Attribution de mes biens**  
+En tant qu'utilisateur musulman, je veux pouvoir attribuer mes biens selon mes volontés tout en recevant des informations conformes à mes valeurs religieuses.
 
 **US-014 : Répartition libre complète**  
-En tant qu'utilisateur non-musulman, je veux pouvoir répartir librement 100% de mes avoirs afin d'exprimer mes volontés personnelles.
+En tant qu'utilisateur non-musulman, je veux pouvoir répartir librement mes avoirs afin d'exprimer mes volontés personnelles.
 
 ### 5.5 **Documentation et coffres-forts**
 
@@ -449,7 +450,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - `/api/users` : Profils, préférences, Wakils
 - `/api/relations` : Arbre relationnel et bénéficiaires
 - `/api/assets` : Gestion des actifs et valorisations
-- `/api/inheritance` : Calcul des parts selon règles islamiques
+- `/api/resources` : Ressources informatives sur les règles de succession
 - `/api/documents` : Gestion des coffres-forts numériques
 - `/api/death-validation` : Processus de validation du décès
 - `/api/notifications` : Configuration des alertes et rappels
@@ -462,7 +463,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Debt** : Dettes et créances
 - **Document** : Documents stockés (métadonnées + contenu chiffré)
 - **Notification** : Configuration des notifications
-- **Inheritance** : Règles d'héritage calculées
+- **Resource** : Ressources informatives sur les règles de succession
 
 ### 6.4 **Sécurité**
 - Chiffrement E2EE avec libsodium.js
@@ -552,7 +553,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Arbre relationnel complet
 - Gestion avancée des Wakils
 - Coffres-forts numériques séparés
-- Calcul avancé des parts d'héritage
+- Ressources enrichies sur les règles de succession
 - Interface utilisateur améliorée
 
 ### 8.3 **Phase 3 : Fonctionnalités complètes (6 mois)**
@@ -578,7 +579,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Conformité au RGPD et autres réglementations sur la protection des données
 - Respect des lois sur la succession dans différentes juridictions
 - Validité juridique des testaments numériques
-- Responsabilité en cas d'erreur de calcul ou de répartition
+- Clarté sur la nature informative des ressources fournies
 
 ### 9.2 **Contraintes religieuses**
 - Fidélité aux règles islamiques d'héritage (farâ'id)
