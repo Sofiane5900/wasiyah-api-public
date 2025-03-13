@@ -92,7 +92,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Gestion des clés de chiffrement exclusivement côté client (zero-knowledge)
   - Phrase mnémonique (BIP39) obligatoire pour sauvegarde cryptographique des clés avec instructions de conservation sécurisée
   - Avertissement explicite que la perte de la phrase mnémonique entraîne la perte définitive et irréversible des données
-  - Double chiffrement des données particulièrement sensibles (clés de coffres-forts avec clés séparées)
+  - Architecture de chiffrement à plusieurs niveaux pour les données particulièrement sensibles (coffres-forts spécifiques chiffrés avec des clés distinctes, elles-mêmes chiffrées avec la clé publique de l'utilisateur)
   - Option d'export sécurisé de la clé de chiffrement
   - Impossibilité technique pour l'équipe Wasiyah d'accéder aux données déchiffrées
   - Transparence totale du code de chiffrement/déchiffrement
@@ -242,8 +242,10 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Coffre légal pour documents officiels
   - Coffre islamique pour documents religieux
   - Coffre numérique pour mots de passe et accès
-  - Chiffrement individuel de chaque coffre
-  - Possibilité d'attribuer des accès différents par coffre
+  - Chiffrement individuel de chaque coffre avec des clés distinctes
+  - Clés des coffres-forts elles-mêmes chiffrées avec la clé publique de l'utilisateur
+  - Possibilité d'attribuer des accès spécifiques par coffre à différents Wakils
+  - Garantie qu'un Wakil n'aura accès qu'aux coffres-forts explicitement partagés
   - Versionnement des documents
   - Limite de 1 Go de stockage total par utilisateur
 
