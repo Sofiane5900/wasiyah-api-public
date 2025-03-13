@@ -66,8 +66,9 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Système d'inscription par email avec vérification
   - Connexion avec email et mot de passe
-  - Authentification à deux facteurs (2FA) obligatoire
-  - Choix de méthode 2FA (SMS, email, authentificateur)
+  - Authentification à deux facteurs (2FA) fortement recommandée mais optionnelle
+  - Méthodes de 2FA sécurisées (application d'authentification TOTP, email)
+  - Indication visuelle du niveau de sécurité du compte (avec/sans 2FA)
   - Protection contre les tentatives de force brute
   - Détection des connexions suspectes (nouvelle localisation, appareil)
   - Phrase mnémonique BIP39 obligatoire comme SEULE méthode de sauvegarde cryptographique
@@ -227,7 +228,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Description** : Le système doit vérifier périodiquement que l'utilisateur est toujours en vie.
 - **Exigences détaillées** :
   - Demande de confirmation trimestrielle
-  - Méthodes variées de confirmation (connexion, réponse à un email, code SMS)
+  - Méthodes sécurisées de confirmation (connexion, réponse à un email, application d'authentification)
   - Escalade aux Wakils après 3 rappels sans réponse
   - Option de désactivation temporaire pour longues absences planifiées
 
@@ -273,7 +274,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Description** : Le système doit notifier les utilisateurs des événements importants.
 - **Exigences détaillées** :
   - Notifications par email (principal)
-  - Notifications SMS (optionnel)
+  - Notifications via l'application d'authentification (optionnel, pour les comptes avec 2FA)
   - Notifications push sur application mobile (futur)
   - Centre de notifications in-app
   - Contrôle granulaire des types de notifications
@@ -314,7 +315,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Chiffrement E2EE pour toutes les données sensibles
 - Conformité RGPD et autres réglementations sur la protection des données
 - Audit de sécurité trimestriel
-- Authentification multifacteur obligatoire
+- Authentification multifacteur fortement recommandée avec incitations visuelles
 - Protection contre les attaques CSRF, XSS, injection SQL
 - Tests de pénétration réguliers
 
