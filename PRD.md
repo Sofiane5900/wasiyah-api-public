@@ -86,7 +86,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.1.3 **Chiffrement des données**
 - **Priorité** : CRITIQUE (Fondement du projet)
-- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout, rendant impossible l'accès aux informations pour quiconque autre que l'utilisateur et ses Wakils explicitement désignés.
+- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout, rendant impossible l'accès aux informations pour quiconque autre que l'utilisateur de son vivant, et ses Wakils explicitement désignés UNIQUEMENT après son décès confirmé.
 - **Exigences détaillées** :
   - Chiffrement E2EE pour tous les documents et informations sensibles
   - Gestion des clés de chiffrement exclusivement côté client (zero-knowledge)
@@ -99,6 +99,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Pas de génération de clés sur le serveur
   - Pas de transmission des clés privées non chiffrées via le réseau
   - Absence totale de "porte dérobée" ou de mécanisme de récupération traditionnel
+  - Garantie cryptographique que les Wakils ne peuvent accéder aux données avant la validation complète du décès
 
 ### 3.2 **Gestion des Profils Utilisateur**
 
@@ -476,28 +477,30 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 6.5 **Architecture de chiffrement E2EE**
 - **Client-side encryption** : Toutes les données sensibles sont chiffrées avant de quitter l'appareil de l'utilisateur
-- **Structure à deux niveaux** :
-  - Clé principale utilisateur dérivée du mot de passe (avec sel et étirement)
-  - Clé d'accès post-mortem générée aléatoirement par le système
+- **Modèle cryptographique sécurisé** :
+  - Paire de clés cryptographiques générée localement pour l'utilisateur
+  - Clé privée de l'utilisateur chiffrée avec une clé dérivée de son mot de passe
+  - Les données sont chiffrées avec la clé publique de l'utilisateur
 - **Stockage sécurisé** :
-  - Données utilisateur chiffrées avec la clé principale
-  - Clé d'accès post-mortem chiffrée elle-même avec la clé publique du système
+  - Toutes les données sont chiffrées avec la clé publique de l'utilisateur
+  - Des copies de la clé privée de l'utilisateur sont chiffrées avec les clés publiques des Wakils désignés
   - Aucune clé en clair stockée sur le serveur
   - Sauvegarde de la clé principale via phrase mnémonique (BIP39)
-- **Mécanisme de succession simple et sécurisé** :
+- **Mécanisme de succession sécurisé** :
   - Lors de la déclaration de décès, le processus de validation est initié
   - Après confirmation par au moins 2 Wakils et expiration du délai de sécurité (30 jours)
-  - Le système autorise le déchiffrement de la clé d'accès post-mortem
-  - Cette clé permet alors de déchiffrer une copie des données selon les niveaux d'accès prédéfinis
-  - Séparation claire entre authentification des Wakils et autorisation d'accès
+  - Le système autorise l'accès aux copies chiffrées des clés correspondant à chaque Wakil
+  - Chaque Wakil peut déchiffrer sa copie avec sa propre clé privée
+  - Séparation stricte entre la déclaration du décès et l'accès aux données
 - **Transmission des accès aux Wakils** :
   - Aucune transmission de clé avant la validation complète du décès
-  - Après validation, création d'accès temporaires spécifiques pour chaque Wakil
-  - Permissions d'accès strictement limitées au périmètre prédéfini par l'utilisateur
-- **Auditabilité** :
+  - Après validation, accès aux copies chiffrées des clés selon les droits prédéfinis
+  - Permissions d'accès strictement limitées au périmètre spécifié par l'utilisateur
+- **Auditabilité et contrôle** :
   - Journal d'accès horodaté pour chaque consultation
   - Notifications en cas d'accès aux données
   - Impossibilité technique d'accès avant la validation du décès
+  - Verrous cryptographiques garantissant l'intégrité du processus
 
 ---
 
