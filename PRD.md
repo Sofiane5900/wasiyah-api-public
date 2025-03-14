@@ -139,6 +139,8 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Système de remplacement (hiérarchie)
   - Aucun accès aux données de l'utilisateur avant la validation du décès
   - Séparation stricte entre le rôle de déclaration du décès et l'accès aux données
+  - Option pour désigner une mosquée ou une organisation islamique comme Wakil (particulièrement utile pour les personnes sans entourage familial)
+  - Processus spécifique de validation pour les Wakils institutionnels
 
 #### 3.2.4 **Arbre relationnel**
 - **Priorité** : Moyenne
@@ -185,18 +187,21 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - **Profil non-musulman** :
       - Interface de répartition libre
       - Attribution par actif ou par pourcentage global
-  - Désignation d'organisations caritatives ou religieuses
+  - Désignation d'organisations caritatives ou religieuses comme bénéficiaires
   - Conditions d'attribution (âge minimum, situation, etc.)
 
 #### 3.3.4 **Tableau de bord financier**
 - **Priorité** : Moyenne
 - **Description** : L'utilisateur doit avoir une vue d'ensemble de ses actifs et de leur répartition.
 - **Exigences détaillées** :
+  - Affichage clair du capital total (somme de tous les actifs moins les dettes)
   - Visualisation graphique de la répartition des actifs
   - Distinction visuelle entre parts obligatoires et wasiyah
   - Historique des modifications de valorisation
   - Rappels de mise à jour des valorisations
   - Graphiques de répartition par bénéficiaire
+  - Suivi de l'évolution du capital avec historique (trimestriel)
+  - Notifications d'évolution significative du capital (gain/perte)
 
 ### 3.4 **Validation du Décès**
 
@@ -269,6 +274,19 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Journalisation des consultations
   - Révocation d'accès possible
   - Expiration automatique des accès
+
+#### 3.5.4 **Contrats de prêt entre particuliers**
+- **Priorité** : Moyenne
+- **Description** : L'utilisateur doit pouvoir créer, gérer et suivre des contrats de prêt conformes aux principes islamiques.
+- **Exigences détaillées** :
+  - Création de contrats de prêt sans intérêt (qard hasan)
+  - Modèles personnalisables selon la nature du prêt
+  - Calendrier de remboursement avec rappels automatiques
+  - Génération de documents PDF signables électroniquement
+  - Suivi des remboursements par échéances
+  - Possibilité d'enregistrer un prêt comme "sadaqa" (don caritatif) à tout moment
+  - Impact automatique sur le capital disponible pour la succession
+  - Notifications aux deux parties concernant les échéances
 
 ### 3.6 **Notifications & Rappels**
 
@@ -389,6 +407,12 @@ En tant qu'utilisateur, je veux attribuer des rôles spécifiques à mes Wakils 
 **US-007 : Révocation d'un Wakil**  
 En tant qu'utilisateur, je veux pouvoir révoquer un Wakil afin de m'adapter aux changements dans mes relations.
 
+**US-022 : Désignation d'une mosquée comme Wakil**  
+En tant qu'utilisateur sans entourage familial, je veux pouvoir désigner une mosquée ou une organisation islamique comme Wakil afin qu'elle puisse exécuter mes volontés testamentaires après mon décès.
+
+**US-025 : Gestion des Wakils institutionnels**  
+En tant qu'utilisateur, je veux pouvoir définir des processus spécifiques de validation pour les Wakils institutionnels afin de m'assurer que mes volontés seront respectées même en l'absence de proches.
+
 ### 5.3 **Gestion des actifs**
 
 **US-008 : Ajout d'actifs**  
@@ -399,6 +423,9 @@ En tant qu'utilisateur, je veux pouvoir mettre à jour la valeur de mes actifs a
 
 **US-010 : Enregistrement des dettes**  
 En tant qu'utilisateur, je veux pouvoir enregistrer mes dettes afin qu'elles soient prises en compte avant distribution des avoirs.
+
+**US-021 : Suivi de l'évolution du capital**  
+En tant qu'utilisateur, je veux pouvoir suivre l'évolution de mon capital total au fil du temps afin d'avoir une vision claire de ma situation patrimoniale.
 
 ### 5.4 **Répartition des biens**
 
@@ -424,6 +451,12 @@ En tant qu'utilisateur, je veux pouvoir créer et stocker des contrats de prêt 
 
 **US-017 : Stockage des accès numériques**  
 En tant qu'utilisateur, je veux pouvoir stocker mes mots de passe et accès numériques afin qu'ils soient transmis de façon sécurisée à mes proches après mon décès.
+
+**US-023 : Gestion des prêts sans intérêt**  
+En tant qu'utilisateur musulman, je veux pouvoir créer, gérer et suivre des contrats de prêt sans intérêt (qard hasan) afin de respecter les principes islamiques tout en aidant mes proches.
+
+**US-024 : Suivi des remboursements**  
+En tant qu'utilisateur, je veux pouvoir suivre les échéances de remboursement de mes prêts afin de maintenir à jour ma situation financière et son impact sur ma succession.
 
 ### 5.6 **Gestion du décès**
 
