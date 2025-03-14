@@ -148,7 +148,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
       - Score minimal requis : 75/100
       - Validation obligatoire d'au moins 60% des Wakils actifs
       - Système de pondération différenciée : application automatique basée sur le type de relation formalisé, avec possibilité d'ajustement manuel par le Musi (ex: 25 points pour FAMILLE_PROCHE, 15 points pour RELATIONNEL)
-      - Veto possible pour l'administrateur du compte en cas de score limite (70-75)
+      - Pouvoir décisionnel final pour le Wakil principal (désigné explicitement par le Musi comme "administrateur de confiance" avec des droits étendus) dans les cas limites (70-75) : possibilité de rejeter une demande malgré un score proche du seuil, ou d'approuver exceptionnellement une demande avec justification documentée
     - **Mesures anti-fraude** :
       - Détection des modèles de validation suspects (validations simultanées, même IP)
       - Vérifications d'identité additionnelles en cas de score limite
