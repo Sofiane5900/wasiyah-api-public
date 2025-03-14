@@ -347,6 +347,14 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Système de QR Code unique envoyé aux bénéficiaires
   - Délai de sécurité de 30 jours avant activation
   - Système d'alerte au Musi en cas de déclaration (protection contre les fraudes)
+  - **Système de notification d'urgence** :
+    - Notification immédiate à TOUS les Wakils dès qu'une déclaration de décès est initiée
+    - Notification au Musi sur tous ses canaux de contact (email, SMS, application si installée)
+    - Rappels automatiques quotidiens à tous les Wakils n'ayant pas encore confirmé ou contesté la déclaration
+    - Système de réponse rapide permettant de confirmer ou contester directement depuis la notification
+    - Suivi en temps réel du statut des confirmations par tous les Wakils
+    - Journal d'horodatage précis de toutes les notifications envoyées et réponses reçues
+    - Traçabilité complète du processus de validation pour analyse ultérieure
   - Processus de contestation pendant le délai de sécurité
   - Architecture cryptographique garantissant l'impossibilité d'accès aux données pendant la période de confirmation
 
@@ -631,13 +639,16 @@ En tant que contributeur multilingue, je veux pouvoir participer à la traductio
 ### 5.6 **Gestion du décès**
 
 **US-018 : Déclaration de décès**  
-En tant que Wakil, je veux pouvoir déclarer le décès du Musi afin d'initier le processus de succession.
+En tant que Wakil, je veux pouvoir déclarer le décès du Musi afin d'initier le processus de succession, avec notification immédiate envoyée à tous les autres Wakils et au Musi pour permettre une vérification rapide.
 
 **US-019 : Confirmation du décès**  
-En tant que Wakil secondaire, je veux pouvoir confirmer une déclaration de décès afin de valider l'information.
+En tant que Wakil secondaire, je veux recevoir une notification immédiate en cas de déclaration de décès et pouvoir confirmer ou contester cette déclaration directement depuis la notification afin de participer rapidement au processus de validation.
 
 **US-020 : Accès aux informations post-mortem**  
 En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me concernent après confirmation du décès afin de connaître mes droits et responsabilités.
+
+**US-032 : Suivi du processus de validation de décès**  
+En tant que Wakil, je veux pouvoir consulter en temps réel le statut des confirmations de tous les autres Wakils suite à une déclaration de décès afin de suivre l'avancement du processus de validation et sa légitimité.
 
 ---
 
