@@ -246,6 +246,17 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Téléchargement de justificatifs (actes de propriété, etc.)
   - Estimation de la valeur actuelle
   - Localisation des biens physiques
+  - **Système d'évaluation détaillée pour les biens matériels de valeur** :
+    - Enregistrement du prix d'achat neuf (avec facture si disponible)
+    - Indication du prix d'achat si acquisition d'occasion
+    - Date précise d'acquisition (pour calcul de dépréciation)
+    - Fonctionnalité de dépréciation automatique basée sur des tables standards par catégorie d'objets
+    - Possibilité d'ajuster manuellement l'estimation en fonction de l'état de conservation
+    - Historisation des différentes estimations dans le temps
+    - Indication claire de la liquidité potentielle (facile/moyenne/difficile à revendre)
+    - Option pour lier l'actif à une dette spécifique, marquant l'actif comme "collatéral potentiel"
+    - Calcul automatique du ratio valeur/dette pour les actifs désignés comme collatéraux potentiels
+    - Suggestions de priorisation des actifs à vendre en cas de besoin de liquidation pour remboursement de dettes
 
 #### 3.3.2 **Gestion des dettes**
 - **Priorité** : Élevée
@@ -256,6 +267,14 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Détails des modalités (montant, échéances, intérêts si applicable)
   - Visualisation du solde net après remboursement des dettes
   - Informations sur la priorité de remboursement des dettes sur la distribution des actifs
+  - **Relation avec les actifs liquidables** :
+    - Association possible de dettes avec des actifs spécifiques en tant que collatéraux potentiels
+    - Visualisation des actifs désignés pour couvrir potentiellement une dette
+    - Calcul du ratio de couverture (valeur estimée des actifs / montant de la dette)
+    - Alertes si la valeur estimée des actifs associés devient insuffisante pour couvrir la dette
+    - Simulation de scénarios de liquidation pour le remboursement optimal des dettes
+    - Priorisation intelligente des actifs à vendre en fonction de leur dépréciation et liquidité
+    - Documentation des préférences du Musi concernant l'ordre de liquidation souhaité
 
 #### 3.3.3 **Attribution des bénéficiaires**
 - **Priorité** : Critique
@@ -562,6 +581,12 @@ En tant qu'utilisateur, je veux pouvoir enregistrer mes dettes afin qu'elles soi
 
 **US-021 : Suivi de l'évolution du capital**  
 En tant qu'utilisateur, je veux pouvoir suivre l'évolution de mon capital total au fil du temps afin d'avoir une vision claire de ma situation patrimoniale.
+
+**US-030 : Évaluation détaillée des biens de valeur**  
+En tant que Musi, je veux pouvoir enregistrer les informations détaillées de mes biens de valeur (prix d'achat neuf, prix d'acquisition si occasion, date d'achat, état) afin d'obtenir une estimation précise de leur valeur actuelle pour une éventuelle revente destinée à rembourser des dettes.
+
+**US-031 : Association d'actifs à des dettes**  
+En tant que Musi, je veux pouvoir associer certains de mes actifs à des dettes spécifiques afin de faciliter leur identification comme collatéraux potentiels et de guider mes Wakils sur les biens à liquider en priorité en cas de besoin de remboursement.
 
 ### 5.4 **Répartition des biens**
 
