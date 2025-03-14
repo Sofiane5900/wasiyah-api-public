@@ -389,6 +389,22 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Révocation d'accès possible
   - Expiration automatique des accès
 
+#### 3.5.4 **Lettres personnelles et messages posthumes**
+- **Priorité** : Élevée
+- **Description** : Le Musi doit pouvoir rédiger des lettres personnelles ou messages à transmettre à des destinataires spécifiques par les Wakils après son décès.
+- **Exigences détaillées** :
+  - Interface de rédaction de messages avec éditeur de texte enrichi
+  - Possibilité d'inclure des photos ou documents attachés
+  - Désignation précise des destinataires (héritiers, amis, organisations)
+  - Choix des Wakils chargés de la transmission de chaque message
+  - Options de confidentialité (message scellé que seul le destinataire peut lire vs message ouvert que le Wakil peut lire)
+  - Programmation conditionnelle de la remise (immédiatement après décès, à une date précise, ou lors d'un événement spécifique)
+  - Notifications automatiques aux Wakils concernant leurs responsabilités de transmission
+  - Système de confirmation de remise avec accusé de réception
+  - Possibilité de modifier ou révoquer les messages jusqu'au décès
+  - Chiffrement individuel de chaque message avec accès réservé aux Wakils désignés
+  - Journal d'audit concernant la remise des messages
+
 ### 3.6 **Notifications & Rappels**
 
 #### 3.6.1 **Système de notifications**
@@ -581,6 +597,9 @@ En tant qu'utilisateur, je veux pouvoir suivre les échéances de remboursement 
 **US-026 : Expression des volontés sur le don d'organes**  
 En tant qu'utilisateur, je veux pouvoir exprimer clairement mon choix concernant le don d'organes dans un document chiffré, tout en autorisant spécifiquement (opt-in) mes Wakils désignés à y accéder en lecture seule dès leur nomination, afin que mes volontés soient immédiatement applicables en cas d'urgence médicale.
 
+**US-029 : Rédaction de lettres personnelles posthumes**  
+En tant que Musi, je veux pouvoir rédiger des lettres personnelles et messages qui seront transmis à des destinataires spécifiques par mes Wakils après mon décès, afin de partager mes dernières pensées et instructions personnelles avec mes proches.
+
 **US-027 : Contribution aux traductions**  
 En tant que contributeur multilingue, je veux pouvoir participer à la traduction et à l'amélioration des textes de l'application dans ma langue maternelle afin de rendre le service accessible à davantage de personnes dans ma communauté.
 
@@ -620,6 +639,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - `/api/notifications` : Configuration des alertes et rappels
 - `/api/translations` : Gestion des traductions communautaires et contributions
 - `/api/account-recovery` : Récupération de compte via validation des Wakils
+- `/api/personal-letters` : Gestion des lettres personnelles et messages posthumes
 
 ### 6.3 **Modèles de données principaux**
 - **User** : Informations d'utilisateur, préférences, paramètres
@@ -628,6 +648,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Asset** : Actifs de l'utilisateur avec métadonnées
 - **Debt** : Dettes et créances
 - **Document** : Documents stockés (métadonnées + contenu chiffré)
+- **PersonalLetter** : Lettres personnelles et messages posthumes avec destinataires et conditions de remise
 - **Notification** : Configuration des notifications
 - **Resource** : Ressources informatives sur les règles de succession
 - **MedicalDirective** : Don d'organes et directives médicales anticipées
