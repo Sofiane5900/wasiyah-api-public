@@ -203,6 +203,32 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Suivi de l'évolution du capital avec historique (trimestriel)
   - Notifications d'évolution significative du capital (gain/perte)
 
+#### 3.3.5 **Contrats de prêt entre particuliers**
+- **Priorité** : Moyenne
+- **Description** : L'utilisateur doit pouvoir créer, gérer et suivre des contrats de prêt conformes aux principes islamiques.
+- **Exigences détaillées** :
+  - Création de contrats de prêt sans intérêt (qard hasan)
+  - Modèles personnalisables selon la nature du prêt
+  - Calendrier de remboursement avec rappels automatiques
+  - Génération de documents PDF signables électroniquement
+  - Suivi des remboursements par échéances
+  - Possibilité d'enregistrer un prêt comme "sadaqa" (don caritatif) à tout moment
+  - Impact automatique sur le capital disponible pour la succession
+  - Notifications aux deux parties concernant les échéances
+
+#### 3.3.6 **Don d'organes et directives médicales**
+- **Priorité** : Élevée
+- **Description** : L'utilisateur doit pouvoir exprimer clairement ses volontés concernant le don d'organes et certaines directives médicales.
+- **Exigences détaillées** :
+  - Formulaire explicite sur le consentement au don d'organes (acceptation ou refus)
+  - Information claire sur la législation française en vigueur (consentement présumé sauf opposition)
+  - Option d'imprimer/exporter une carte de donneur personnalisée
+  - Possibilité de préciser des restrictions éventuelles (organes spécifiques)
+  - Accès prioritaire et immédiat à cette information pour les Wakils dès la déclaration de décès (sans attendre le délai de sécurité standard)
+  - Notification spécifique aux Wakils concernant ces volontés
+  - Historique des modifications de ces directives
+  - Option pour ajouter des directives médicales complémentaires
+
 ### 3.4 **Validation du Décès**
 
 #### 3.4.1 **Déclaration et confirmation**
@@ -274,19 +300,6 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Journalisation des consultations
   - Révocation d'accès possible
   - Expiration automatique des accès
-
-#### 3.5.4 **Contrats de prêt entre particuliers**
-- **Priorité** : Moyenne
-- **Description** : L'utilisateur doit pouvoir créer, gérer et suivre des contrats de prêt conformes aux principes islamiques.
-- **Exigences détaillées** :
-  - Création de contrats de prêt sans intérêt (qard hasan)
-  - Modèles personnalisables selon la nature du prêt
-  - Calendrier de remboursement avec rappels automatiques
-  - Génération de documents PDF signables électroniquement
-  - Suivi des remboursements par échéances
-  - Possibilité d'enregistrer un prêt comme "sadaqa" (don caritatif) à tout moment
-  - Impact automatique sur le capital disponible pour la succession
-  - Notifications aux deux parties concernant les échéances
 
 ### 3.6 **Notifications & Rappels**
 
@@ -458,6 +471,9 @@ En tant qu'utilisateur musulman, je veux pouvoir créer, gérer et suivre des co
 **US-024 : Suivi des remboursements**  
 En tant qu'utilisateur, je veux pouvoir suivre les échéances de remboursement de mes prêts afin de maintenir à jour ma situation financière et son impact sur ma succession.
 
+**US-026 : Expression des volontés sur le don d'organes**  
+En tant qu'utilisateur, je veux pouvoir exprimer clairement mon choix concernant le don d'organes afin que mes volontés soient respectées et immédiatement connues par mes Wakils en cas de décès.
+
 ### 5.6 **Gestion du décès**
 
 **US-018 : Déclaration de décès**  
@@ -489,6 +505,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - `/api/assets` : Gestion des actifs et valorisations
 - `/api/resources` : Ressources informatives sur les règles de succession
 - `/api/documents` : Gestion des coffres-forts numériques
+- `/api/medical-directives` : Don d'organes et directives médicales
 - `/api/death-validation` : Processus de validation du décès
 - `/api/notifications` : Configuration des alertes et rappels
 
@@ -501,6 +518,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Document** : Documents stockés (métadonnées + contenu chiffré)
 - **Notification** : Configuration des notifications
 - **Resource** : Ressources informatives sur les règles de succession
+- **MedicalDirective** : Don d'organes et directives médicales anticipées
 
 ### 6.4 **Sécurité**
 - Chiffrement E2EE avec libsodium.js
