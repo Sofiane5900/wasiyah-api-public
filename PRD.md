@@ -101,6 +101,33 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Absence totale de "porte dérobée" ou de mécanisme de récupération traditionnel
   - Garantie cryptographique que les Wakils ne peuvent accéder aux données avant la validation complète du décès
 
+#### 3.1.4 **Récupération en cas de perte de phrase mnémonique**
+- **Priorité** : Élevée
+- **Description** : Le système doit offrir une méthode de création d'un compte de remplacement socialement sécurisée en cas de perte de la phrase mnémonique, sans compromettre le modèle E2EE.
+- **Exigences détaillées** :
+  - **Code de validation à usage unique pour l'établissement de la relation de confiance** :
+    - Génération d'un code alphanumérique de 6 caractères lors de la désignation d'un Wakil
+    - Utilisation de caractères non-ambigus (lettres majuscules et chiffres facilement distinguables)
+    - Code utilisé uniquement pour la validation initiale du Wakil, puis détruit
+    - Interface de saisie résistante aux erreurs (conversion automatique en majuscules, espacement)
+  - **Processus de création d'un compte de remplacement après perte de phrase mnémonique** :
+    - Création d'un nouveau compte utilisateur avec de nouvelles clés cryptographiques
+    - Notification à tous les Wakils désignés sur l'ancien compte
+    - Système de validation nécessitant l'approbation d'une majorité qualifiée des Wakils
+    - Score de confiance calculé en fonction de divers facteurs (ancienneté des Wakils, nombre de validations)
+    - Période d'observation avec restrictions temporaires après validation
+  - **Traitement de l'ancien compte** :
+    - Archivage (sans suppression) de l'ancien compte après validation réussie
+    - Liaison administrative entre l'ancien et le nouveau compte
+    - Conservation des droits des Wakils sur l'ancien compte en cas de décès validé ultérieurement
+    - Impossibilité définitive d'accéder aux données chiffrées de l'ancien compte
+    - Clarté totale pour l'utilisateur que les données de l'ancien compte sont perdues et doivent être recréées
+  - **Sécurité du processus** :
+    - Délai minimum de 14 jours pour permettre la détection de tentatives frauduleuses
+    - Notifications à tous les contacts de sécurité en cas de demande de création de compte de remplacement
+    - Journal d'audit complet de toutes les étapes du processus
+    - Impossibilité technique d'accéder aux données chiffrées de l'ancien compte, conformément aux principes E2EE
+
 ### 3.2 **Gestion des Profils Utilisateur**
 
 #### 3.2.1 **Création et configuration du profil**
@@ -431,6 +458,9 @@ En tant qu'utilisateur, je veux pouvoir choisir entre mode musulman et non-musul
 **US-004 : Configuration de l'authentification à deux facteurs**  
 En tant qu'utilisateur, je veux configurer ma méthode de 2FA préférée afin de sécuriser mon compte.
 
+**US-028 : Création d'un compte de remplacement après perte de phrase mnémonique**  
+En tant qu'utilisateur ayant perdu ma phrase mnémonique, je veux pouvoir créer un nouveau compte validé par mes Wakils avec archivage de l'ancien compte inaccessible, afin de pouvoir recréer mes informations testamentaires sans perdre la confiance établie avec mes Wakils désignés.
+
 ### 5.2 **Gestion des Wakils**
 
 **US-005 : Ajout de Wakils**  
@@ -534,6 +564,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - `/api/death-validation` : Processus de validation du décès
 - `/api/notifications` : Configuration des alertes et rappels
 - `/api/translations` : Gestion des traductions communautaires et contributions
+- `/api/account-recovery` : Récupération de compte via validation des Wakils
 
 ### 6.3 **Modèles de données principaux**
 - **User** : Informations d'utilisateur, préférences, paramètres
@@ -546,6 +577,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Resource** : Ressources informatives sur les règles de succession
 - **MedicalDirective** : Don d'organes et directives médicales anticipées
 - **Translation** : Traductions du système et contributions des utilisateurs
+- **RecoveryRequest** : Demandes de récupération de compte et validations par les Wakils
 
 ### 6.4 **Sécurité**
 - Chiffrement E2EE avec libsodium.js
