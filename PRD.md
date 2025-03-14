@@ -120,6 +120,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - Utilisation de caractères non-ambigus (lettres majuscules et chiffres facilement distinguables)
     - Code utilisé uniquement pour la validation initiale du Wakil, établissant une relation de confiance permanente (jusqu'à révocation)
     - Preuve d'un contact réel (téléphonique ou physique) entre le Musi et son Wakil
+    - Processus de vérification bidirectionnel : le Wakil reçoit une notification de demande de désignation et doit saisir le code communiqué par le Musi pour confirmer la relation
     - Une fois validée, cette relation de confiance sert de base pour toutes les futures interactions, y compris la validation d'un compte de remplacement
     - Interface de saisie résistante aux erreurs (conversion automatique en majuscules, espacement)
   - **Processus de création d'un compte de remplacement après perte de phrase mnémonique** :
