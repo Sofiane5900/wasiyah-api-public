@@ -264,7 +264,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Saisie des dettes actives (ce que le Musi doit)
   - Saisie des créances (ce qu'on doit au Musi)
-  - Détails des modalités (montant, échéances, intérêts si applicable)
+  - Détails des modalités (montant, échéances, frais administratifs fixes si applicable)
   - Visualisation du solde net après remboursement des dettes
   - Informations sur la priorité de remboursement des dettes sur la distribution des actifs
   - **Relation avec les actifs liquidables** :
