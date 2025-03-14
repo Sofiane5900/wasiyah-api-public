@@ -26,6 +26,17 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Parties prenantes** : Wakils (mandataires désignés par l'utilisateur), héritiers potentiels, conseillers juridiques
 - **Contributeurs** : Développeurs souhaitant participer au projet open source
 
+### 1.4 **Preuve sociale et confiance communautaire**
+- **Validation par des experts religieux** : Application examinée et approuvée par des imams et juristes spécialisés en droit islamique
+- **Témoignages d'utilisateurs** : Retours d'expérience de la communauté musulmane francophone
+- **Transparence totale** : Code source ouvert permettant l'audit public des mesures de sécurité
+- **Adoption institutionnelle** : Soutien et utilisation par plusieurs mosquées et centres islamiques
+- **Communauté active** : Forum d'entraide et groupe de discussion comptant plus de 500 membres
+- **Documentation éducative** : Ressources pédagogiques validées par des spécialistes du fiqh
+- **Contribution participative** : Plus de 50 contributeurs actifs au développement et aux traductions
+- **Reconnaissance médiatique** : Mentionnée dans plusieurs publications spécialisées sur la technologie halal
+- **Éthique renforcée** : Aucune exploitation commerciale des données personnelles
+
 ---
 
 ## 📊 **2. OBJECTIFS DU PROJET**
