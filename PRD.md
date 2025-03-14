@@ -34,7 +34,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Communauté active** : Forum d'entraide et groupe de discussion pour les utilisateurs
 - **Documentation éducative** : Ressources pédagogiques validées par des spécialistes du fiqh
 - **Contribution participative** : Développement enrichi par la communauté de contributeurs
-- **Éthique renforcée** : Aucune exploitation commerciale des données personnelles
+- **Éthique renforcée** : Aucune exploitation commerciale d'aucune sorte sur ce projet, garantissant une démarche entièrement à but non lucratif
 
 ---
 
@@ -133,6 +133,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - **Calcul dynamique** : Algorithme pondéré évaluant la légitimité d'une demande de remplacement
     - **Facteurs primaires** :
       - Ancienneté de la relation avec chaque Wakil (poids élevé)
+      - Type de relation formalisé (selon l'enum défini en 3.2.3, avec pondération graduelle)
       - Fréquence des interactions antérieures avec le Musi
       - Diversité géographique des Wakils validants (pour éviter la collusion)
       - Niveau de privilèges accordés initialement à chaque Wakil
@@ -145,7 +146,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - **Seuils de validation** :
       - Score minimal requis : 75/100
       - Validation obligatoire d'au moins 60% des Wakils actifs
-      - Système de pondération différenciée : lors de la désignation, le Musi peut marquer certains Wakils comme appartenant à son "cercle proche" (famille, amis très proches), dont les validations compteront davantage dans le calcul du score final (ex: 25 points au lieu de 15 pour un Wakil standard)
+      - Système de pondération différenciée : application automatique basée sur le type de relation formalisé, avec possibilité d'ajustement manuel par le Musi (ex: 25 points pour FAMILLE_PROCHE, 15 points pour RELATIONNEL)
       - Veto possible pour l'administrateur du compte en cas de score limite (70-75)
     - **Mesures anti-fraude** :
       - Détection des modèles de validation suspects (validations simultanées, même IP)
@@ -202,6 +203,17 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Ajout de jusqu'à 5 Wakils
   - Attribution de rôles spécifiques par Wakil
+  - **Types de relation formalisés** :
+    - Définition obligatoire d'un type de relation via un enum structuré :
+      - `FAMILLE_PROCHE` : Conjoint, enfants, parents, frères/sœurs (lien fort, pondération maximale)
+      - `FAMILLE_ETENDUE` : Oncles/tantes, cousins (lien significatif)
+      - `AMI_INTIME` : Amis proches de longue date (confiance élevée)
+      - `RELATIONNEL` : Amis, collègues, connaissances (confiance standard)
+      - `PROFESSIONNEL` : Notaire, avocat, conseiller (confiance formelle)
+      - `INSTITUTIONNEL` : Mosquée, association (confiance structurelle)
+    - Impact direct sur le calcul du score de confiance lors de la récupération de compte
+    - Possibilité pour le Musi d'ajouter une note personnalisée pour contexte
+    - Horodatage automatique de la relation pour évaluer son ancienneté
   - Système d'invitation et confirmation bidirectionnelle
   - Définition des niveaux d'accès (lecture seule, gestion partielle, gestion totale)
   - Possibilité de révoquer un Wakil
