@@ -397,6 +397,22 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - Déploiement possible sur serveurs auto-hébergés ou mutualisés standards
 - Documentation complète pour un déploiement autonome
 
+### 4.9 **Traduction collaborative**
+- **Priorité** : Élevée
+- **Description** : L'application doit être conçue dès le départ pour permettre une traduction communautaire efficace.
+- **Exigences détaillées** :
+  - Architecture i18n robuste basée sur des fichiers de traduction au format JSON 
+  - Interface web dédiée aux contributeurs pour proposer et réviser des traductions
+  - Système de validation par pairs pour les nouvelles traductions proposées
+  - Mécanisme de versionnage des fichiers de traduction
+  - Synchronisation automatique entre l'interface de traduction et le dépôt de code
+  - Statistiques de complétion pour chaque langue
+  - Reconnaissance des contributeurs par langue dans l'application
+  - Documentation claire pour les traducteurs (contexte, conventions)
+  - Support pour les langues écrites de droite à gauche (RTL)
+  - Tests automatisés pour vérifier l'intégration des traductions
+  - Possibilité de suggérer des corrections directement depuis l'interface utilisateur
+
 ---
 
 ## 👥 **5. USER STORIES ET PARCOURS UTILISATEUR**
@@ -480,6 +496,9 @@ En tant qu'utilisateur, je veux pouvoir suivre les échéances de remboursement 
 **US-026 : Expression des volontés sur le don d'organes**  
 En tant qu'utilisateur, je veux pouvoir exprimer clairement mon choix concernant le don d'organes dans un document chiffré, tout en autorisant spécifiquement (opt-in) mes Wakils désignés à y accéder en lecture seule dès leur nomination, afin que mes volontés soient immédiatement applicables en cas d'urgence médicale.
 
+**US-027 : Contribution aux traductions**  
+En tant que contributeur multilingue, je veux pouvoir participer à la traduction et à l'amélioration des textes de l'application dans ma langue maternelle afin de rendre le service accessible à davantage de personnes dans ma communauté.
+
 ### 5.6 **Gestion du décès**
 
 **US-018 : Déclaration de décès**  
@@ -514,6 +533,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - `/api/medical-directives` : Don d'organes et directives médicales
 - `/api/death-validation` : Processus de validation du décès
 - `/api/notifications` : Configuration des alertes et rappels
+- `/api/translations` : Gestion des traductions communautaires et contributions
 
 ### 6.3 **Modèles de données principaux**
 - **User** : Informations d'utilisateur, préférences, paramètres
@@ -525,6 +545,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Notification** : Configuration des notifications
 - **Resource** : Ressources informatives sur les règles de succession
 - **MedicalDirective** : Don d'organes et directives médicales anticipées
+- **Translation** : Traductions du système et contributions des utilisateurs
 
 ### 6.4 **Sécurité**
 - Chiffrement E2EE avec libsodium.js
