@@ -21,9 +21,9 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - 🛡️ Chiffrement de bout en bout pour une confidentialité totale
 
 ### 1.3 **Utilisateurs cibles**
-- **Utilisateurs principaux** : Musulmans souhaitant préparer un testament conforme à leurs valeurs religieuses
+- **Utilisateurs principaux** : Musis (musulmans) souhaitant préparer un testament conforme à leurs valeurs religieuses
 - **Utilisateurs secondaires** : Non-musulmans cherchant une solution sécurisée de gestion testamentaire
-- **Parties prenantes** : Wakils (mandataires désignés par l'utilisateur), héritiers potentiels, conseillers juridiques
+- **Parties prenantes** : Wakils (وكيل, mandataires désignés par l'utilisateur pour exécuter ses volontés testamentaires), héritiers potentiels, conseillers juridiques
 - **Contributeurs** : Développeurs souhaitant participer au projet open source
 
 ### 1.4 **Preuve sociale et confiance communautaire**
@@ -72,7 +72,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.1.1 **Inscription et connexion**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir créer un compte et s'y connecter de manière sécurisée.
+- **Description** : Le Musi (personne qui établit le testament) doit pouvoir créer un compte et s'y connecter de manière sécurisée.
 - **Exigences détaillées** :
   - Système d'inscription par email avec vérification
   - Connexion avec email et mot de passe
@@ -91,18 +91,18 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 - **Exigences détaillées** :
   - Durée de session limitée (30 minutes d'inactivité)
   - Possibilité de déconnexion de tous les appareils
-  - Historique des connexions visible par l'utilisateur
+  - Historique des connexions visible par le Musi
   - Notifications de connexion sur nouvel appareil
 
 #### 3.1.3 **Chiffrement des données**
 - **Priorité** : CRITIQUE (Fondement du projet)
-- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout, rendant impossible l'accès aux informations pour quiconque autre que l'utilisateur de son vivant, et ses Wakils explicitement désignés UNIQUEMENT après son décès confirmé.
+- **Description** : Toutes les données sensibles doivent être chiffrées de bout en bout, rendant impossible l'accès aux informations pour quiconque autre que le Musi de son vivant, et ses Wakils explicitement désignés UNIQUEMENT après son décès confirmé.
 - **Exigences détaillées** :
   - Chiffrement E2EE pour tous les documents et informations sensibles
   - Gestion des clés de chiffrement exclusivement côté client (zero-knowledge)
   - Phrase mnémonique (BIP39) obligatoire pour sauvegarde cryptographique des clés avec instructions de conservation sécurisée
   - Avertissement explicite que la perte de la phrase mnémonique entraîne la perte définitive et irréversible des données
-  - Architecture de chiffrement à plusieurs niveaux pour les données particulièrement sensibles (coffres-forts spécifiques chiffrés avec des clés distinctes, elles-mêmes chiffrées avec la clé publique de l'utilisateur)
+  - Architecture de chiffrement à plusieurs niveaux pour les données particulièrement sensibles (coffres-forts spécifiques chiffrés avec des clés distinctes, elles-mêmes chiffrées avec la clé publique du Musi)
   - Option d'export sécurisé de la clé de chiffrement
   - Impossibilité technique pour l'équipe Wasiyah d'accéder aux données déchiffrées
   - Transparence totale du code de chiffrement/déchiffrement
@@ -119,11 +119,11 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - Génération d'un code alphanumérique de 6 caractères lors de la désignation d'un Wakil
     - Utilisation de caractères non-ambigus (lettres majuscules et chiffres facilement distinguables)
     - Code utilisé uniquement pour la validation initiale du Wakil, établissant une relation de confiance permanente (jusqu'à révocation)
-    - Preuve d'un contact réel (téléphonique ou physique) entre l'utilisateur et son Wakil
+    - Preuve d'un contact réel (téléphonique ou physique) entre le Musi et son Wakil
     - Une fois validée, cette relation de confiance sert de base pour toutes les futures interactions, y compris la validation d'un compte de remplacement
     - Interface de saisie résistante aux erreurs (conversion automatique en majuscules, espacement)
   - **Processus de création d'un compte de remplacement après perte de phrase mnémonique** :
-    - Création d'un nouveau compte utilisateur avec de nouvelles clés cryptographiques
+    - Création d'un nouveau compte Musi avec de nouvelles clés cryptographiques
     - Notification à tous les Wakils désignés sur l'ancien compte
     - Système de validation nécessitant l'approbation d'une majorité qualifiée des Wakils
     - Score de confiance calculé en fonction de divers facteurs (ancienneté des Wakils, nombre de validations)
@@ -133,7 +133,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - **Calcul dynamique** : Algorithme pondéré évaluant la légitimité d'une demande de remplacement
     - **Facteurs primaires** :
       - Ancienneté de la relation avec chaque Wakil (poids élevé)
-      - Fréquence des interactions antérieures avec l'utilisateur
+      - Fréquence des interactions antérieures avec le Musi
       - Diversité géographique des Wakils validants (pour éviter la collusion)
       - Niveau de privilèges accordés initialement à chaque Wakil
       - Historique des actions du Wakil dans le système
@@ -141,11 +141,11 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
       - Temps de réponse à la demande de validation
       - Cohérence des réponses entre les différents Wakils
       - Validation par un Wakil institutionnel (si applicable)
-      - Schémas d'utilisation correspondant au comportement habituel de l'utilisateur
+      - Schémas d'utilisation correspondant au comportement habituel de le Musi
     - **Seuils de validation** :
       - Score minimal requis : 75/100
       - Validation obligatoire d'au moins 60% des Wakils actifs
-      - Système de pondération différenciée : lors de la désignation, l'utilisateur peut marquer certains Wakils comme appartenant à son "cercle proche" (famille, amis très proches), dont les validations compteront davantage dans le calcul du score final (ex: 25 points au lieu de 15 pour un Wakil standard)
+      - Système de pondération différenciée : lors de la désignation, le Musi peut marquer certains Wakils comme appartenant à son "cercle proche" (famille, amis très proches), dont les validations compteront davantage dans le calcul du score final (ex: 25 points au lieu de 15 pour un Wakil standard)
       - Veto possible pour l'administrateur du compte en cas de score limite (70-75)
     - **Mesures anti-fraude** :
       - Détection des modèles de validation suspects (validations simultanées, même IP)
@@ -154,7 +154,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
       - Alertes automatiques en cas de tentatives multiples dans une période courte
     - **Transparence** :
       - Journal d'audit détaillé du processus de calcul du score
-      - Rapport de validation accessible à l'utilisateur et aux Wakils participants
+      - Rapport de validation accessible au Musi et aux Wakils participants
       - Absence de "boîte noire" dans l'algorithme de confiance
       - Documentation complète du système de scoring disponible publiquement
 
@@ -163,7 +163,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - Liaison administrative entre l'ancien et le nouveau compte
     - Conservation des droits des Wakils sur l'ancien compte en cas de décès validé ultérieurement
     - Impossibilité définitive d'accéder aux données chiffrées de l'ancien compte
-    - Clarté totale pour l'utilisateur que les données de l'ancien compte sont perdues et doivent être recréées
+    - Clarté totale pour le Musi que les données de l'ancien compte sont perdues et doivent être recréées
   - **Sécurité du processus** :
     - Délai minimum de 14 jours pour permettre la détection de tentatives frauduleuses
     - Notifications à tous les contacts de sécurité en cas de demande de création de compte de remplacement
@@ -174,7 +174,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.1 **Création et configuration du profil**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir configurer son profil avec ses informations personnelles.
+- **Description** : Le Musi doit pouvoir configurer son profil avec ses informations personnelles.
 - **Exigences détaillées** :
   - Informations de base (nom, prénom, date de naissance)
   - Choix du profil d'utilisateur (Musulman ou Non-Musulman) pour personnaliser les ressources informatives
@@ -184,7 +184,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.2 **Profil Musulman vs Non-Musulman**
 - **Priorité** : Élevée
-- **Description** : L'application doit proposer deux modes de ressources informatives selon le choix de l'utilisateur.
+- **Description** : L'application doit proposer deux modes de ressources informatives selon le choix du Musi.
 - **Exigences détaillées** :
   - **Profil Musulman** :
     - Rappels informatifs sur les principes du testament en Islam
@@ -198,7 +198,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.3 **Gestion des Wakils**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir désigner des Wakils (وكيل, mandataires) pour gérer ses données et exécuter ses volontés UNIQUEMENT après son décès confirmé.
+- **Description** : Le Musi doit pouvoir désigner des Wakils (وكيل, mandataires) pour gérer ses données et exécuter ses volontés UNIQUEMENT après son décès confirmé.
 - **Exigences détaillées** :
   - Ajout de jusqu'à 5 Wakils
   - Attribution de rôles spécifiques par Wakil
@@ -213,7 +213,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.2.4 **Arbre relationnel**
 - **Priorité** : Moyenne
-- **Description** : L'utilisateur doit pouvoir définir son arbre relationnel pour identifier ses proches.
+- **Description** : Le Musi doit pouvoir définir son arbre relationnel pour identifier ses proches.
 - **Exigences détaillées** :
   - Interface intuitive de création d'arbre familial
   - Ajout des relations principales (conjoint, enfants, parents, frères/sœurs)
@@ -225,7 +225,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.3.1 **Catégorisation des actifs**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir catégoriser et saisir tous ses actifs.
+- **Description** : Le Musi doit pouvoir catégoriser et saisir tous ses actifs.
 - **Exigences détaillées** :
   - Catégories prédéfinies (liquidités, immobilier, biens matériels, actifs numériques, etc.)
   - Possibilité de créer des catégories personnalisées
@@ -236,17 +236,17 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.3.2 **Gestion des dettes**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir enregistrer ses dettes et créances.
+- **Description** : Le Musi doit pouvoir enregistrer ses dettes et créances.
 - **Exigences détaillées** :
-  - Saisie des dettes actives (ce que l'utilisateur doit)
-  - Saisie des créances (ce qu'on doit à l'utilisateur)
+  - Saisie des dettes actives (ce que le Musi doit)
+  - Saisie des créances (ce qu'on doit à le Musi)
   - Détails des modalités (montant, échéances, intérêts si applicable)
   - Visualisation du solde net après remboursement des dettes
   - Informations sur la priorité de remboursement des dettes sur la distribution des actifs
 
 #### 3.3.3 **Attribution des bénéficiaires**
 - **Priorité** : Critique
-- **Description** : L'utilisateur doit pouvoir désigner les bénéficiaires de ses actifs.
+- **Description** : Le Musi doit pouvoir désigner les bénéficiaires de ses actifs.
 - **Exigences détaillées** :
   - Selon le profil choisi :
     - **Profil musulman** :
@@ -261,7 +261,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.3.4 **Tableau de bord financier**
 - **Priorité** : Moyenne
-- **Description** : L'utilisateur doit avoir une vue d'ensemble de ses actifs et de leur répartition.
+- **Description** : Le Musi doit avoir une vue d'ensemble de ses actifs et de leur répartition.
 - **Exigences détaillées** :
   - Affichage clair du capital total (somme de tous les actifs moins les dettes)
   - Visualisation graphique de la répartition des actifs
@@ -274,7 +274,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.3.5 **Contrats de prêt entre particuliers**
 - **Priorité** : Moyenne
-- **Description** : L'utilisateur doit pouvoir créer, gérer et suivre des contrats de prêt conformes aux principes islamiques.
+- **Description** : Le Musi doit pouvoir créer, gérer et suivre des contrats de prêt conformes aux principes islamiques.
 - **Exigences détaillées** :
   - Création de contrats de prêt sans intérêt (qard hasan)
   - Modèles personnalisables selon la nature du prêt
@@ -287,7 +287,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.3.6 **Don d'organes et directives médicales**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir exprimer clairement ses volontés concernant le don d'organes et certaines directives médicales.
+- **Description** : Le Musi doit pouvoir exprimer clairement ses volontés concernant le don d'organes et certaines directives médicales.
 - **Exigences détaillées** :
   - Formulaire explicite sur le consentement au don d'organes (acceptation ou refus)
   - Information claire sur la législation française en vigueur (consentement présumé sauf opposition)
@@ -299,7 +299,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Interface dédiée pour les Wakils montrant clairement la séparation entre les informations médicales accessibles et les autres données verrouillées
   - Carte de donneur numérique partageable par QR code avec le personnel médical
   - Journalisation détaillée de tout accès à ces informations
-  - Notification à l'utilisateur en cas de consultation par un Wakil
+  - Notification au Musi en cas de consultation par un Wakil
   - Possibilité de révoquer cet accès à tout moment sans affecter le rôle de Wakil
   - Historique des modifications de ces directives
   - Option pour ajouter des directives médicales complémentaires
@@ -308,13 +308,13 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.4.1 **Déclaration et confirmation**
 - **Priorité** : Critique
-- **Description** : Le système doit permettre la déclaration et la confirmation du décès de l'utilisateur, sans donner accès aux données avant validation complète.
+- **Description** : Le système doit permettre la déclaration et la confirmation du décès du Musi, sans donner accès aux données avant validation complète.
 - **Exigences détaillées** :
   - Formulaire de déclaration accessible aux Wakils
   - Nécessité de confirmation par au moins 2 Wakils
   - Système de QR Code unique envoyé aux bénéficiaires
   - Délai de sécurité de 30 jours avant activation
-  - Système d'alerte à l'utilisateur en cas de déclaration (protection contre les fraudes)
+  - Système d'alerte au Musi en cas de déclaration (protection contre les fraudes)
   - Processus de contestation pendant le délai de sécurité
   - Architecture cryptographique garantissant l'impossibilité d'accès aux données pendant la période de confirmation
 
@@ -332,7 +332,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.4.3 **Vérifications périodiques de vie**
 - **Priorité** : Moyenne
-- **Description** : Le système doit vérifier périodiquement que l'utilisateur est toujours en vie.
+- **Description** : Le système doit vérifier périodiquement que le Musi est toujours en vie.
 - **Exigences détaillées** :
   - Demande de confirmation trimestrielle
   - Méthodes sécurisées de confirmation (connexion, réponse à un email, application d'authentification)
@@ -343,7 +343,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.5.1 **Coffres-forts numériques**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir stocker des documents dans différents coffres-forts numériques.
+- **Description** : Le Musi doit pouvoir stocker des documents dans différents coffres-forts numériques.
 - **Exigences détaillées** :
   - Coffre légal pour documents officiels
   - Coffre islamique pour documents religieux
@@ -368,7 +368,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.5.3 **Gestion des accès aux documents**
 - **Priorité** : Élevée
-- **Description** : L'utilisateur doit pouvoir définir qui peut accéder à quels documents et quand.
+- **Description** : Le Musi doit pouvoir définir qui peut accéder à quels documents et quand.
 - **Exigences détaillées** :
   - Attribution d'accès par document ou groupe de documents
   - Accès conditionnel (uniquement après décès confirmé)
@@ -380,7 +380,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.6.1 **Système de notifications**
 - **Priorité** : Moyenne
-- **Description** : Le système doit notifier les utilisateurs des événements importants.
+- **Description** : Le système doit notifier le Musi des événements importants.
 - **Exigences détaillées** :
   - Notifications par email (principal)
   - Notifications via l'application d'authentification (optionnel, pour les comptes avec 2FA)
@@ -390,7 +390,7 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
 
 #### 3.6.2 **Rappels périodiques**
 - **Priorité** : Moyenne
-- **Description** : Le système doit rappeler à l'utilisateur de mettre à jour ses informations.
+- **Description** : Le système doit rappeler au Musi de mettre à jour ses informations.
 - **Exigences détaillées** :
   - Rappel semestriel pour mise à jour du testament
   - Rappel annuel pour validation des dettes
@@ -574,7 +574,7 @@ En tant que contributeur multilingue, je veux pouvoir participer à la traductio
 ### 5.6 **Gestion du décès**
 
 **US-018 : Déclaration de décès**  
-En tant que Wakil, je veux pouvoir déclarer le décès de l'utilisateur afin d'initier le processus de succession.
+En tant que Wakil, je veux pouvoir déclarer le décès du Musi afin d'initier le processus de succession.
 
 **US-019 : Confirmation du décès**  
 En tant que Wakil secondaire, je veux pouvoir confirmer une déclaration de décès afin de valider l'information.
@@ -649,7 +649,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - **Transmission des accès aux Wakils** :
   - Aucune transmission de clé avant la validation complète du décès
   - Après validation, accès aux copies chiffrées des clés selon les droits prédéfinis
-  - Permissions d'accès strictement limitées au périmètre spécifié par l'utilisateur
+  - Permissions d'accès strictement limitées au périmètre spécifié par le Musi
 - **Auditabilité et contrôle** :
   - Journal d'accès horodaté pour chaque consultation
   - Notifications en cas d'accès aux données
@@ -773,6 +773,7 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 
 ### 10.1 **Glossaire des termes**
 - **Wasiyah** : Testament islamique, autorisant la disposition libre d'un tiers des avoirs
+- **Musi** (موصي) : Personne qui établit un testament islamique (testateur), utilisateur principal de l'application. Par commodité, nous utiliserons la forme "Musis" pour le pluriel dans la documentation.
 - **Wakil** (وكيل) : Mandataire désigné pour exécuter les volontés testamentaires
 - **Farâ'id** : Science des règles de succession en Islam
 - **E2EE** : End-to-End Encryption (chiffrement de bout en bout), système où seuls l'émetteur et le destinataire peuvent lire les données
