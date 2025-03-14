@@ -224,7 +224,12 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
   - Information claire sur la législation française en vigueur (consentement présumé sauf opposition)
   - Option d'imprimer/exporter une carte de donneur personnalisée
   - Possibilité de préciser des restrictions éventuelles (organes spécifiques)
-  - Accès prioritaire et immédiat à cette information pour les Wakils dès la déclaration de décès (sans attendre le délai de sécurité standard)
+  - **Option explicite** pour rendre cette information accessible aux Wakils avant le décès (activée par défaut mais désactivable)
+  - Interface séparée et sécurisée pour les Wakils permettant d'accéder uniquement à ces informations médicales
+  - Carte de donneur numérique partageables par QR code avec le personnel médical
+  - Journalisation détaillée de tout accès à ces informations avant le décès
+  - Notification à l'utilisateur en cas de consultation par un Wakil
+  - Accès prioritaire et immédiat à cette information pour les Wakils dès la déclaration de décès
   - Notification spécifique aux Wakils concernant ces volontés
   - Historique des modifications de ces directives
   - Option pour ajouter des directives médicales complémentaires
@@ -472,7 +477,7 @@ En tant qu'utilisateur musulman, je veux pouvoir créer, gérer et suivre des co
 En tant qu'utilisateur, je veux pouvoir suivre les échéances de remboursement de mes prêts afin de maintenir à jour ma situation financière et son impact sur ma succession.
 
 **US-026 : Expression des volontés sur le don d'organes**  
-En tant qu'utilisateur, je veux pouvoir exprimer clairement mon choix concernant le don d'organes afin que mes volontés soient respectées et immédiatement connues par mes Wakils en cas de décès.
+En tant qu'utilisateur, je veux pouvoir exprimer clairement mon choix concernant le don d'organes et le rendre accessible aux Wakils désignés avant même mon décès afin que mes volontés soient respectées et immédiatement appliquées en cas d'urgence médicale.
 
 ### 5.6 **Gestion du décès**
 
@@ -647,6 +652,8 @@ En tant que bénéficiaire, je veux pouvoir accéder aux informations qui me con
 - Sécurité maximale requise
 - Chiffrement E2EE comme principe fondamental et non négociable
 - Impossibilité pour quiconque (y compris les administrateurs) d'accéder aux données déchiffrées
+- Exception contrôlée et délibérée pour les directives médicales/don d'organes avec accès restrictif possible avant décès
+- Séparation cryptographique stricte entre les directives médicales et le reste des données sensibles
 - Performance du chiffrement/déchiffrement côté client
 - Risque de perte d'accès aux données en cas de perte des clés
 - Absence totale de mécanisme de récupération traditionnel (incompatible avec l'E2EE véritable)
