@@ -130,6 +130,36 @@ Wasiyah est une application web sécurisée destinée à créer et gérer des te
     - Système de validation nécessitant l'approbation d'une majorité qualifiée des Wakils
     - Score de confiance calculé en fonction de divers facteurs (ancienneté des Wakils, nombre de validations)
     - Période d'observation avec restrictions temporaires après validation
+    
+  - **Système de score de confiance** :
+    - **Calcul dynamique** : Algorithme pondéré évaluant la légitimité d'une demande de remplacement
+    - **Facteurs primaires** :
+      - Ancienneté de la relation avec chaque Wakil (poids élevé)
+      - Fréquence des interactions antérieures avec l'utilisateur
+      - Diversité géographique des Wakils validants (pour éviter la collusion)
+      - Niveau de privilèges accordés initialement à chaque Wakil
+      - Historique des actions du Wakil dans le système
+    - **Facteurs secondaires** :
+      - Temps de réponse à la demande de validation
+      - Cohérence des réponses entre les différents Wakils
+      - Validation par un Wakil institutionnel (si applicable)
+      - Schémas d'utilisation correspondant au comportement habituel de l'utilisateur
+    - **Seuils de validation** :
+      - Score minimal requis : 75/100
+      - Validation obligatoire d'au moins 60% des Wakils actifs
+      - Système de pondération différenciée : lors de la désignation, l'utilisateur peut marquer certains Wakils comme appartenant à son "cercle proche" (famille, amis très proches), dont les validations compteront davantage dans le calcul du score final (ex: 25 points au lieu de 15 pour un Wakil standard)
+      - Veto possible pour l'administrateur du compte en cas de score limite (70-75)
+    - **Mesures anti-fraude** :
+      - Détection des modèles de validation suspects (validations simultanées, même IP)
+      - Vérifications d'identité additionnelles en cas de score limite
+      - Questions de sécurité personnalisées posées aux Wakils lors de la validation
+      - Alertes automatiques en cas de tentatives multiples dans une période courte
+    - **Transparence** :
+      - Journal d'audit détaillé du processus de calcul du score
+      - Rapport de validation accessible à l'utilisateur et aux Wakils participants
+      - Absence de "boîte noire" dans l'algorithme de confiance
+      - Documentation complète du système de scoring disponible publiquement
+
   - **Traitement de l'ancien compte** :
     - Archivage (sans suppression) de l'ancien compte après validation réussie
     - Liaison administrative entre l'ancien et le nouveau compte
