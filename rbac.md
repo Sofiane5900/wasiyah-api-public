@@ -147,7 +147,7 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 │  │Musi │                │     │  │Musi │                │     │  │Musi │                │
 │  └──┬──┘                │     │  └──┬──┘                │     │  └──┬──┘                │
 │     │                   │     │     │                   │     │     │                   │
-│     │ ACCÈS TOTAL       │     │     │ INACTIF          │     │     │ INACTIF           │
+│     │ ACCÈS TOTAL       │     │     │ INACTIF           │     │     │ INACTIF           │
 │     ▼                   │     │     ▼                   │     │     ▼                   │
 │  ┌──────────────┐       │     │  ┌──────────────┐       │     │  ┌──────────────┐       │
 │  │  Documents   │       │     │  │  Documents   │       │     │  │  Documents   │       │
