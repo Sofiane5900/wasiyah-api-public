@@ -295,4 +295,42 @@ Avec 3 tentatives en cas d'échec.
 - Assignation et révision régulière du principe du moindre privilège
 - Séparation claire des rôles et responsabilités
 - Délégation temporaire possible avec date d'expiration automatique
-- Journal d'audit complet de toutes les modifications d'autorisation 
+- Journal d'audit complet de toutes les modifications d'autorisation
+
+## 📊 Métriques et KPI
+
+**RG46** : Les métriques système autorisées sont limitées à :
+- Données techniques de performance non-identifiantes
+- Statistiques agrégées sur l'utilisation des fonctionnalités (sans contenu)
+- Métriques de santé et disponibilité du système
+- Rapports d'erreurs anonymisés (sans données utilisateur)
+
+**RG47** : Le suivi des métriques de succès doit respecter :
+- Fréquence de calcul mensuelle pour les indicateurs clés
+- Tableau de bord accessible uniquement aux mainteneurs principaux
+- Conservation des tendances historiques sur 24 mois glissants
+- Révision trimestrielle des objectifs de performance
+
+## 👁️ Utilisabilité et accessibilité
+
+**RG48** : L'interface utilisateur doit respecter les principes suivants :
+- Compatibilité WCAG 2.1 niveau AA minimum
+- Support des technologies d'assistance (lecteurs d'écran)
+- Interface responsive avec breakpoints adaptés à tous les appareils
+- Temps de chargement < 3 secondes pour les pages principales
+- Tests utilisateurs obligatoires avant toute refonte majeure
+
+## 🔔 Notifications et alertes
+
+**RG49** : Le système de notification doit gérer :
+- La priorisation des alertes selon leur criticité (urgent, important, information)
+- La consolidation des notifications pour éviter le spam
+- Le respect des préférences de canal de communication
+- L'historique consultable des 90 derniers jours de notifications
+- Le paramétrage granulaire par l'utilisateur des types de notifications souhaitées
+
+**RG50** : Les rappels périodiques fonctionnent selon les règles suivantes :
+- Fréquence personnalisable (mensuelle, trimestrielle, semestrielle, annuelle)
+- Escalade progressive en cas de non-réponse
+- Validation d'acquittement requise pour les rappels critiques
+- Report possible jusqu'à 3 fois consécutives pour un même rappel 
