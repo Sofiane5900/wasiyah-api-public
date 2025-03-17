@@ -14,13 +14,14 @@
 **RG4** : Une connexion depuis un nouvel appareil nécessite UNE des validations suivantes au choix :
 - Validation par email
 - Validation par 2FA si activé
+- Validation par SMS si numéro vérifié
 
 ## 👥 Gestion des Wakils
 
 **RG5** : Le nombre de Wakils par Musi doit être :
 - Minimum : 2 Wakils (pour assurer la validation du décès)
-- Maximum : 10 Wakils (limite technique pour maintenir la performance du système)
-- Recommandé : 3 à 5 Wakils (pour un équilibre optimal entre sécurité et gestion)
+- Maximum : 5 Wakils (conformément aux exigences fonctionnelles)
+- Possibilité exceptionnelle d'augmenter ce nombre pour les cas justifiés (famille nombreuse, situation complexe)
 
 **RG6** : Un Wakil doit confirmer sa désignation dans un délai de 7 jours, après quoi l'invitation expire.
 
@@ -78,15 +79,17 @@
   - Cryptomonnaies (clés privées, seeds)
   - NFTs et tokens
   - Domaines web et hébergements
+  - Comptes de jeux avec valeur réelle (Star Citizen, Eve Online, etc.)
+  - Collections numériques valorisables (cartes, objets rares in-game)
   - Propriété intellectuelle numérique
   - Informations d'accès aux comptes importants (même non transmissibles officiellement)
 
 **RG16** : Les messages posthumes sont configurables avec les contraintes techniques suivantes :
-- Texte : jusqu'à 100 000 caractères par message (équivalent à environ 50-60 pages)
-- Pièces jointes : jusqu'à 20 fichiers par message
-- Taille maximale par pièce jointe : 500 Mo
+- Texte : jusqu'à 50 000 caractères par message (équivalent à environ 25-30 pages)
+- Pièces jointes : jusqu'à 10 fichiers par message
+- Taille maximale par pièce jointe : 250 Mo
 - Types de médias supportés : texte, images, audio, vidéo, documents
-- Possibilité de créer plusieurs messages distincts pour différents destinataires
+- Limite de 50 messages posthumes par compte pour garantir une performance optimale
 
 ## 🔄 Processus de Récupération
 
@@ -105,6 +108,7 @@
 
 **RG19** : Les notifications critiques (déclaration de décès, révocation de Wakil) sont envoyées :
 - Par email (obligatoire)
+- Par SMS si numéro vérifié
 - Par notification push si app installée
 Avec 3 tentatives en cas d'échec.
 
@@ -128,9 +132,9 @@ Avec 3 tentatives en cas d'échec.
 ## 📊 Métriques et Limites
 
 **RG23** : Les limites système par compte sont :
-- 10 Wakils maximum (selon RG5)
+- 5 Wakils maximum (conformément au PRD)
 - 100 documents par coffre-fort
-- Nombre illimité de messages posthumes
+- 50 messages posthumes
 - 1000 actifs enregistrés
 - 100 bénéficiaires maximum
 
@@ -220,7 +224,7 @@ Avec 3 tentatives en cas d'échec.
 - Documentation claire des modifications
 
 **RG36** : Les décisions d'évolution majeure requièrent :
-- Publication préalable d'une proposition documentée 
+- Publication préalable d'une proposition documentée (RFC)
 - Période de commentaires communautaires d'au moins 14 jours
 - Vote formel des mainteneurs
 - Prise en compte des impacts religieux et éthiques 
