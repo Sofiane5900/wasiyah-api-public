@@ -36,7 +36,11 @@
 - Ancienneté de la relation : +1 point par année (max 20 points)
 - Validation par autres Wakils : +5 points par validation
 
-**RG8** : Un Wakil ne peut pas être désigné simultanément par plus de 3 Musis différents.
+**RG8** : Pour les Wakils de type PROFESSIONNEL ou INSTITUTIONNEL :
+- Obligation d'afficher publiquement leur statut de Wakil multiple
+- Transparence sur le nombre total de Musis qu'ils accompagnent
+- Déclaration de tout conflit d'intérêt potentiel
+- Possibilité pour les Musis de voir les statistiques de fiabilité du Wakil
 
 ## ⚰️ Validation du Décès
 
