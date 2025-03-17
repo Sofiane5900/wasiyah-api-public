@@ -199,22 +199,40 @@ La récupération de compte nécessite l'approbation de plusieurs Wakils, avec u
 
 #### Étapes détaillées du processus
 
-1. **Compte verrouillé** : Le Musi ne peut plus accéder à son compte (perte de phrase mnémonique).
+1. **Compte verrouillé** : Le Musi ne peut plus accéder à son compte suite à la perte de sa phrase mnémonique.
    
 2. **Récupération en cours** : 
-   - Le Musi initie une demande de récupération
+   - Le Musi initie une demande de récupération depuis un nouvel appareil
    - Notification automatique envoyée à tous les Wakils désignés
-   - Période d'attente des approbations
+   - Période d'attente des approbations (score de confiance > 75%)
+   - Vérification d'identité par canaux secondaires
 
-3. **Nouveau mot de passe** :
-   - Création d'une nouvelle phrase mnémonique après validation des approbations
-   - Archivage sécurisé de l'ancien contenu chiffré
-   - Re-création des documents avec les nouvelles clés
+3. **Nouveau mot de passe et gestion du contenu inaccessible** :
+   - Génération d'une nouvelle phrase mnémonique après validation des approbations
+   - **Archivage sécurisé** : 
+     - Les données chiffrées avec l'ancienne clé (irrécupérables) sont marquées comme "archivées" 
+     - Ces données restent stockées mais sont flaggées comme inaccessibles dans la base de données
+     - Aucune tentative de déchiffrement n'est possible sans la clé perdue
+     - Un identifiant d'archive est créé pour lier l'ancien et le nouveau compte
+   - **Re-création du compte** :
+     - Création d'un nouveau wallet avec nouvelle paire de clés
+     - Migration des métadonnées non chiffrées (date de création, identifiants, etc.)
+     - Création d'une nouvelle structure de données vide
 
 4. **Configuration restaurée** :
-   - Restauration automatique de la liste des Wakils pré-enregistrés
-   - Conservation des droits d'accès précédemment configurés
-   - Maintien de l'historique des interactions sécurisées
+   - Récupération complète de la liste des Wakils (leurs clés publiques étant stockées séparément)
+   - Conservation de la configuration des droits d'accès des Wakils
+   - Maintien de l'intégrité du système de score de confiance
+   - Indication claire au Musi des données perdues vs restaurées
+
+### Limitations techniques
+
+L'archivage lors d'une récupération implique des restrictions inévitables :
+
+- Les documents chiffrés avec l'ancienne clé perdue sont **irrécupérables** techniquement
+- Les nouveaux documents devront être recréés par le Musi
+- Seules les données structurelles et relationnelles peuvent être restaurées
+- L'historique des transactions reste disponible à des fins d'audit, mais le contenu chiffré des documents reste inaccessible
 
 ## 🔒 Considérations de sécurité
 
