@@ -13,6 +13,7 @@ Ce document définit les termes spécifiques utilisés dans le projet Wasiyah po
 | **Wakil standard** | Mandataire avec des droits limités à certains coffres-forts spécifiquement assignés. |
 | **Wakil limité** | Mandataire avec accès en lecture seule après le décès du Musi. |
 | **Bénéficiaire** | Personne désignée pour recevoir des actifs ou messages après le décès du Musi. |
+| **Farâ'id** | Science des règles de succession en Islam, déterminant la distribution obligatoire des 2/3 des biens. |
 
 ## Concepts techniques
 
@@ -22,7 +23,12 @@ Ce document définit les termes spécifiques utilisés dans le projet Wasiyah po
 | **Seuil de validation** | Score minimal requis (généralement 75%) pour autoriser des opérations sensibles comme la récupération de compte ou la validation d'un décès. |
 | **Coffre-fort** | Espace de stockage chiffré contenant un ensemble de documents regroupés par thématique (ex: financier, médical, familial). |
 | **E2EE** | Chiffrement de bout en bout. Méthode où seuls l'expéditeur et le destinataire peuvent accéder aux données déchiffrées. |
+| **Zero-knowledge** | Approche de sécurité où le serveur ne possède jamais les informations nécessaires pour déchiffrer les données utilisateur. |
+| **Chiffrement à double clé** | Technique où une donnée est protégée par deux couches de chiffrement distinctes, nécessitant deux clés différentes pour y accéder. |
+| **2FA** | Two-Factor Authentication (authentification à deux facteurs). Sécurité supplémentaire exigeant deux méthodes d'authentification distinctes. |
 | **Phrase mnémonique** | Séquence de 12 à 24 mots permettant de générer et récupérer les clés cryptographiques. |
+| **BIP39** | Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques permettant de sauvegarder des clés cryptographiques. Dans un système E2EE, cette phrase représente la SEULE méthode de sauvegarde des clés. |
+| **Sauvegarde cryptographique** | Processus de conservation sécurisée des clés de chiffrement, fondamentalement différent d'une "récupération de compte" traditionnelle. |
 | **Période de contestation** | Durée de 30 jours pendant laquelle le décès déclaré peut être contesté avant confirmation définitive. |
 | **Post-mortem** | État activé après la validation du décès du Musi, débloquant certains accès pour les Wakils et bénéficiaires. |
 
@@ -53,4 +59,5 @@ Ce document définit les termes spécifiques utilisés dans le projet Wasiyah po
 |------|------------|
 | **Charia** | Loi islamique régissant divers aspects de la vie, incluant les règles de succession. |
 | **Qard Hasan** | Prêt sans intérêt conforme aux principes islamiques. |
-| **Sadaqa** | Don charitable en islam. | 
+| **Sadaqah** | Don charitable en islam. |
+| **Open Source** | Modèle de développement logiciel où le code source est librement accessible et modifiable, permettant la transparence et l'audit par la communauté. | 
