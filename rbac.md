@@ -140,40 +140,41 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 ### Activation des droits post-mortem
 
 ```
-┌──────────────────────────┐     ┌──────────────────────────┐     ┌──────────────────────────┐
-│       ÉTAT INITIAL       │     │   PÉRIODE CONTESTATION   │     │        ÉTAT FINAL        │
-│      (Musi vivant)       │     │        (30 jours)        │     │     (Décès confirmé)     │
-├──────────────────────────┤     ├──────────────────────────┤     ├──────────────────────────┤
-│                          │     │                          │     │                          │
-│       ┌─────────┐        │     │       ┌─────────┐        │     │       ┌─────────┐        │
-│       │  Musi   │        │     │       │  Musi   │        │     │       │  Musi   │        │
-│       └────┬────┘        │     │       └────┬────┘        │     │       └────┬────┘        │
-│            │             │     │            │             │     │            │             │
-│      ACCÈS TOTAL         │     │         INACTIF          │     │         INACTIF          │
-│            │             │     │            │             │     │            │             │
-│       ┌────▼────┐        │     │       ┌────▼────┐        │     │       ┌────▼────┐        │
-│       │Documents│        │     │       │Documents│        │     │       │Documents│        │
-│       │ privés  │        │     │       │ privés  │        │     │       │ privés  │        │
-│       └─────────┘        │     │       └─────────┘        │     │       └─────────┘        │
-│         ▲     ▲          │     │         ▲     ▲          │     │         ▲     ▲          │
-│         │     │          │     │         │     │          │     │         │     │          │
-│         │     │          │     │         │     │          │     │         │     │          │
-│      AUCUN  LIMITÉ       │     │      LIMITÉ  PARTIEL     │     │     SÉLECTIF COMPLET     │
-│      ACCÈS  (selon       │     │     (coffres (coffres    │     │    (coffres  (tous       │
-│             partage)     │     │     assignés) assignés)  │     │    assignés) documents)  │
-│         │     │          │     │         │     │          │     │         │     │          │
-│    ┌────┴──┐ ┌┴────┐     │     │    ┌────┴──┐ ┌┴────┐     │     │    ┌────┴──┐ ┌┴────┐     │
-│    │ Wakil │ │Wakil│     │     │    │ Wakil │ │Wakil│     │     │    │ Wakil │ │Wakil│     │
-│    │ Std.  │ │Princ│     │     │    │ Std.  │ │Princ│     │     │    │ Std.  │ │Princ│     │
-│    └───────┘ └─────┘     │     │    └───────┘ └─────┘     │     │    └───────┘ └─────┘     │
-│                          │     │                          │     │                          │
-└──────────────────────────┘     └──────────────────────────┘     └──────────────────────────┘
-            │                                │                                │
-            │                                │                                │
-            │          DÉCLARATION DE        │         VALIDATION DU          │
-            └───────────► DÉCÈS ─────────────┘──────────► DÉCÈS ─────────────┘
-                        par Wakils                  après période
-                                                   de contestation
+┌───────────────────────────┐     ┌───────────────────────────┐     ┌───────────────────────────┐
+│       ÉTAT INITIAL        │     │  PÉRIODE DE CONTESTATION  │     │        ÉTAT FINAL         │
+│       (Musi vivant)       │     │        (30 jours)         │     │     (Décès confirmé)      │
+├───────────────────────────┤     ├───────────────────────────┤     ├───────────────────────────┤
+│                           │     │                           │     │                           │
+│        ┌─────────┐        │     │        ┌─────────┐        │     │        ┌─────────┐        │
+│        │  Musi   │        │     │        │  Musi   │        │     │        │  Musi   │        │
+│        └────┬────┘        │     │        └────┬────┘        │     │        └────┬────┘        │
+│             │             │     │             │             │     │             │             │
+│        ACCÈS TOTAL        │     │          INACTIF          │     │          INACTIF          │
+│             │             │     │             │             │     │             │             │
+│        ┌────▼────┐        │     │        ┌────▼────┐        │     │        ┌────▼────┐        │
+│        │Documents│        │     │        │Documents│        │     │        │Documents│        │
+│        │ privés  │        │     │        │ privés  │        │     │        │ privés  │        │
+│        └─────────┘        │     │        └─────────┘        │     │        └─────────┘        │
+│          ▲     ▲          │     │          ▲     ▲          │     │          ▲     ▲          │
+│          │     │          │     │          │     │          │     │          │     │          │
+│          │     │          │     │          │     │          │     │          │     │          │
+│       AUCUN  LIMITÉ       │     │       LIMITÉ  PARTIEL     │     │      SÉLECTIF COMPLET     │
+│       ACCÈS  (selon       │     │      (coffres (coffres    │     │     (coffres  (tous       │
+│              partage)     │     │      assignés) assignés)  │     │     assignés) documents)  │
+│          │     │          │     │          │     │          │     │          │     │          │
+│     ┌────┴──┐ ┌┴────┐     │     │     ┌────┴──┐ ┌┴────┐     │     │     ┌────┴──┐ ┌┴────┐     │
+│     │ Wakil │ │Wakil│     │     │     │ Wakil │ │Wakil│     │     │     │ Wakil │ │Wakil│     │
+│     │ Std.  │ │Princ│     │     │     │ Std.  │ │Princ│     │     │     │ Std.  │ │Princ│     │
+│     └───────┘ └─────┘     │     │     └───────┘ └─────┘     │     │     └───────┘ └─────┘     │
+│                           │     │                           │     │                           │
+└───────────────────────────┘     └───────────────────────────┘     └───────────────────────────┘
+             │                                 │                                 │
+             ├─────────────────────────────────┼─────────────────────────────────┤
+             │                                 │                                 │
+             │         DÉCLARATION DE          │          VALIDATION DU          │
+             └────────────► DÉCÈS ◄────────────┘────────────► DÉCÈS ◄────────────┘
+                          par Wakils                  après période
+                                                     de contestation
 ```
 
 ### Processus de récupération de compte
