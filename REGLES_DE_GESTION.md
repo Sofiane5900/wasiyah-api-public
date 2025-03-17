@@ -139,4 +139,46 @@ Avec 3 tentatives en cas d'échec.
 - Fausses déclarations de décès : -50 points et révocation immédiate
 - Contestations justifiées : -20 points
 - Tentatives d'accès non autorisés : -30 points
-- Temps de réponse aux demandes de validation : -1 point par jour de retard 
+- Temps de réponse aux demandes de validation : -1 point par jour de retard
+
+## 🧾 Documentation et conformité
+
+**RG25** : Le système doit mentionner explicitement qu'il ne calcule pas automatiquement la répartition d'héritage :
+- Avertissement clair lors de la saisie des actifs
+- Rappel que la validation par un expert en droit islamique reste nécessaire
+- Recommandation de consulter un imam ou un juriste spécialisé
+
+**RG26** : Les modèles de documents générés doivent inclure :
+- Une clause de non-responsabilité concernant la conformité juridique/religieuse
+- Des espaces réservés pour la signature d'un témoin qualifié
+- La date de génération et un identifiant unique cryptographique
+
+## 🛡️ Intégrité des données
+
+**RG27** : Chaque modification d'information sensible doit être :
+- Horodatée avec précision
+- Signée cryptographiquement par le Musi
+- Journalisée dans un registre d'audit chiffré
+- Traçable dans l'historique des versions
+
+**RG28** : Les sauvegardes des données critiques suivent le protocole :
+- Export chiffré complet disponible sur demande du Musi
+- Vérification d'intégrité par hachage après chaque sauvegarde
+- Conservation de 3 versions antérieures minimum
+- Test de restauration simulée lors de chaque modification majeure
+
+## 🗄️ Archives et conservation
+
+**RG29** : La rétention des données après décès confirmé est régie par :
+- Conservation minimale de 5 ans pour toutes les données
+- Option d'archivage prolongé jusqu'à 50 ans pour documents légaux importants
+- Processus d'effacement définitif sur demande des héritiers légaux (avec validation multiple)
+- Exportation possible en formats standards non-propriétaires
+
+## 🔍 Validation et certification
+
+**RG30** : L'inscription de ressources islamiques référencées requiert :
+- Source clairement identifiée (école juridique, ouvrage de référence)
+- Validation par au moins un expert religieux certifié
+- Datation et contextualisation des avis religieux cités
+- Mention des divergences majeures entre écoles juridiques quand elles existent 
