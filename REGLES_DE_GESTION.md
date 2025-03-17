@@ -129,9 +129,9 @@ Avec 3 tentatives en cas d'échec.
 ## 📊 Métriques et Limites
 
 **RG23** : Les limites système par compte sont :
-- 5 Wakils maximum
+- 10 Wakils maximum (selon RG5)
 - 100 documents par coffre-fort
-- 50 messages posthumes
+- Nombre illimité de messages posthumes
 - 1000 actifs enregistrés
 - 100 bénéficiaires maximum
 
