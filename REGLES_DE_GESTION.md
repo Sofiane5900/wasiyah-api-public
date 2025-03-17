@@ -28,8 +28,8 @@
 - Base : 50 points
 - Type de relation : 
   - FAMILLE_PROCHE : +30 points
+  - AMI_INTIME : +25 points
   - FAMILLE_ETENDUE : +20 points
-  - AMI_INTIME : +15 points
   - RELATIONNEL : +10 points
   - PROFESSIONNEL : +5 points
   - INSTITUTIONNEL : +25 points
