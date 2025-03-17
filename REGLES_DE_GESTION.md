@@ -14,11 +14,13 @@
 **RG4** : Une connexion depuis un nouvel appareil nécessite UNE des validations suivantes au choix :
 - Validation par email
 - Validation par 2FA si activé
-- Validation par SMS si numéro vérifié
 
 ## 👥 Gestion des Wakils
 
-**RG5** : Le nombre total de Wakils par Musi ne peut pas dépasser 5.
+**RG5** : Le nombre de Wakils par Musi doit être :
+- Minimum : 2 Wakils (pour assurer la validation du décès)
+- Maximum : 10 Wakils (limite technique pour maintenir la performance du système)
+- Recommandé : 3 à 5 Wakils (pour un équilibre optimal entre sécurité et gestion)
 
 **RG6** : Un Wakil doit confirmer sa désignation dans un délai de 7 jours, après quoi l'invitation expire.
 
