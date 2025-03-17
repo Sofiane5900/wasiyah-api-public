@@ -181,4 +181,46 @@ Avec 3 tentatives en cas d'échec.
 - Source clairement identifiée (école juridique, ouvrage de référence)
 - Validation par au moins un expert religieux certifié
 - Datation et contextualisation des avis religieux cités
-- Mention des divergences majeures entre écoles juridiques quand elles existent 
+- Mention des divergences majeures entre écoles juridiques quand elles existent
+
+## 🔏 Confidentialité et protection des données
+
+**RG31** : Le traitement des données personnelles doit respecter les principes suivants :
+- Minimisation des données : seules les informations strictement nécessaires sont collectées
+- Aucun partage de données avec des tiers sans consentement explicite du Musi
+- Séparation claire entre données personnelles identifiables et données anonymisées
+- Droit à l'effacement complet et immédiat à la demande du Musi (sauf contrainte légale)
+
+**RG32** : La journalisation système doit être conçue pour :
+- Ne jamais conserver de données déchiffrées
+- Exclure toute information permettant d'inférer le contenu chiffré
+- Enregistrer uniquement les métadonnées nécessaires à la sécurité
+- Être automatiquement purgée après 90 jours
+
+## 🛠️ Fonctionnement technique
+
+**RG33** : Les performances du système doivent maintenir :
+- Un temps de déchiffrement < 3 secondes pour les documents standards
+- Une disponibilité de 99,9% hors maintenance programmée
+- Une tolérance aux pannes avec reprise après incident < 4 heures
+- Une charge CPU maximale de 70% en utilisation normale
+
+**RG34** : L'architecture modulaire impose :
+- Une indépendance fonctionnelle entre modules principaux
+- Des interfaces documentées entre composants
+- La possibilité de désactiver des fonctionnalités non essentielles
+- Une compatibilité descendante garantie pour au moins 2 versions
+
+## 👥 Gouvernance communautaire
+
+**RG35** : Les contributions au code source sont soumises aux règles :
+- Validation obligatoire par au moins 2 mainteneurs principaux
+- Conformité au guide de style de code
+- Tests automatisés couvrant 85% minimum du code ajouté
+- Documentation claire des modifications
+
+**RG36** : Les décisions d'évolution majeure requièrent :
+- Publication préalable d'une proposition documentée 
+- Période de commentaires communautaires d'au moins 14 jours
+- Vote formel des mainteneurs
+- Prise en compte des impacts religieux et éthiques 
