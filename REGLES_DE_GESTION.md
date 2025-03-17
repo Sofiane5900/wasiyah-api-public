@@ -11,7 +11,10 @@
 
 **RG3** : Après 3 tentatives de connexion échouées, le compte est bloqué pendant 15 minutes.
 
-**RG4** : Une connexion depuis un nouvel appareil nécessite une validation par email ET un second facteur si le 2FA est activé.
+**RG4** : Une connexion depuis un nouvel appareil nécessite UNE des validations suivantes au choix :
+- Validation par email
+- Validation par 2FA si activé
+- Validation par SMS si numéro vérifié
 
 ## 👥 Gestion des Wakils
 
