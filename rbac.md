@@ -23,7 +23,6 @@ Le modèle RBAC de Wasiyah est conçu pour :
 | **Wakil principal** | Mandataire désigné avec droits étendus | Être désigné explicitement par le Musi comme administrateur de confiance |
 | **Wakil standard** | Mandataire avec accès partiel aux données | Être désigné par le Musi avec des droits standard |
 | **Wakil limité** | Mandataire avec accès en lecture seule | Être désigné par le Musi avec des droits limités |
-| **Expert religieux** | Validateur des ressources islamiques | Compte vérifié comme expert religieux |
 | **Bénéficiaire** | Personne destinée à recevoir des actifs ou messages | Être désigné par le Musi comme bénéficiaire |
 
 ### États des rôles Wakil
@@ -43,94 +42,92 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 
 | Permission | Description |
 |------------|-------------|
-| `ACCOUNT_VIEW` | Voir les informations du profil |
-| `ACCOUNT_EDIT` | Modifier les informations du profil |
-| `ACCOUNT_DELETE` | Supprimer le compte |
-| `ACCOUNT_EXPORT` | Exporter toutes les données du compte |
+| `COMPTE_VOIR` | Voir les informations du profil |
+| `COMPTE_MODIFIER` | Modifier les informations du profil |
+| `COMPTE_SUPPRIMER` | Supprimer le compte |
+| `COMPTE_EXPORTER` | Exporter toutes les données du compte |
 
 ### Gestion des Wakils
 
 | Permission | Description |
 |------------|-------------|
-| `WAKIL_ADD` | Ajouter un nouveau Wakil |
-| `WAKIL_VIEW` | Voir la liste des Wakils |
-| `WAKIL_EDIT` | Modifier les droits d'un Wakil |
-| `WAKIL_REMOVE` | Révoquer un Wakil |
-| `WAKIL_ACCEPT` | Accepter une invitation de devenir Wakil |
+| `WAKIL_AJOUTER` | Ajouter un nouveau Wakil |
+| `WAKIL_VOIR` | Voir la liste des Wakils |
+| `WAKIL_MODIFIER` | Modifier les droits d'un Wakil |
+| `WAKIL_SUPPRIMER` | Révoquer un Wakil |
+| `WAKIL_ACCEPTER` | Accepter une invitation de devenir Wakil |
 
 ### Gestion des actifs
 
 | Permission | Description |
 |------------|-------------|
-| `ASSET_ADD` | Ajouter un actif |
-| `ASSET_VIEW` | Voir les actifs |
-| `ASSET_EDIT` | Modifier un actif |
-| `ASSET_DELETE` | Supprimer un actif |
-| `ASSET_ASSIGN` | Attribuer un actif à un bénéficiaire |
+| `ACTIF_AJOUTER` | Ajouter un actif |
+| `ACTIF_VOIR` | Voir les actifs |
+| `ACTIF_MODIFIER` | Modifier un actif |
+| `ACTIF_SUPPRIMER` | Supprimer un actif |
+| `ACTIF_ASSIGNER` | Attribuer un actif à un bénéficiaire |
 
 ### Gestion des documents
 
 | Permission | Description |
 |------------|-------------|
-| `DOC_ADD` | Ajouter un document |
-| `DOC_VIEW` | Voir un document |
-| `DOC_EDIT` | Modifier un document |
-| `DOC_DELETE` | Supprimer un document |
-| `DOC_SHARE` | Partager un document |
-| `DOC_CATEGORY_VIEW` | Voir une catégorie de documents (coffre) |
+| `DOC_AJOUTER` | Ajouter un document |
+| `DOC_VOIR` | Voir un document |
+| `DOC_MODIFIER` | Modifier un document |
+| `DOC_SUPPRIMER` | Supprimer un document |
+| `DOC_PARTAGER` | Partager un document |
+| `DOC_CATEGORIE_VOIR` | Voir une catégorie de documents (coffre) |
 
 ### Gestion du décès
 
 | Permission | Description |
 |------------|-------------|
-| `DEATH_DECLARE` | Déclarer le décès |
-| `DEATH_CONFIRM` | Confirmer une déclaration de décès |
-| `DEATH_CONTEST` | Contester une déclaration de décès |
-| `DEATH_VALIDATE` | Valider définitivement un décès |
+| `DECES_DECLARER` | Déclarer le décès |
+| `DECES_CONFIRMER` | Confirmer une déclaration de décès |
+| `DECES_CONTESTER` | Contester une déclaration de décès |
+| `DECES_VALIDER` | Valider définitivement un décès |
 
 ### Fonctionnalités spéciales
 
 | Permission | Description |
 |------------|-------------|
-| `POSTMORTEM_MESSAGE_VIEW` | Voir les messages posthumes |
-| `POSTMORTEM_MESSAGE_ADD` | Créer des messages posthumes |
-| `RELIGIOUS_CONTENT_VALIDATE` | Valider du contenu religieux |
-| `ACCOUNT_RECOVERY_INITIATE` | Initier une récupération de compte |
-| `ACCOUNT_RECOVERY_APPROVE` | Approuver une récupération de compte |
+| `MESSAGE_POSTHUME_VOIR` | Voir les messages posthumes |
+| `MESSAGE_POSTHUME_AJOUTER` | Créer des messages posthumes |
+| `RECUPERATION_COMPTE_INITIER` | Initier une récupération de compte |
+| `RECUPERATION_COMPTE_APPROUVER` | Approuver une récupération de compte |
 
 ## 📊 Matrice des permissions par rôle
 
-| Permission | Anonyme | Musi | Wakil principal (actif) | Wakil principal (post-mortem) | Wakil standard (actif) | Wakil standard (post-mortem) | Wakil limité (post-mortem) | Expert religieux | Bénéficiaire (post-mortem) |
-|------------|---------|------|-------------------------|-------------------------------|------------------------|-----------------------------|----------------------------|------------------|----------------------------|
-| `ACCOUNT_VIEW` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACCOUNT_EDIT` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACCOUNT_DELETE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACCOUNT_EXPORT` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_ADD` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_VIEW` | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
-| `WAKIL_EDIT` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_REMOVE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_ACCEPT` | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ASSET_ADD` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ASSET_VIEW` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅* |
-| `ASSET_EDIT` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ASSET_DELETE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ASSET_ASSIGN` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_ADD` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_VIEW` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ❌ | ✅*** |
-| `DOC_EDIT` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_DELETE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_SHARE` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| `DOC_CATEGORY_VIEW` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ❌ | ✅*** |
-| `DEATH_DECLARE` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `DEATH_CONFIRM` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `DEATH_CONTEST` | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `DEATH_VALIDATE` | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `POSTMORTEM_MESSAGE_VIEW` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ❌ | ✅*** |
-| `POSTMORTEM_MESSAGE_ADD` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `RELIGIOUS_CONTENT_VALIDATE` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| `ACCOUNT_RECOVERY_INITIATE` | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `ACCOUNT_RECOVERY_APPROVE` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Permission | Anonyme | Musi | Wakil principal (actif) | Wakil principal (post-mortem) | Wakil standard (actif) | Wakil standard (post-mortem) | Wakil limité (post-mortem) | Bénéficiaire (post-mortem) |
+|------------|---------|------|-------------------------|-------------------------------|------------------------|-----------------------------|----------------------------|----------------------------|
+| `COMPTE_VOIR` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| `COMPTE_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `COMPTE_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `COMPTE_EXPORTER` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| `WAKIL_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `WAKIL_VOIR` | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| `WAKIL_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `WAKIL_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `WAKIL_ACCEPTER` | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `ACTIF_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `ACTIF_VOIR` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ✅* |
+| `ACTIF_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `ACTIF_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `ACTIF_ASSIGNER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `DOC_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `DOC_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
+| `DOC_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `DOC_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `DOC_PARTAGER` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
+| `DOC_CATEGORIE_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
+| `DECES_DECLARER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| `DECES_CONFIRMER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| `DECES_CONTESTER` | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| `DECES_VALIDER` | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `MESSAGE_POSTHUME_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
+| `MESSAGE_POSTHUME_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `RECUPERATION_COMPTE_INITIER` | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| `RECUPERATION_COMPTE_APPROUVER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
 
 \* Les bénéficiaires ne peuvent voir que les actifs qui leur sont attribués.
 \** Les Wakils ne peuvent voir que les documents des coffres auxquels ils ont accès.
@@ -141,24 +138,40 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 ### Activation des droits post-mortem
 
 ```
-┌───────────┐    Déclaration    ┌─────────────┐    Validation    ┌─────────────┐
-│   Musi    │ ──────────────────► Décès déclaré│ ──────────────────► Décès validé │
-│   actif   │                   │  (30 jours)  │                  │             │
-└───────────┘                   └─────────────┘                  └─────────────┘
-      │                                │                               │
-      │                                │                               │
-      ▼                                ▼                               ▼
-┌───────────┐                   ┌─────────────┐                 ┌─────────────┐
-│  Wakils   │                   │   Wakils    │                 │   Wakils    │
-│  actifs   │                   │  en attente │                 │ post-mortem │
-└───────────┘                   └─────────────┘                 └─────────────┘
-      │                                                               │
-      │                                                               │
-      ▼                                                               ▼
-┌───────────┐                                                  ┌─────────────┐
-│ Documents │                                                  │  Documents  │
-│  privés   │                                                  │ accessibles │
-└───────────┘                                                  └─────────────┘
+┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
+│     ÉTAT INITIAL        │     │  PÉRIODE CONTESTATION   │     │     ÉTAT FINAL          │
+│    (Musi vivant)        │     │    (30 jours)           │     │   (Décès confirmé)      │
+├─────────────────────────┤     ├─────────────────────────┤     ├─────────────────────────┤
+│                         │     │                         │     │                         │
+│  ┌─────┐                │     │  ┌─────┐                │     │  ┌─────┐                │
+│  │Musi │                │     │  │Musi │                │     │  │Musi │                │
+│  └──┬──┘                │     │  └──┬──┘                │     │  └──┬──┘                │
+│     │                   │     │     │                   │     │     │                   │
+│     │ ACCÈS TOTAL       │     │     │ INACTIF          │     │     │ INACTIF           │
+│     ▼                   │     │     ▼                   │     │     ▼                   │
+│  ┌──────────────┐       │     │  ┌──────────────┐       │     │  ┌──────────────┐       │
+│  │  Documents   │       │     │  │  Documents   │       │     │  │  Documents   │       │
+│  │   privés     │       │     │  │   privés     │       │     │  │   privés     │       │
+│  └──────────────┘       │     │  └──────────────┘       │     │  └──────────────┘       │
+│    ▲         ▲          │     │    ▲         ▲          │     │    ▲         ▲          │
+│    │         │          │     │    │         │          │     │    │         │          │
+│    │         │          │     │    │         │          │     │    │         │          │
+│  AUCUN     LIMITÉ       │     │  LIMITÉ    PARTIEL      │     │  COMPLET   COMPLET      │
+│  ACCÈS     (selon       │     │  (coffres  (coffres     │     │  (tous     (tous        │
+│            partage)     │     │   assignés) assignés)   │     │  documents) documents)  │
+│    │         │          │     │    │         │          │     │    │         │          │
+│  ┌─┴───┐   ┌─┴───┐      │     │  ┌─┴───┐   ┌─┴───┐      │     │  ┌─┴───┐   ┌─┴───┐      │
+│  │Wakil│   │Wakil│      │     │  │Wakil│   │Wakil│      │     │  │Wakil│   │Wakil│      │
+│  │Std. │   │Princ│      │     │  │Std. │   │Princ│      │     │  │Std. │   │Princ│      │
+│  └─────┘   └─────┘      │     │  └─────┘   └─────┘      │     │  └─────┘   └─────┘      │
+│                         │     │                         │     │                         │
+└─────────────────────────┘     └─────────────────────────┘     └─────────────────────────┘
+                │                           │                             │
+                │                           │                             │
+                │      DÉCLARATION DE       │      VALIDATION DU          │
+                └─────────► DÉCÈS ──────────┘─────────► DÉCÈS ────────────┘
+                       par Wakils                 après période
+                                                 de contestation
 ```
 
 ### Processus de récupération de compte
