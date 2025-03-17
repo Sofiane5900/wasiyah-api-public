@@ -56,6 +56,7 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 | `WAKIL_MODIFIER` | Modifier les droits d'un Wakil |
 | `WAKIL_SUPPRIMER` | Révoquer un Wakil |
 | `WAKIL_ACCEPTER` | Accepter une invitation de devenir Wakil |
+| `WAKIL_ASSIGNER_COFFRE` | Attribuer un coffre-fort spécifique à un Wakil |
 
 ### Gestion des actifs
 
@@ -109,6 +110,7 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 | `WAKIL_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | `WAKIL_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | `WAKIL_ACCEPTER` | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| `WAKIL_ASSIGNER_COFFRE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | `ACTIF_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | `ACTIF_VOIR` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ✅* |
 | `ACTIF_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
@@ -147,7 +149,7 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 │  │Musi │                │     │  │Musi │                │     │  │Musi │                │
 │  └──┬──┘                │     │  └──┬──┘                │     │  └──┬──┘                │
 │     │                   │     │     │                   │     │     │                   │
-│     │ ACCÈS TOTAL       │     │     │ INACTIF           │     │     │ INACTIF           │
+│     │ ACCÈS TOTAL       │     │     │ INACTIF          │     │     │ INACTIF           │
 │     ▼                   │     │     ▼                   │     │     ▼                   │
 │  ┌──────────────┐       │     │  ┌──────────────┐       │     │  ┌──────────────┐       │
 │  │  Documents   │       │     │  │  Documents   │       │     │  │  Documents   │       │
@@ -156,9 +158,9 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 │    ▲         ▲          │     │    ▲         ▲          │     │    ▲         ▲          │
 │    │         │          │     │    │         │          │     │    │         │          │
 │    │         │          │     │    │         │          │     │    │         │          │
-│  AUCUN     LIMITÉ       │     │  LIMITÉ    PARTIEL      │     │  COMPLET   COMPLET      │
-│  ACCÈS     (selon       │     │  (coffres  (coffres     │     │  (tous     (tous        │
-│            partage)     │     │   assignés) assignés)   │     │  documents) documents)  │
+│  AUCUN     LIMITÉ       │     │  LIMITÉ    PARTIEL      │     │ SÉLECTIF  COMPLET       │
+│  ACCÈS     (selon       │     │  (coffres  (coffres     │     │(coffres   (tous         │
+│            partage)     │     │  assignés) assignés)    │     │ assignés) documents)    │
 │    │         │          │     │    │         │          │     │    │         │          │
 │  ┌─┴───┐   ┌─┴───┐      │     │  ┌─┴───┐   ┌─┴───┐      │     │  ┌─┴───┐   ┌─┴───┐      │
 │  │Wakil│   │Wakil│      │     │  │Wakil│   │Wakil│      │     │  │Wakil│   │Wakil│      │
@@ -195,6 +197,16 @@ Ce RBAC fonctionne en conjonction avec le système de chiffrement E2EE :
 2. Le chiffrement E2EE détermine si les données peuvent techniquement être déchiffrées
 
 Cette double protection garantit que même en cas de contournement du RBAC, les données restent inaccessibles sans les clés cryptographiques appropriées.
+
+### Accès différencié des Wakils
+
+La conception du système respecte les principes suivants :
+
+1. **Wakil principal** : Désigné explicitement par le Musi comme administrateur de confiance, il aura accès à l'ensemble des documents et coffres-forts après la validation du décès.
+
+2. **Wakil standard** : N'aura accès qu'aux coffres-forts spécifiquement assignés par le Musi, même après la validation du décès. Cette restriction garantit la segmentation des données sensibles et respecte l'intention du Musi quant à qui peut accéder à quelles informations.
+
+3. **Attribution des coffres** : Le Musi doit explicitement attribuer les coffres-forts aux Wakils standards, définissant ainsi précisément quelles données chaque Wakil pourra consulter après son décès.
 
 ### Validation des transitions d'état
 
