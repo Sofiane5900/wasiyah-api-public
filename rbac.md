@@ -179,22 +179,42 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 
 ### Processus de récupération de compte
 
-La récupération de compte nécessite l'approbation de plusieurs Wakils, avec un score de confiance cumulé supérieur à 75%.
+La récupération de compte nécessite l'approbation de plusieurs Wakils, avec un score de confiance cumulé supérieur à 75%. Le processus préserve la sécurité tout en permettant la restauration de l'accès.
 
 ```
-┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
-│                     │      │                     │      │                     │
-│       Compte        │      │    Récupération     │      │    Nouveau mot      │
-│     verrouillé      │      │     en cours        │      │     de passe        │
-│                     │      │                     │      │                     │
-└─────────────────────┘      └─────────────────────┘      └─────────────────────┘
-           │                           │                           │
-           │                           │                           │
-           │                           │                           │
-           │       Initiation          │      Approbations         │
-           └───────────────────────────►      (Score > 75%)        │
-                                       └───────────────────────────►
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │     │                 │
+│     Compte      │     │  Récupération   │     │  Nouveau mot    │     │  Configuration  │
+│   verrouillé    │     │    en cours     │     │    de passe     │     │   restaurée     │
+│                 │     │                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
+         │                      │                      │                      │
+         │                      │                      │                      │
+         │    Initiation        │    Approbations      │     Archivage       │
+         └──────────────────────►    (Score > 75%)     │  + Re-création      │
+                                └──────────────────────►    des documents     │
+                                                       └──────────────────────►
+                                                         Wakils restaurés
 ```
+
+#### Étapes détaillées du processus
+
+1. **Compte verrouillé** : Le Musi ne peut plus accéder à son compte (perte de phrase mnémonique).
+   
+2. **Récupération en cours** : 
+   - Le Musi initie une demande de récupération
+   - Notification automatique envoyée à tous les Wakils désignés
+   - Période d'attente des approbations
+
+3. **Nouveau mot de passe** :
+   - Création d'une nouvelle phrase mnémonique après validation des approbations
+   - Archivage sécurisé de l'ancien contenu chiffré
+   - Re-création des documents avec les nouvelles clés
+
+4. **Configuration restaurée** :
+   - Restauration automatique de la liste des Wakils pré-enregistrés
+   - Conservation des droits d'accès précédemment configurés
+   - Maintien de l'historique des interactions sécurisées
 
 ## 🔒 Considérations de sécurité
 
