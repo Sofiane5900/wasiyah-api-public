@@ -333,4 +333,26 @@ Avec 3 tentatives en cas d'échec.
 - Fréquence personnalisable (mensuelle, trimestrielle, semestrielle, annuelle)
 - Escalade progressive en cas de non-réponse
 - Validation d'acquittement requise pour les rappels critiques
-- Report possible jusqu'à 3 fois consécutives pour un même rappel 
+- Report possible jusqu'à 3 fois consécutives pour un même rappel
+
+## ⚖️ Aspects juridiques et conformité légale
+
+**RG51** : La conformité au RGPD et autres réglementations sur la protection des données implique :
+- Politique de confidentialité explicite et accessible en un clic
+- Mécanisme de portabilité des données dans un format standard
+- Journalisation de tous les consentements avec horodatage
+- Inventaire documenté de toutes les données personnelles traitées
+- Analyse d'impact sur la protection des données (AIPD) mise à jour annuellement
+
+**RG52** : La validité juridique des documents générés est renforcée par :
+- Certification du moment de création par horodatage qualifié
+- Journalisation cryptographique des modifications
+- Avertissements clairs sur la nécessité d'une validation par un expert juridique local
+- Format de document conforme aux standards légaux dans la mesure du possible
+- Documentation des limites de validité légale selon les juridictions
+
+**RG53** : L'adaptabilité aux différentes juridictions est assurée par :
+- Structure modulaire permettant des ajustements selon le pays
+- Documentation des spécificités légales par région
+- Interface permettant la sélection explicite du cadre juridique applicable
+- Avertissements personnalisés basés sur la localisation de l'utilisateur 
