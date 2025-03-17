@@ -78,14 +78,15 @@
   - Cryptomonnaies (clés privées, seeds)
   - NFTs et tokens
   - Domaines web et hébergements
-  - Collections numériques valorisables (cartes, objets rares in-game)
   - Propriété intellectuelle numérique
   - Informations d'accès aux comptes importants (même non transmissibles officiellement)
 
-**RG16** : Les messages posthumes sont limités à :
-- 10 000 caractères par message
-- 5 pièces jointes maximum par message
-- 100 Mo maximum par pièce jointe
+**RG16** : Les messages posthumes sont configurables avec les contraintes techniques suivantes :
+- Texte : jusqu'à 100 000 caractères par message (équivalent à environ 50-60 pages)
+- Pièces jointes : jusqu'à 20 fichiers par message
+- Taille maximale par pièce jointe : 500 Mo
+- Types de médias supportés : texte, images, audio, vidéo, documents
+- Possibilité de créer plusieurs messages distincts pour différents destinataires
 
 ## 🔄 Processus de Récupération
 
