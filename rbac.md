@@ -182,10 +182,18 @@ Les rôles Wakil peuvent être dans différents états qui affectent leurs permi
 La récupération de compte nécessite l'approbation de plusieurs Wakils, avec un score de confiance cumulé supérieur à 75%.
 
 ```
-┌───────────┐    Initiation    ┌─────────────┐    Approbations    ┌─────────────┐
-│  Compte   │ ───────────────► │ Récupération │ ───────────────────► Nouveau mot  │
-│ verrouillé│                  │   en cours   │    (Score > 75%)   │   de passe   │
-└───────────┘                  └─────────────┘                    └─────────────┘
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│                     │      │                     │      │                     │
+│       Compte        │      │    Récupération     │      │    Nouveau mot      │
+│     verrouillé      │      │     en cours        │      │     de passe        │
+│                     │      │                     │      │                     │
+└─────────────────────┘      └─────────────────────┘      └─────────────────────┘
+           │                           │                           │
+           │                           │                           │
+           │                           │                           │
+           │       Initiation          │      Approbations         │
+           └───────────────────────────►      (Score > 75%)        │
+                                       └───────────────────────────►
 ```
 
 ## 🔒 Considérations de sécurité
