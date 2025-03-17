@@ -74,6 +74,13 @@
 - Documents d'identité → Coffre légal
 - Certificats religieux → Coffre islamique
 - Documents personnels → Coffre personnel
+- Actifs numériques → Coffre numérique :
+  - Cryptomonnaies (clés privées, seeds)
+  - NFTs et tokens
+  - Domaines web et hébergements
+  - Collections numériques valorisables (cartes, objets rares in-game)
+  - Propriété intellectuelle numérique
+  - Informations d'accès aux comptes importants (même non transmissibles officiellement)
 
 **RG16** : Les messages posthumes sont limités à :
 - 10 000 caractères par message
