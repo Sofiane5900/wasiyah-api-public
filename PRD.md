@@ -561,13 +561,16 @@ En tant qu'utilisateur ayant perdu ma phrase mnémonique, je veux pouvoir créer
 
 ### 5.2 **Gestion des Wakils**
 
-**US-005 : Ajout de Wakils**  
-En tant qu'utilisateur, je veux pouvoir désigner jusqu'à 5 Wakils afin qu'ils puissent gérer mes affaires après mon décès.
+**US-005 : Création de l'arbre relationnel**  
+En tant que Musi, je veux créer mon arbre relationnel afin d'identifier et de catégoriser mes relations de confiance (famille, amis proches, conseillers, etc.).
 
-**US-006 : Attribution de rôles spécifiques**  
+**US-006 : Désignation des Wakils**  
+En tant que Musi, je veux pouvoir désigner jusqu'à 5 Wakils parmi les personnes de mon arbre relationnel afin qu'ils puissent gérer mes affaires après mon décès.
+
+**US-007 : Attribution de rôles spécifiques**  
 En tant qu'utilisateur, je veux attribuer des rôles spécifiques à mes Wakils afin de répartir les responsabilités.
 
-**US-007 : Révocation d'un Wakil**  
+**US-008 : Révocation d'un Wakil**  
 En tant qu'utilisateur, je veux pouvoir révoquer un Wakil afin de m'adapter aux changements dans mes relations.
 
 **US-022 : Désignation d'une mosquée comme Wakil**  
