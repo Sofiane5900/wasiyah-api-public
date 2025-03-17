@@ -259,4 +259,40 @@ Avec 3 tentatives en cas d'échec.
 - Audit de sécurité trimestriel par une entité indépendante
 - Tests de pénétration programmés après chaque mise à jour majeure
 - Revue de code systématique avant déploiement
-- Simulation de récupération après sinistre semestrielle 
+- Simulation de récupération après sinistre semestrielle
+
+## 📤 Portabilité et interopérabilité
+
+**RG41** : L'exportation et l'importation des données suivent les règles suivantes :
+- Format d'export standardisé et documenté publiquement
+- Possibilité d'export complet des données chiffrées à tout moment
+- Import possible depuis des formats standards avec validation d'intégrité
+- Exportation obligatoire proposée avant toute suppression de compte
+- Documentation claire du format pour permettre l'interopérabilité future
+
+## ⚠️ Situations exceptionnelles
+
+**RG42** : En cas de situation critique, le système doit :
+- Basculer automatiquement sur une infrastructure de secours dans un délai < 1 heure
+- Notifier les administrateurs système et les mainteneurs principaux
+- Mettre en place un mode maintenance avec accès minimal aux données non-sensibles
+- Journaliser toutes les actions d'urgence dans un registre spécial
+- Effectuer une vérification d'intégrité complète avant le retour à l'état normal
+
+**RG43** : En cas de décès simultané du Musi et d'un ou plusieurs Wakils :
+- Validation par les Wakils restants avec quorum réduit si nécessaire
+- Procédure juridique documentée pour les cas extrêmes (décès de tous les acteurs)
+- Mécanisme de secours permettant la désignation d'une autorité religieuse comme arbitre
+
+## 🔐 Consentement et autorisation
+
+**RG44** : Le consentement explicite est obligatoire pour :
+- Toute modification des accès des Wakils
+- Partage de données avec des tiers (y compris pour des motifs techniques)
+- Activation des fonctionnalités expérimentales
+
+**RG45** : La gestion des niveaux d'autorisation respecte les principes suivants :
+- Assignation et révision régulière du principe du moindre privilège
+- Séparation claire des rôles et responsabilités
+- Délégation temporaire possible avec date d'expiration automatique
+- Journal d'audit complet de toutes les modifications d'autorisation 
