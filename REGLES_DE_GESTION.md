@@ -105,7 +105,6 @@
 
 **RG19** : Les notifications critiques (déclaration de décès, révocation de Wakil) sont envoyées :
 - Par email (obligatoire)
-- Par SMS si numéro vérifié
 - Par notification push si app installée
 Avec 3 tentatives en cas d'échec.
 
@@ -137,6 +136,7 @@ Avec 3 tentatives en cas d'échec.
 
 **RG24** : Le système de réputation d'un Wakil est impacté par :
 - Nombre de validations réussies : +1 point
-- Fausses déclarations de décès : -10 points
-- Contestations justifiées : -5 points
+- Fausses déclarations de décès : -50 points et révocation immédiate
+- Contestations justifiées : -20 points
+- Tentatives d'accès non autorisés : -30 points
 - Temps de réponse aux demandes de validation : -1 point par jour de retard 
