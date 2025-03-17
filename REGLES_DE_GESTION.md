@@ -227,4 +227,36 @@ Avec 3 tentatives en cas d'échec.
 - Publication préalable d'une proposition documentée (RFC)
 - Période de commentaires communautaires d'au moins 14 jours
 - Vote formel des mainteneurs
-- Prise en compte des impacts religieux et éthiques 
+- Prise en compte des impacts religieux et éthiques
+
+## 🌐 Internationalisation et accessibilité
+
+**RG37** : Le système de traduction collaborative doit garantir :
+- Validation minimale par 3 locuteurs natifs avant publication d'une traduction
+- Conservation de l'historique complet des modifications par langue
+- Traductions prioritaires des termes religieux et juridiques spécifiques
+- Vérification par un expert religieux des contenus sensibles dans chaque langue
+
+## 🏥 Directives médicales
+
+**RG38** : Les directives relatives au don d'organes doivent être :
+- Explicitement datées et signées électroniquement
+- Conformes à la législation française en vigueur (consentement présumé sauf opposition)
+- Consultables immédiatement en cas d'urgence par les Wakils désignés
+- Mises à jour au minimum tous les 3 ans avec rappel automatique
+
+## 🔄 Vérifications de vie
+
+**RG39** : Le système de vérification périodique de vie doit fonctionner comme suit :
+- Demande de confirmation trimestrielle envoyée au Musi
+- Méthodes acceptables de confirmation : connexion à l'application, clic sur lien sécurisé, validation 2FA
+- Escalade aux Wakils après 3 rappels espacés de 7 jours sans réponse
+- Options de désactivation temporaire pour absences planifiées (max 12 mois)
+
+## 🔍 Audits et tests
+
+**RG40** : Le système de sécurité est soumis à des vérifications régulières :
+- Audit de sécurité trimestriel par une entité indépendante
+- Tests de pénétration programmés après chaque mise à jour majeure
+- Revue de code systématique avant déploiement
+- Simulation de récupération après sinistre semestrielle 
