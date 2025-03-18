@@ -845,17 +845,16 @@ En tant que Wakil, je veux pouvoir consulter en temps réel le statut des confir
 ## 📝 **10. ANNEXES**
 
 ### 10.1 **Glossaire des termes**
+
+> ℹ️ **Note:** Un lexique détaillé est disponible dans le fichier `lexique.md` à la racine du projet. Ce document contient toutes les définitions des termes spécifiques au projet, classés par catégorie.
+
+Ci-dessous, quelques termes essentiels pour la compréhension du PRD :
+
 - **Wasiyah** : Testament islamique, autorisant la disposition libre d'un tiers des avoirs
 - **Musi** (موصي) : Personne qui établit un testament islamique (testateur), utilisateur principal de l'application. Par commodité, nous utiliserons la forme "Musis" pour le pluriel dans la documentation.
 - **Wakil** (وكيل) : Mandataire désigné pour exécuter les volontés testamentaires
 - **Farâ'id** : Science des règles de succession en Islam
 - **E2EE** : End-to-End Encryption (chiffrement de bout en bout), système où seuls l'émetteur et le destinataire peuvent lire les données
-- **Zero-knowledge** : Approche de sécurité où le serveur ne possède jamais les informations nécessaires pour déchiffrer les données
-- **Chiffrement à double clé** : Technique où une donnée est protégée par deux couches de chiffrement distinctes, nécessitant deux clés différentes pour y accéder
-- **2FA** : Two-Factor Authentication (authentification à deux facteurs)
-- **BIP39** : Bitcoin Improvement Proposal 39, standard pour phrases mnémoniques permettant de sauvegarder des clés cryptographiques sous forme de 12 à 24 mots. Dans un système E2EE, cette phrase représente la SEULE méthode de sauvegarde des clés et sa perte entraîne la perte définitive des données.
-- **Sauvegarde cryptographique** : Processus de conservation sécurisée des clés de chiffrement, fondamentalement différent d'une "récupération de compte" traditionnelle qui compromettrait le modèle E2EE.
-- **Open Source** : Modèle de développement logiciel où le code source est librement accessible et modifiable
 
 ### 10.2 **Références**
 - Règles islamiques de succession
