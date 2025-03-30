@@ -1,0 +1,22 @@
+{
+  "name": "My CRM project",
+  "dockerComposeFile": "../docker-compose.yaml",
+  "service":"app",
+  "remoteUser": "www-data",
+  "workspaceFolder": "/home/www-data/app",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "PKief.material-icon-theme",
+        "zhuangtongfa.material-theme",
+        "BracketPairColorDLW.bracket-pair-color-dlw",
+        "EditorConfig.EditorConfig",
+        "dbaeumer.vscode-eslint",
+        "mhutchie.git-graph",
+        "esbenp.prettier-vscode",
+      ]
+    }
+  }
+}
