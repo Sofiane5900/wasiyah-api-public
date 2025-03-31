@@ -21,10 +21,6 @@ RUN echo 'PS1="\[\e[36m\]\u\[\e[0m\]:\[\e[35m\]\W\[\e[0m\]\\$ "' >> /home/www-da
 RUN npm install -g pnpm
 RUN npm install -g @nestjs/cli
 
-ENV PNPM_HOME=/${WORDIR}/.pnpm
-ENV PATH=$PATH:$PNPM_HOME
-ENV PNPM_STORE_PATH=/home/www-data/.pnpm-store
-
 USER www-data
 
 WORKDIR ${WORKDIR}
@@ -36,8 +32,10 @@ COPY --chown=www-data:www-data . ${WORKDIR}
 RUN if [ -d "node_modules" ]; then rm -rf node_modules; fi
 RUN if [ -d ".pnpm-store" ]; then rm -rf .pnpm-store; fi
 
+RUN pnpm config set store-dir ${WORKDIR}/.pnpm-store
+
 RUN pnpm install --frozen-lockfile
-#RUN mv home/www-data/.pnpm-store ${WORKDIR}
+#RUN cp home/www-data/.pnpm-store ${WORKDIR}
 
 USER root
 COPY docker/dev/entrypoint.sh /entrypoint.sh

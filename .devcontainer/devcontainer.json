@@ -1,5 +1,5 @@
 {
-  "name": "My CRM project",
+  "name": "Wasiyah API",
   "dockerComposeFile": "../docker-compose.yaml",
   "service":"app",
   "remoteUser": "www-data",
@@ -15,7 +15,7 @@
         "EditorConfig.EditorConfig",
         "dbaeumer.vscode-eslint",
         "mhutchie.git-graph",
-        "esbenp.prettier-vscode",
+        "esbenp.prettier-vscode"
       ]
     }
   }
