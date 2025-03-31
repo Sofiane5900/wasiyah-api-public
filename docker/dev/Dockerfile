@@ -6,7 +6,10 @@ ARG WORKDIR=/home/www-data/app
 RUN apk update && apk add --no-cache \
     bash \
     curl \
-    git
+    git \
+    postgresql-dev \
+    postgresql-client \
+    make
 
 RUN set -x ; \
   addgroup -g 1001 -S www-data ; \
@@ -17,8 +20,10 @@ RUN echo 'PS1="\[\e[36m\]\u\[\e[0m\]:\[\e[35m\]\W\[\e[0m\]\\$ "' >> /home/www-da
 
 RUN npm install -g pnpm
 RUN npm install -g @nestjs/cli
+
 ENV PNPM_HOME=/${WORDIR}/.pnpm
 ENV PATH=$PATH:$PNPM_HOME
+ENV PNPM_STORE_PATH=/home/www-data/.pnpm-store
 
 USER www-data
 
@@ -28,7 +33,14 @@ RUN chown -R www-data:www-data ${WORKDIR}
 
 COPY --chown=www-data:www-data . ${WORKDIR}
 
-RUN pnpm install
+RUN if [ -d "node_modules" ]; then rm -rf node_modules; fi
+RUN if [ -d ".pnpm-store" ]; then rm -rf .pnpm-store; fi
+
+RUN pnpm install --frozen-lockfile
+#RUN mv home/www-data/.pnpm-store ${WORKDIR}
 
 USER root
+COPY docker/dev/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["pnpm", "dev"]
