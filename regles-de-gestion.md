@@ -50,6 +50,7 @@
 - Un délai de sécurité de 30 jours
 - Aucune contestation active d'un autre Wakil
 - Aucune connexion du Musi pendant le délai
+- A la confirmation du dèces debloquage des dernieres volontés
 
 **RG10** : Une contestation de décès doit être déposée dans les 15 jours suivant la déclaration initiale.
 
@@ -120,11 +121,11 @@ Avec 3 tentatives en cas d'échec.
 
 ## 🔒 Sécurité des Données
 
-**RG21** : Le déchiffrement des données nécessite :
+**RG21** : Le déchiffrement des données nécessite : 
 - Pour le Musi : Sa clé privée active
 - Pour les Wakils post-décès : 
-  - Confirmation du décès selon RG9
-  - Expiration du délai de sécurité
+  - Confirmation du décès selon RG9 (Equipe Postmortheum)
+  - Expiration du délai de sécurité (Equipe Postmortheum)
   - Niveau d'accès approprié pour le type de données
 
 **RG22** : La révocation d'accès est immédiate et prioritaire sur toute autre opération en cours.
