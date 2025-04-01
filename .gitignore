@@ -82,4 +82,7 @@ next-env.d.ts
 
 # Fichiers temporaires
 .tmp/
-.temp/ 
+.temp/
+
+# Clés JWT
+/jwt

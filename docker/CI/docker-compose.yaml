@@ -1,0 +1,9 @@
+services:
+
+  app:
+    platform: linux/amd64/v2
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      tags:
+        - wasiyahfr/wasiyah:apici

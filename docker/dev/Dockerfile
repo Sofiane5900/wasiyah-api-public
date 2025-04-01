@@ -9,7 +9,8 @@ RUN apk update && apk add --no-cache \
     git \
     postgresql-dev \
     postgresql-client \
-    make
+    make \
+    openssl
 
 RUN set -x ; \
   addgroup -g 1001 -S www-data ; \
@@ -35,7 +36,6 @@ RUN if [ -d ".pnpm-store" ]; then rm -rf .pnpm-store; fi
 RUN pnpm config set store-dir ${WORKDIR}/.pnpm-store
 
 RUN pnpm install --frozen-lockfile
-#RUN cp home/www-data/.pnpm-store ${WORKDIR}
 
 USER root
 COPY docker/dev/entrypoint.sh /entrypoint.sh

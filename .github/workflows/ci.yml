@@ -1,0 +1,57 @@
+name: wasiyah-api-ci
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  app:
+    runs-on: [ubuntu-latest]
+    container:
+      image: ${{ vars.DOCKERHUB_USERNAME }}/wasiyah:apici
+      credentials:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    env:
+      NODE_ENV: DEV
+
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: whasiyah_db
+          POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
+
+    steps:
+
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate RSA keys
+        run: |
+          mkdir -p jwt
+          openssl genpkey -algorithm RSA -out jwt/private.pem -pkeyopt rsa_keygen_bits:4096
+          openssl rsa -in jwt/private.pem -pubout -out jwt/public.pem
+          chmod 600 jwt/private.pem
+
+      - name: Build Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check vulnerabilities
+        run: pnpm audit
+
+      - name: linter
+        run: pnpm lint
+
+      - name: Run test
+        run: |
+          pnpm dev &
+          pnpm test
+
+      - name: Coverage tests
+        run: pnpm test:coverage
