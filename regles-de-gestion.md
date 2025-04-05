@@ -3,27 +3,49 @@
 ## 🔐 Authentification et Sécurité
 
 **RG1** : Un Musi ne peut avoir qu'un seul compte actif à la fois avec la même adresse email.
+**RG** : Si une adresse mail est déjà existante, on peut réinitialiser le mot de passe.
+  - Système d'inscription par email avec vérification
+  - Connexion avec email et mot de passe
+  - Authentification à deux facteurs (2FA) fortement recommandée mais optionnelle
+  - Méthodes de 2FA sécurisées (application d'authentification TOTP, email)
+  - Indication visuelle du niveau de sécurité du compte (avec/sans 2FA)
+  - Protection contre les tentatives de force brute
+  - Détection des connexions suspectes (nouvelle localisation, appareil)
+  - Phrase mnémonique BIP39 obligatoire comme SEULE méthode de sauvegarde cryptographique
+  - Avertissement clair que la perte de la phrase mnémonique entraîne la perte définitive des données
+  - Documentation détaillée sur la conservation sécurisée de la phrase mnémonique
+  - Durée de session limitée (15 minutes d'inactivité)
+  - Possibilité de déconnexion de tous les appareils
+  - Historique des connexions visible par le Musi
+  - Notifications de connexion sur nouvel appareil
 
 **RG2** : La phrase mnémonique doit être :
 - Validée une seule fois lors de sa création
 - Accompagnée d'une confirmation explicite de sauvegarde (case à cocher)
 - Présentée avec des avertissements clairs sur son importance et son caractère irrécupérable
+  - **Code de validation à usage unique pour l'établissement de la relation de confiance** :
+    - Génération d'un code alphanumérique de 6 caractères lors de la désignation d'un Wakil
+    - Utilisation de caractères non-ambigus (lettres majuscules et chiffres facilement distinguables)
+    - Code utilisé uniquement pour la validation initiale du Wakil, établissant une relation de confiance permanente (jusqu'à révocation)
+    - Preuve d'un contact réel (téléphonique ou physique) entre le Musi et son Wakil
+    - Processus de vérification bidirectionnel : le Wakil reçoit une notification de demande de désignation et doit saisir le code communiqué par le Musi pour confirmer la relation
+    - Une fois validée, cette relation de confiance sert de base pour toutes les futures interactions, y compris la validation d'un compte de remplacement
+    - Interface de saisie résistante aux erreurs (conversion automatique en majuscules, espacement)
 
-**RG3** : Après 3 tentatives de connexion échouées, le compte est bloqué pendant 15 minutes.
+**RG3** : Après 3 tentatives d'authentification échouées, le compte est bloqué pendant 15 minutes.
 
-**RG4** : Une connexion depuis un nouvel appareil nécessite UNE des validations suivantes au choix :
+**RG4** : Une authentification depuis un nouvel appareil nécessite UNE des validations suivantes au choix :
 - Validation par email
-- Validation par 2FA si activé
-- Validation par SMS si numéro vérifié
+- Validation par 2FA si activée
 
 ## 👥 Gestion des Wakils
 
 **RG5** : Le nombre de Wakils par Musi doit être :
-- Minimum : 2 Wakils (pour assurer la validation du décès)
+- Minimum : 1 Wakils (pour assurer la validation du décès)
 - Maximum : 5 Wakils (conformément aux exigences fonctionnelles)
 - Possibilité exceptionnelle d'augmenter ce nombre pour les cas justifiés (famille nombreuse, situation complexe)
 
-**RG6** : Un Wakil doit confirmer sa désignation dans un délai de 7 jours, après quoi l'invitation expire.
+**RG6** : Un Wakil doit confirmer sa désignation dans un délai de 2 jours, après quoi l'invitation expire.
 
 **RG7** : Le score de confiance d'un Wakil est calculé selon la formule :
 - Base : 50 points
@@ -48,6 +70,7 @@
 **RG9** : La déclaration de décès nécessite :
 - Au moins 2 Wakils différents pour confirmation
 - Un délai de sécurité de 30 jours
+- Dans un premier temps les dernieres volontés dans un second temps le testament
 - Aucune contestation active d'un autre Wakil
 - Aucune connexion du Musi pendant le délai
 
@@ -95,21 +118,20 @@
 
 **RG17** : La récupération de compte nécessite :
 - Un score de confiance cumulé des Wakils validants > 75%
-- Au moins 3 Wakils différents
+- Au moins 1 Wakil
 - Un délai d'attente de 7 jours
 - Aucune opposition d'un autre Wakil
 
 **RG18** : En cas de révocation d'un Wakil :
 - Ses validations antérieures sont conservées dans l'historique
 - Son score de confiance est réinitialisé
-- Un délai de 90 jours est imposé avant sa possible re-désignation
+- Possibilité de le re-ajouter avec une notification en ammont (warning)
 
 ## 📱 Notifications
 
 **RG19** : Les notifications critiques (déclaration de décès, révocation de Wakil) sont envoyées :
 - Par email (obligatoire)
-- Par SMS si numéro vérifié
-- Par notification push si app installée
+- Par notification push si app installée (FUTURE)
 Avec 3 tentatives en cas d'échec.
 
 **RG20** : Les rappels de mise à jour suivent la séquence :
@@ -117,6 +139,7 @@ Avec 3 tentatives en cas d'échec.
 - J-15 : Second rappel
 - J-5 : Rappel urgent
 - J+1 : Notification de dépassement
+
 
 ## 🔒 Sécurité des Données
 
@@ -129,7 +152,7 @@ Avec 3 tentatives en cas d'échec.
 
 **RG22** : La révocation d'accès est immédiate et prioritaire sur toute autre opération en cours.
 
-## 📊 Métriques et Limites
+<!-- ## 📊 Métriques et Limites
 
 **RG23** : Les limites système par compte sont :
 - 5 Wakils maximum (conformément au PRD)
@@ -143,7 +166,7 @@ Avec 3 tentatives en cas d'échec.
 - Fausses déclarations de décès : -50 points et révocation immédiate
 - Contestations justifiées : -20 points
 - Tentatives d'accès non autorisés : -30 points
-- Temps de réponse aux demandes de validation : -1 point par jour de retard
+- Temps de réponse aux demandes de validation : -1 point par jour de retard -->
 
 ## 🧾 Documentation et conformité
 
@@ -152,10 +175,10 @@ Avec 3 tentatives en cas d'échec.
 - Rappel que la validation par un expert en droit islamique reste nécessaire
 - Recommandation de consulter un imam ou un juriste spécialisé
 
-**RG26** : Les modèles de documents générés doivent inclure :
+<!-- **RG26** : Les modèles de documents générés doivent inclure :
 - Une clause de non-responsabilité concernant la conformité juridique/religieuse
 - Des espaces réservés pour la signature d'un témoin qualifié
-- La date de génération et un identifiant unique cryptographique
+- La date de génération et un identifiant unique cryptographique -->
 
 ## 🛡️ Intégrité des données
 
@@ -169,7 +192,6 @@ Avec 3 tentatives en cas d'échec.
 - Export chiffré complet disponible sur demande du Musi
 - Vérification d'intégrité par hachage après chaque sauvegarde
 - Conservation de 3 versions antérieures minimum
-- Test de restauration simulée lors de chaque modification majeure
 
 ## 🗄️ Archives et conservation
 
@@ -201,21 +223,8 @@ Avec 3 tentatives en cas d'échec.
 - Enregistrer uniquement les métadonnées nécessaires à la sécurité
 - Être automatiquement purgée après 90 jours
 
-## 🛠️ Fonctionnement technique
 
-**RG33** : Les performances du système doivent maintenir :
-- Un temps de déchiffrement < 3 secondes pour les documents standards
-- Une disponibilité de 99,9% hors maintenance programmée
-- Une tolérance aux pannes avec reprise après incident < 4 heures
-- Une charge CPU maximale de 70% en utilisation normale
-
-**RG34** : L'architecture modulaire impose :
-- Une indépendance fonctionnelle entre modules principaux
-- Des interfaces documentées entre composants
-- La possibilité de désactiver des fonctionnalités non essentielles
-- Une compatibilité descendante garantie pour au moins 2 versions
-
-## 👥 Gouvernance communautaire
+<!-- ## 👥 Gouvernance communautaire
 
 **RG35** : Les contributions au code source sont soumises aux règles :
 - Validation obligatoire par au moins 2 mainteneurs principaux
@@ -227,7 +236,7 @@ Avec 3 tentatives en cas d'échec.
 - Publication préalable d'une proposition documentée (RFC)
 - Période de commentaires communautaires d'au moins 14 jours
 - Vote formel des mainteneurs
-- Prise en compte des impacts religieux et éthiques
+- Prise en compte des impacts religieux et éthiques -->
 
 ## 🌐 Internationalisation et accessibilité
 
@@ -253,24 +262,8 @@ Avec 3 tentatives en cas d'échec.
 - Escalade aux Wakils après 3 rappels espacés de 7 jours sans réponse
 - Options de désactivation temporaire pour absences planifiées (max 12 mois)
 
-## 🔍 Audits et tests
 
-**RG40** : Le système de sécurité est soumis à des vérifications régulières :
-- Audit de sécurité trimestriel par une entité indépendante
-- Tests de pénétration programmés après chaque mise à jour majeure
-- Revue de code systématique avant déploiement
-- Simulation de récupération après sinistre semestrielle
-
-## 📤 Portabilité et interopérabilité
-
-**RG41** : L'exportation et l'importation des données suivent les règles suivantes :
-- Format d'export standardisé et documenté publiquement
-- Possibilité d'export complet des données chiffrées à tout moment
-- Import possible depuis des formats standards avec validation d'intégrité
-- Exportation obligatoire proposée avant toute suppression de compte
-- Documentation claire du format pour permettre l'interopérabilité future
-
-## ⚠️ Situations exceptionnelles
+<!-- ## ⚠️ Situations exceptionnelles
 
 **RG42** : En cas de situation critique, le système doit :
 - Basculer automatiquement sur une infrastructure de secours dans un délai < 1 heure
@@ -282,20 +275,7 @@ Avec 3 tentatives en cas d'échec.
 **RG43** : En cas de décès simultané du Musi et d'un ou plusieurs Wakils :
 - Validation par les Wakils restants avec quorum réduit si nécessaire
 - Procédure juridique documentée pour les cas extrêmes (décès de tous les acteurs)
-- Mécanisme de secours permettant la désignation d'une autorité religieuse comme arbitre
-
-## 🔐 Consentement et autorisation
-
-**RG44** : Le consentement explicite est obligatoire pour :
-- Toute modification des accès des Wakils
-- Partage de données avec des tiers (y compris pour des motifs techniques)
-- Activation des fonctionnalités expérimentales
-
-**RG45** : La gestion des niveaux d'autorisation respecte les principes suivants :
-- Assignation et révision régulière du principe du moindre privilège
-- Séparation claire des rôles et responsabilités
-- Délégation temporaire possible avec date d'expiration automatique
-- Journal d'audit complet de toutes les modifications d'autorisation
+- Mécanisme de secours permettant la désignation d'une autorité religieuse comme arbitre -->
 
 ## 📊 Métriques et KPI
 
@@ -320,20 +300,6 @@ Avec 3 tentatives en cas d'échec.
 - Temps de chargement < 3 secondes pour les pages principales
 - Tests utilisateurs obligatoires avant toute refonte majeure
 
-## 🔔 Notifications et alertes
-
-**RG49** : Le système de notification doit gérer :
-- La priorisation des alertes selon leur criticité (urgent, important, information)
-- La consolidation des notifications pour éviter le spam
-- Le respect des préférences de canal de communication
-- L'historique consultable des 90 derniers jours de notifications
-- Le paramétrage granulaire par l'utilisateur des types de notifications souhaitées
-
-**RG50** : Les rappels périodiques fonctionnent selon les règles suivantes :
-- Fréquence personnalisable (mensuelle, trimestrielle, semestrielle, annuelle)
-- Escalade progressive en cas de non-réponse
-- Validation d'acquittement requise pour les rappels critiques
-- Report possible jusqu'à 3 fois consécutives pour un même rappel
 
 ## ⚖️ Aspects juridiques et conformité légale
 
@@ -350,9 +316,3 @@ Avec 3 tentatives en cas d'échec.
 - Avertissements clairs sur la nécessité d'une validation par un expert juridique local
 - Format de document conforme aux standards légaux dans la mesure du possible
 - Documentation des limites de validité légale selon les juridictions
-
-**RG53** : L'adaptabilité aux différentes juridictions est assurée par :
-- Structure modulaire permettant des ajustements selon le pays
-- Documentation des spécificités légales par région
-- Interface permettant la sélection explicite du cadre juridique applicable
-- Avertissements personnalisés basés sur la localisation de l'utilisateur 
