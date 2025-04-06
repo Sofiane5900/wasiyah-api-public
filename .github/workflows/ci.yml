@@ -32,7 +32,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate RSA keys
+      - name: Generate JWT RSA keys
         run: |
           mkdir -p jwt
           openssl genpkey -algorithm RSA -out jwt/private.pem -pkeyopt rsa_keygen_bits:4096
@@ -40,7 +40,7 @@ jobs:
           chmod 600 jwt/private.pem
 
       - name: Build Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Check vulnerabilities
         run: pnpm audit
