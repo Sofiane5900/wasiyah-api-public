@@ -5,7 +5,7 @@
 - **RG3** : Lors de l'inscription, une vérification est envoyée par mail.
 - **RG4** : L'utilisateur se connecte uniquement avec son email et son mot de passe.
 - **RG5** : Le mot de passe doit respecter les critères de complexité suivants :
-  - Minimum 8 caractères
+  - Minimum 12 caractères
   - Au moins 1 majuscule
   - Au moins 1 chiffre
   - Au moins 1 caractère spécial
