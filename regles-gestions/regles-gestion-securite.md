@@ -23,7 +23,6 @@
   - Délai exponentiel après chaque tentative échouée supplémentaire
 - **RG12** : La durée d'une session est limitée à 15 minutes d'inactivité.
 - **RG13** : Une notification est envoyée en cas de connexion depuis une localisation inconnue.
-- **RG14** : Le Musi peut consulter l’historique des adresses IP utilisées pour se connecter.
 - **RG15** : Le Musi peut se déconnecter de tous les appareils, ou choisir une session unique.
 - **RG16** : L'application fournit un historique des connexions visible par le Musi.
 - **RG17** : Une phrase mnémonique BIP39 est obligatoire comme seule méthode de sauvegarde cryptographique.
@@ -58,10 +57,10 @@
 
 - **RG24** : Toute modification d'information sensible doit être :
   - Horodatée avec précision
-  - Signée cryptographiquement par le Musi
+  <!-- - Signée cryptographiquement par le Musi (stand by quel donnée --> 
   - Journalisée dans un registre d’audit chiffré
   - Traçable dans l’historique des versions
-- **RG25** : Sauvegarde des données critiques :
+- **RG25** : Sauvegarde des données chiffrés 
   - Export chiffré complet disponible sur demande du Musi
   - Vérification d’intégrité par hachage après chaque sauvegarde
   - Conservation d’au moins 3 versions antérieures (règle 3-2-1)
@@ -70,9 +69,15 @@
 
 - **RG26** : Le traitement des données personnelles respecte les principes suivants :
   - Minimisation des données collectées
+  - droit à la suppression.
+  - droit à la récuperation.
+  - droit à l'édition. 
+  - droit à la consultation.
+  - droit à la collecte du consentement. 
   - Aucun partage avec des tiers sans consentement explicite
   - Séparation entre données personnelles identifiables et données anonymisées
   - Droit à l’effacement immédiat à la demande du Musi (sauf contrainte légale)
+  
 - **RG27** : La journalisation système :
   - Ne conserve jamais de données déchiffrées
   - N’infère jamais le contenu chiffré
