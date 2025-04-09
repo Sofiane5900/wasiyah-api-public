@@ -8,8 +8,6 @@
 - Aucune connexion du Musi pendant le délai
 - A la confirmation du dèces débloquage des dèrnieres volontés.
 
-**RG10** : Une contestation de décès doit être déposée dans les 5 jours suivant la déclaration initiale.
-
 **RG11** : La non-réponse à chaque trimestre
 - Notification au wakil & musi a chaque trimestre
 - Si a 3 trimestre aucune réponse du musi et des wakils on bloque le compte.
