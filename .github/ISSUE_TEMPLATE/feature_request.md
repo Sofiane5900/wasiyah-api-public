@@ -1,20 +1,31 @@
----
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement
+title: "[Feature] "
+labels: ["enhancement"]
+assignees: []
 
----
+body:
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+- type: textarea
+  attributes:
+  label: Feature description
+  description: Describe the new feature or enhancement you'd like to see.
+  placeholder: I'd like to have email confirmation after registration.
+  validations:
+  required: true
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+- type: textarea
+  attributes:
+  label: Why is this feature useful?
+  description: Explain how this feature improves the user experience or project.
+  placeholder: It would allow users to verify their email before accessing the app.
+  validations:
+  required: false
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+- type: textarea
+  attributes:
+  label: Alternatives considered
+  description: Have you considered other ways to achieve this?
+  placeholder: I thought about using a third-party mail service like Mailgun.
+  validations:
+  required: false
