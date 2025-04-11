@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+#Codes de couleur ANSI
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+RESET='\033[0m'
+APP_ENV='dev'
+
+#Affichage d'un message en couleur
+success_message() {
+    echo "${GREEN}$1${RESET}"
+}
+
+error_message() {
+    echo "${RED}$1${RESET}"
+}
+
+APP_PATH="/home/www-data/app"
+
+if [ "$(pwd 2>/dev/null)" = "$APP_PATH" ]; then
+  PREFIX=""
+else
+  PREFIX="docker compose exec --user=www-data -T app bash -c"
+fi
+
+run_cmd() {
+  echo "→ Exécution de: $1"
+  $PREFIX "$1"
+  if [ $? -ne 0 ]; then
+    error_message "❌ Échec de la commande: $1"
+    exit 1
+  fi
+}
+
+# Lancement des commandes
+run_cmd "pnpm lint"
+run_cmd "pnpm test"
+
+success_message "✅ Tout est ok !"

@@ -1,0 +1,40 @@
+# Ignorer les fichiers node_modules (sauf si tu les installes dans Docker)
+node_modules
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
+*.log
+
+# Ignorer les fichiers de configuration locaux
+.env
+.env.local
+.env.development
+.env.production
+
+# Ignorer les fichiers de build
+dist
+build
+.out
+.cache
+
+# Ignorer les fichiers de dépendances spécifiques
+.pnp
+.pnp.js
+.pnpm-store
+
+# Ignorer les fichiers IDE et éditeurs
+.vscode
+.idea
+*.swp
+*.swo
+
+# Ignorer les fichiers Docker temporaires
+Dockerfile
+docker-compose.yml
+
+# Ignorer les fichiers Git
+.git
+.gitignore
+
+# Ignorer les fichiers systeme
+.DS_Store
