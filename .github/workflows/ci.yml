@@ -19,8 +19,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
+          POSTGRES_USER: database_user
+          POSTGRES_PASSWORD: database_pass
           POSTGRES_DB: whasiyah_db
           POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
 
