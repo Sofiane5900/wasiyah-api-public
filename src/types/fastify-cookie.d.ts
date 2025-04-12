@@ -5,7 +5,7 @@ declare module 'fastify' {
     setCookie: (
       name: string,
       value: string,
-      options?: import('@fastify/cookie').CookieSerializeOptions
+      options?: import('@fastify/cookie').CookieSerializeOptions,
     ) => FastifyReply;
   }
 }

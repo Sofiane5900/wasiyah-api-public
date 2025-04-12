@@ -13,9 +13,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    env:
-      NODE_ENV: DEV
-
     services:
       postgres:
         image: postgres
@@ -51,6 +48,7 @@ jobs:
       - name: Run test
         run: |
           pnpm dev &
+          pnpm build
           pnpm test
 
       - name: Coverage tests
