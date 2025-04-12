@@ -7,6 +7,7 @@ import {
   Delete,
   Query,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +20,9 @@ import {
   ApiGetResource,
   ApiPatchRessource,
   ApiPostRessource,
-} from '../openapi/api-decorator';
+} from '../openapi/api.decorator';
+import { Roles } from '../guards/roles/roles.decorator';
+import { RolesGuard } from '../guards/roles/roles.guards';
 
 @ApiTags('users')
 @Controller('users')
@@ -28,6 +31,8 @@ export class UserController {
 
   // Récupérer tous les utilisateurs avec recherche
   @Get()
+  @Roles('ROLE_ADMIN')
+  @UseGuards(RolesGuard)
   @ApiGetResource(User, true)
   async findAll(@Query() query: QueryUserDto): Promise<User[]> {
     return this.userService.findAll(query);
@@ -44,7 +49,7 @@ export class UserController {
   @Post()
   @ApiPostRessource(User)
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+    return this.userService.createUser(createUserDto);
   }
 
   // Mettre à jour un utilisateur

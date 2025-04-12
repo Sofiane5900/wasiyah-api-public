@@ -5,7 +5,7 @@ import {
   DocumentBuilder,
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
-import * as process from 'node:process';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,6 +26,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory, options);
 
   app.setGlobalPrefix('api/v1');
+  app.use(cookieParser());
+
   await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();

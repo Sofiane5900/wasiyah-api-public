@@ -82,9 +82,9 @@ export function ApiGetResource(
       isArray: collection ?? false,
     }),
     ApiResponse({
-      status: 404,
-      description: 'Resource not found.',
-      schema: errorSchema(404, NotFoundException.name),
+      status: 403,
+      description: 'Forbidden request.',
+      schema: errorSchema(403, ForbiddenException.name),
     }),
     ApiOperation({
       summary: collection ? collectionOperation : itemOperation,
