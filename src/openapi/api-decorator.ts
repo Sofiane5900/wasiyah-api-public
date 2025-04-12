@@ -1,26 +1,52 @@
-import { applyDecorators } from '@nestjs/common';
+import {
+  applyDecorators,
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+  UnprocessableEntityException,
+  UseFilters,
+} from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { Collection } from 'typeorm';
+import { AllExceptionsFilter } from '../filter/filter-exception';
 
 type EntityClass = { new (...args: any[]): any; name: string };
 
+const errorSchema = (status: number, exception: string) => {
+  const error: object = {
+    type: 'object',
+    properties: {
+      type: { type: 'string', example: exception },
+      message: { type: 'string' },
+      error: { type: 'string' },
+      statusCode: { type: 'number', example: status },
+    },
+  };
+  return error;
+};
+
 const ApiCommonResponses = () => {
   return applyDecorators(
+    UseFilters(AllExceptionsFilter),
     ApiResponse({
       status: 400,
       description: 'Invalid input or parameters.',
+      schema: errorSchema(400, BadRequestException.name),
     }),
     ApiResponse({
       status: 403,
       description: 'Forbidden request.',
+      schema: errorSchema(403, ForbiddenException.name),
     }),
     ApiResponse({
       status: 404,
       description: 'Resource not found.',
+      schema: errorSchema(404, NotFoundException.name),
+      // type: NotFoundException
     }),
     ApiResponse({
       status: 422,
       description: 'Unprocessable entity, invalid data provided.',
+      schema: errorSchema(422, UnprocessableEntityException.name),
     }),
   );
 };
@@ -46,17 +72,19 @@ export function ApiGetResource(
   const collectionOperation: string = `Retrieves the collection of ${entity.name} resources`;
   const itemOperation: string = `Retrieves a ${entity.name} resource.`;
   return applyDecorators(
+    UseFilters(AllExceptionsFilter),
     ApiResponse({
       status: 200,
       description: collection
         ? `${entity.name} collection`
         : `${entity.name} ressource`,
-      type: collection ? Collection : entity,
+      type: entity,
       isArray: collection ?? false,
     }),
     ApiResponse({
       status: 404,
       description: 'Resource not found.',
+      schema: errorSchema(404, NotFoundException.name),
     }),
     ApiOperation({
       summary: collection ? collectionOperation : itemOperation,
@@ -99,12 +127,21 @@ export function ApiPatchRessource(entity: EntityClass) {
 
 export function ApiDeleteRessource(entity: EntityClass) {
   return applyDecorators(
+    UseFilters(AllExceptionsFilter),
     ApiResponse({
       status: 204,
       description: `${entity.name} resource deleted`,
-      type: entity,
     }),
-    ApiCommonResponses(),
+    ApiResponse({
+      status: 403,
+      description: 'Resource not found.',
+      schema: errorSchema(403, ForbiddenException.name),
+    }),
+    ApiResponse({
+      status: 404,
+      description: 'Resource not found.',
+      schema: errorSchema(404, NotFoundException.name),
+    }),
     ApiOperation({
       summary: `Removes the ${entity.name} ressource`,
       description: `Removes the ${entity.name} ressource`,

@@ -6,7 +6,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: 'database_user',
   password: 'database_pass',
-  database: 'wasiyah_db',
+  database: process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/**/*.ts'],
 });

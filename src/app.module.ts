@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       port: 5432,
       username: 'database_user',
       password: 'database_pass',
-      database: 'wasiyah_db',
+      database:
+        process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/**/*.{ts,js}'],
     }),

@@ -19,7 +19,7 @@ RUN set -x ; \
 RUN sed -i '/^www-data:/s:/bin/ash:/bin/bash:' /etc/passwd
 RUN echo 'PS1="\[\e[36m\]\u\[\e[0m\]:\[\e[35m\]\W\[\e[0m\]\\$ "' >> /home/www-data/.bashrc
 
-RUN npm install -g pnpm
+RUN npm install -g pnpm@latest
 RUN npm install -g @nestjs/cli
 
 USER www-data

@@ -18,7 +18,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      console.log(appController);
+      console.log(process.env.NODE_ENV);
       //const result = 'Hello World!';
       //vi.spyOn(app.se, 'getHello').mockReturnValue(result);
       //expect(appController.getHello()).toBe(result);

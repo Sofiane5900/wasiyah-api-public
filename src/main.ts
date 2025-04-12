@@ -6,13 +6,9 @@ import {
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
 import * as process from 'node:process';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const configService = new ConfigService();
-  const env = configService.get<string>('NODE_ENV');
 
   const config = new DocumentBuilder()
     .setTitle('Wasiyah API')
@@ -23,7 +19,7 @@ async function bootstrap() {
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   const options: SwaggerCustomOptions = {
-    ui: env !== 'PROD',
+    ui: process.env.NODE_ENV !== 'prod',
     raw: ['json'],
   };
 
