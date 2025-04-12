@@ -6,7 +6,7 @@ DB_PORT=5432
 DB_USER=database_user
 DB_PASSWORD=database_pass
 DB_NAME=wasiyah_db
-MIGRATION_FILE="src/migrations/*.js"
+MIGRATION_FILE="src/migrations/*.ts"
 KEY_DIR="./jwt"
 
 while true; do
