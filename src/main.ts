@@ -18,6 +18,7 @@ async function bootstrap() {
     .setTitle('Wasiyah API')
     .setDescription('Wasiyah API documentation')
     .setVersion('1.0')
+    .addTag('users')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
@@ -28,6 +29,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, documentFactory, options);
 
+  app.setGlobalPrefix('api/v1');
   await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();

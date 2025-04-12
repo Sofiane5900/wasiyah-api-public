@@ -37,6 +37,8 @@ RUN pnpm config set store-dir ${WORKDIR}/.pnpm-store
 
 RUN pnpm install --frozen-lockfile
 
+RUN pnpm build
+
 USER root
 COPY docker/dev/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
