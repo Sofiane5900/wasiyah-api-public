@@ -21,7 +21,7 @@ jobs:
         env:
           POSTGRES_USER: database_user
           POSTGRES_PASSWORD: database_pass
-          POSTGRES_DB: whasiyah_db
+          POSTGRES_DB: wasiyah_db
           POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
 
     steps:
