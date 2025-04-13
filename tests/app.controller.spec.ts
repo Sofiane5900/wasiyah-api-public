@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { describe, it, beforeEach } from 'vitest';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from '../src/app.controller';
+import { AppService } from '../src/app.service';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -18,7 +18,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      console.log(appController);
+      console.log(process.env.NODE_ENV);
       //const result = 'Hello World!';
       //vi.spyOn(app.se, 'getHello').mockReturnValue(result);
       //expect(appController.getHello()).toBe(result);

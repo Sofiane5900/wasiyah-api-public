@@ -1,0 +1,31 @@
+// src/auth/auth.controller.ts
+import { Controller, Post, Body, Res } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { FastifyReply } from 'fastify';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
+
+@ApiTags('auth')
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post()
+  @ApiOperation({
+    summary: `Retrieves a login resource.`,
+    description: `Retrieves a login resource.`,
+  })
+  @ApiResponse({
+    status: 201,
+    description: `User login ressource`,
+    schema: {
+      type: 'object',
+      properties: {
+        token: { type: 'string' },
+      },
+    },
+  })
+  async login(@Body() body: LoginDto, @Res() reply: FastifyReply) {
+    return this.authService.login(body.email, body.password, reply);
+  }
+}

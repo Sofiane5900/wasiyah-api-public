@@ -20,7 +20,8 @@
   },
   "include": [
     "src",
-    "tests"
+    "tests",
+    "src/types"
   ],
   "exclude": [
     "dist",

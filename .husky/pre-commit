@@ -33,6 +33,7 @@ run_cmd() {
 }
 
 # Lancement des commandes
+run_cmd "pnpm audit"
 run_cmd "pnpm lint"
 run_cmd "pnpm test"
 

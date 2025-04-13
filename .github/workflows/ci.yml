@@ -13,18 +13,15 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    env:
-      NODE_ENV: DEV
-
     services:
-      postgres:
+      db:
         image: postgres
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
-          POSTGRES_DB: whasiyah_db
+          POSTGRES_USER: database_user
+          POSTGRES_PASSWORD: database_pass
+          POSTGRES_DB: wasiyah_db
           POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
 
     steps:
@@ -45,12 +42,13 @@ jobs:
       - name: Check vulnerabilities
         run: pnpm audit
 
-      - name: linter
+      - name: Run ESLinte
         run: pnpm lint
 
       - name: Run test
         run: |
           pnpm dev &
+          pnpm build
           pnpm test
 
       - name: Coverage tests
