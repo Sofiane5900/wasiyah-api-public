@@ -26,6 +26,13 @@ jobs:
 
     steps:
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h db -p 5432 -U database_user; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 1
+          done
+
       - name: Create Database
         run: PGPASSWORD=database_pass psql -h db -U database_user -p 5432 -c "CREATE DATABASE whasiyah_db;"
 
