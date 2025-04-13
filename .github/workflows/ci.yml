@@ -34,7 +34,7 @@ jobs:
           done
 
       - name: Create Database
-        run: PGPASSWORD=database_pass psql -h db -U database_user -p 5432 -c "CREATE DATABASE whasiyah_db;"
+        run: PGPASSWORD=database_pass psql -h db -U database_user -d postgres -p 5432 -c "CREATE DATABASE whasiyah_db;"
 
       - name: checkout repository
         uses: actions/checkout@v4
