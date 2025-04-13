@@ -21,10 +21,13 @@ jobs:
         env:
           POSTGRES_USER: database_user
           POSTGRES_PASSWORD: database_pass
-          POSTGRES_DB: whasiyah_db_test
+          POSTGRES_DB: whasiyah_db
           POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
 
     steps:
+
+      - name: Create Database
+        run: PGPASSWORD=database_pass psql -h db -U database_user -p 5432 -c "CREATE DATABASE whasiyah_db;"
 
       - name: checkout repository
         uses: actions/checkout@v4
