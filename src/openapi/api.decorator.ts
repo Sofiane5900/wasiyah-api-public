@@ -11,10 +11,16 @@ import { AllExceptionsFilter } from '../filter/filter-exception';
 
 type EntityClass = { new (...args: any[]): any; name: string };
 
+/**
+ * @param status {number}
+ * @param exception {string}
+ * @return object
+ */
 const errorSchema = (status: number, exception: string) => {
   const error: object = {
     type: 'object',
     properties: {
+      title: { type: 'string' },
       type: { type: 'string', example: exception },
       message: { type: 'string' },
       error: { type: 'string' },
@@ -51,6 +57,11 @@ const ApiCommonResponses = () => {
   );
 };
 
+/**
+ * @param entity {EntityClass}
+ * @param collection {boolean}
+ * @constructor
+ */
 const ApiOptionParam = (entity: EntityClass, collection: boolean) => {
   if (!collection) {
     return applyDecorators(
@@ -65,6 +76,11 @@ const ApiOptionParam = (entity: EntityClass, collection: boolean) => {
   }
 };
 
+/**
+ * @param entity {EntityClass}
+ * @param collection {boolean}
+ * @constructor
+ */
 export function ApiGetResource(
   entity: EntityClass,
   collection: boolean = false,
@@ -94,6 +110,10 @@ export function ApiGetResource(
   );
 }
 
+/**
+ * @param entity {EntityClass}
+ * @constructor
+ */
 export function ApiPostRessource(entity: EntityClass) {
   return applyDecorators(
     ApiResponse({
@@ -109,6 +129,10 @@ export function ApiPostRessource(entity: EntityClass) {
   );
 }
 
+/**
+ * @param entity {EntityClass}
+ * @constructor
+ */
 export function ApiPatchRessource(entity: EntityClass) {
   return applyDecorators(
     ApiResponse({
@@ -125,6 +149,10 @@ export function ApiPatchRessource(entity: EntityClass) {
   );
 }
 
+/**
+ * @param entity {EntityClass}
+ * @constructor
+ */
 export function ApiDeleteRessource(entity: EntityClass) {
   return applyDecorators(
     UseFilters(AllExceptionsFilter),

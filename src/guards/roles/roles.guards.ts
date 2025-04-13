@@ -8,6 +8,9 @@ import { FastifyRequest } from 'fastify';
 export class RolesGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
+  /**
+   * @param context {ExecutionContext}
+   */
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

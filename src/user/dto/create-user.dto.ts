@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsEmail,
-  MinLength,
-  IsArray,
-  Matches,
-} from 'class-validator';
+import { IsString, IsEmail, MinLength, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
@@ -13,7 +7,9 @@ export class CreateUserDto {
     type: String,
     minLength: 2,
   })
-  @MinLength(2)
+  @MinLength(2, {
+    message: 'Votre prénom doit contenir au minimum deux caractères',
+  })
   firstName: string;
 
   @ApiProperty({
@@ -21,23 +17,25 @@ export class CreateUserDto {
     type: String,
     minLength: 2,
   })
-  @MinLength(2)
+  @MinLength(2, {
+    message: 'Votre nom doit contenir au minimum deux caractères',
+  })
   lastName: string;
 
   @ApiProperty({
     description: "L'email de l'utilisateur",
     type: String,
   })
-  @IsEmail()
+  @IsEmail({}, { message: "L'email n'est pas valide" })
   email: string;
 
   @ApiProperty({
     description: "Le mot de passe de l'utilisateur",
     type: String,
     minLength: 8,
+    example: '9Mv4Ap18-kl!',
   })
   @IsString()
-  @MinLength(8)
   @Matches(/^(?=(.*[A-Z])+)(?=(.*[a-z])+)(?=(.*[\d])+)(?=.*\W)(?!.*\s).{8,}$/, {
     message:
       'Votre mot de passe doit contenir au minimum : 8 caractères, 1 majuscule, 1 chiffre, 1 caractère spécial',
@@ -45,10 +43,9 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    description: "Les rôles de l'utilisateur",
-    type: [String],
-    example: ['ROLE_USER', 'ROLE_ADMIN'],
+    description: "Roles de l'utilisateur",
+    type: Array,
+    example: ['ROLE_USER'],
   })
-  @IsArray()
   roles: string[];
 }

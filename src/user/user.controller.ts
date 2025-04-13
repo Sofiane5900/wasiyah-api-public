@@ -23,6 +23,7 @@ import {
 } from '../openapi/api.decorator';
 import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
+import { UserResponseDto } from './dto/user-response.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -47,8 +48,8 @@ export class UserController {
 
   // Créer un utilisateur
   @Post()
-  @ApiPostRessource(User)
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  @ApiPostRessource(UserResponseDto)
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     return this.userService.createUser(createUserDto);
   }
 

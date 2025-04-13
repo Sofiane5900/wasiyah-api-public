@@ -7,6 +7,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 import * as argon2 from 'argon2';
+import { UserResponseDto } from './dto/user-response.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -16,14 +18,14 @@ export class UserService {
   ) {}
 
   // Création d'un utilisateur
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
+  async createUser(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const hashedPassword = await argon2.hash(createUserDto.password);
     const user = await this.userRepository.save({
       ...createUserDto,
       password: hashedPassword,
     });
 
-    return user;
+    return plainToClass(UserResponseDto, user);
   }
 
   // Récupérer tous les utilisateurs avec des options de recherche

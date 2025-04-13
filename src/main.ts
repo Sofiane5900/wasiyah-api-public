@@ -6,6 +6,8 @@ import {
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
+import { ValidationPipe } from '@nestjs/common';
+import { AllExceptionsFilter } from './filter/filter-exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,7 +28,13 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory, options);
 
   app.setGlobalPrefix('api/v1');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      errorHttpStatusCode: 422,
+    }),
+  );
   app.use(cookieParser());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   await app.listen(process.env.PORT ?? 8000);
 }
