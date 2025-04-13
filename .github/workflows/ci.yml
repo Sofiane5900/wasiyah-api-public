@@ -48,6 +48,7 @@ jobs:
       - name: Run test
         run: |
           pnpm dev &
+          PGPASSWORD=database_pass psql -h db -U database_user -d postgres -p 5432 -c "CREATE DATABASE whasiyah_db WITH OWNER = database_user" 2>/dev/null || echo 'Database already exists'
           pnpm build
           pnpm migration:run
           pnpm test
