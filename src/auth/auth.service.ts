@@ -47,7 +47,7 @@ export class AuthService {
       roles: user.roles,
     });
 
-    reply.setCookie('access_token', token, {
+    reply.cookie('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
       sameSite: 'strict',
