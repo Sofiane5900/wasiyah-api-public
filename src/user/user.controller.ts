@@ -24,7 +24,7 @@ import {
 import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
 import { UserResponseDto } from './dto/user-response.dto';
-import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.gards';
+import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 
 @ApiTags('users')
 @Controller('users')
