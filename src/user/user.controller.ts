@@ -24,6 +24,7 @@ import {
 import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
 import { UserResponseDto } from './dto/user-response.dto';
+import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.gards';
 
 @ApiTags('users')
 @Controller('users')
@@ -33,7 +34,7 @@ export class UserController {
   // Récupérer tous les utilisateurs avec recherche
   @Get()
   @Roles('ROLE_ADMIN')
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(User, true)
   async findAll(@Query() query: QueryUserDto): Promise<User[]> {
     return this.userService.findAll(query);
