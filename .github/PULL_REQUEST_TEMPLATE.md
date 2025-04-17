@@ -30,6 +30,11 @@ Describe what this PR does.
 
 ---
 
+## Tests
+- [ ] Tests unitaires
+- [ ] Tests E2E
+- [ ] Tests manuels
+
 ## Related Issues
 
 Closes #[issue-number] or link the issue manually.
@@ -38,4 +43,4 @@ Closes #[issue-number] or link the issue manually.
 
 ## Screenshots (if applicable)
 
-> If UI changes or API responses are involved, include screenshots or examples.
+
