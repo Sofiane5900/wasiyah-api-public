@@ -31,7 +31,7 @@ export class MailService {
 
   async sendVerificationEmail(to: string, link: string): Promise<void> {
     const subject = 'Verify your email address';
-    const html = `p>Click here to verify your account :</p><a href="${link}">${link}</a>`;
+    const html = `<p>Click here to verify your account :</p><a href="${link}">${link}</a>`;
     return this.sendEmail(to, subject, html);
   }
 }
