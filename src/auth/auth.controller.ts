@@ -33,7 +33,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Verify email with a token' })
   @ApiResponse({ status: 200, description: 'Email verified with success.' })
   @ApiResponse({ status: 400, description: 'Link invalid or expired.' })
-  async verifyEmail(@Query('token') token: string, @Res() reply: FastifyReply) {
-    return this.authService.verifyEmail(token, reply);
+  async verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 }

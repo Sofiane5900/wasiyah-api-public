@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { jwtConstants } from '../config/jwt.config';
 import { UserModule } from '../user/user.module';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
     forwardRef(() => UserModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard],
+  providers: [AuthService, JwtAuthGuard, MailService],
   exports: [JwtAuthGuard, JwtModule],
 })
 export class AuthModule {}
