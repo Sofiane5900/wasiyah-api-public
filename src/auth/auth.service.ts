@@ -8,6 +8,7 @@ interface SafeUser {
   id: number;
   email: string;
   roles: string[];
+  isEmailVerified: boolean;
 }
 
 @Injectable()
@@ -28,7 +29,12 @@ export class AuthService {
     if (!isPasswordValid) return null;
 
     const { id, email: userEmail, roles } = user;
-    return { id, email: userEmail, roles };
+    return {
+      id,
+      email: userEmail,
+      roles,
+      isEmailVerified: user.isEmailVerified,
+    };
   }
 
   async login(
@@ -39,6 +45,9 @@ export class AuthService {
     const user = await this.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
+    }
+    if (!user.isEmailVerified) {
+      throw new UnauthorizedException('Email not verified');
     }
 
     const token = this.jwtService.sign({
