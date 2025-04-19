@@ -43,13 +43,10 @@ export class AuthService {
     reply: FastifyReply,
   ): Promise<void> {
     const user = await this.validateUser(email, password);
-    if (!user) {
+    if (!user || !user.isEmailVerified) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    if (!user.isEmailVerified) {
-      throw new UnauthorizedException('Email not verified');
-    }
-
+    
     const token = this.jwtService.sign({
       sub: user.id,
       email: user.email,
