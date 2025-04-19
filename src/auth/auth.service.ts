@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { FastifyReply } from 'fastify';
@@ -46,7 +51,7 @@ export class AuthService {
     if (!user || !user.isEmailVerified) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    
+
     const token = this.jwtService.sign({
       sub: user.id,
       email: user.email,
@@ -63,7 +68,7 @@ export class AuthService {
     reply.send({ token });
   }
 
-  async verifyEmail(token: string, reply: FastifyReply) {
+  async verifyEmail(token: string) {
     try {
       const payload = await this.jwtService.verifyAsync<{ email: string }>(
         token,
@@ -71,19 +76,19 @@ export class AuthService {
       const user = await this.userService.findByEmail(payload.email);
 
       if (!user) {
-        return reply.status(404).send({ message: 'User not found' });
+        throw new NotFoundException('User not found');
       }
 
       if (user.isEmailVerified) {
-        return reply.send({ message: 'Email is already verified' });
+        throw new ConflictException('Email is already verified');
       }
 
       user.isEmailVerified = true;
       await this.userService.update(user.id, user);
 
-      return reply.send({ message: 'Email verified with success !' });
+      return { message: 'Email verified with success!' };
     } catch {
-      return reply.status(400).send({ message: 'Invalid or expired token' });
+      throw new UnauthorizedException('Invalid or expired token');
     }
   }
 }
