@@ -20,12 +20,18 @@ export class MailService {
     });
   }
 
-  async sendVerificationEmail(to: string, link: string) {
+  async sendEmail(to: string, subject: string, html: string): Promise<void> {
     await this.transporter.sendMail({
-      from: process.env.FROM_EMAIL,
+      from: process.env.FROM_EMAIL!,
       to,
-      subject: 'Verify your email',
-      html: `<a href="${link}">${link}</a>`,
+      subject,
+      html,
     });
+  }
+
+  async sendVerificationEmail(to: string, link: string): Promise<void> {
+    const subject = 'Verify your email address';
+    const html = `p>Click here to verify your account :</p><a href="${link}">${link}</a>`;
+    return this.sendEmail(to, subject, html);
   }
 }
