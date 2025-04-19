@@ -30,11 +30,12 @@ export class UserService {
     // OTP JWT Pour vérification du mail de l'user
     const emailToken = this.jwtService.sign(
       { email: user.email },
-      { expiresIn: '24h' },
+      { expiresIn: '15m' },
     );
 
     //TODO: avoir une réponse avec le lien du front
     const verifyLink = `http://localhost:8000/auth/verify-email?token=${emailToken}`;
+    console.log('Lien de vérification :', verifyLink);
     return plainToClass(UserResponseDto, user);
   }
 
