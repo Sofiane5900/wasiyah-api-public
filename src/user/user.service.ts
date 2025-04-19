@@ -9,12 +9,14 @@ import { QueryUserDto } from './dto/query-user.dto';
 import * as argon2 from 'argon2';
 import { UserResponseDto } from './dto/user-response.dto';
 import { plainToClass } from 'class-transformer';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   // Création d'un utilisateur
@@ -25,6 +27,14 @@ export class UserService {
       password: hashedPassword,
     });
 
+    // OTP JWT Pour vérification du mail de l'user
+    const emailToken = this.jwtService.sign(
+      { email: user.email },
+      { expiresIn: '24h' },
+    );
+
+    //TODO: avoir une réponse avec le lien du front
+    const verifyLink = `http://localhost:8000/auth/verify-email?token=${emailToken}`;
     return plainToClass(UserResponseDto, user);
   }
 
