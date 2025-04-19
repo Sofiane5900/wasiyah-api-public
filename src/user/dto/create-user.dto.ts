@@ -1,5 +1,7 @@
 import { IsString, IsEmail, MinLength, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../user.entity';
+import { UniqueEntity } from '../../common/validator/unique-entity.validator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -27,6 +29,7 @@ export class CreateUserDto {
     type: String,
   })
   @IsEmail({}, { message: "L'email n'est pas valide" })
+  @UniqueEntity(User, 'email', { message: 'Cet email à déjà un compte' })
   email: string;
 
   @ApiProperty({
