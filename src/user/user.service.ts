@@ -29,15 +29,6 @@ export class UserService {
       password: hashedPassword,
     });
 
-    // OTP JWT Pour vérification du mail de l'user
-    const emailToken = this.jwtService.sign(
-      { email: user.email },
-      { expiresIn: '15m' },
-    );
-
-    //TODO: avoir une réponse avec le lien du front
-    const verifyLink = `http://localhost:8000/api/v1/auth/verify-email?token=${emailToken}`;
-    await this.mailService.sendVerificationEmail(user.email, verifyLink);
     return plainToClass(UserResponseDto, user);
   }
 
