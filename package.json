@@ -15,7 +15,7 @@
     "test": "NODE_ENV=test FORCE_COLOR=1 pnpm prepare:test && vitest --run",
     "test:watch": " NODE_ENV=test vitest watch",
     "test:coverage": "NODE_ENV=test vitest run --coverage",
-    "typeorm": "typeorm-ts-node-commonjs -d src/data-source.js",
+    "typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
     "migration:create": "typeorm migration:create src/migrations/migrations",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/migrations/migrations",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
