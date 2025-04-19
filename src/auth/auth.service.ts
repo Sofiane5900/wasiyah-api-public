@@ -56,4 +56,28 @@ export class AuthService {
 
     reply.send({ token });
   }
+
+  async verifyEmail(token: string, reply: FastifyReply) {
+    try {
+      const payload = await this.jwtService.verifyAsync<{ email: string }>(
+        token,
+      );
+      const user = await this.userService.findByEmail(payload.email);
+
+      if (!user) {
+        return reply.status(404).send({ message: 'User not found' });
+      }
+
+      if (user.isEmailVerified) {
+        return reply.send({ message: 'Email is already verified' });
+      }
+
+      user.isEmailVerified = true;
+      await this.userService.update(user.id, user);
+
+      return reply.send({ message: 'Email verified with success !' });
+    } catch {
+      return reply.status(400).send({ message: 'Invalid or expired token' });
+    }
+  }
 }
