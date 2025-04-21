@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import { FastifyReply } from 'fastify';
 import * as argon2 from 'argon2';
+import { UserRepository } from '../user/user.repository';
 
 interface SafeUser {
   id: number;
@@ -13,7 +13,7 @@ interface SafeUser {
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -21,7 +21,7 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<SafeUser | null> {
-    const user = await this.userService.findByEmail(email);
+    const user = await this.userRepository.findOneBy({ email });
     if (!user) return null;
 
     const isPasswordValid = await argon2.verify(user.password, password);

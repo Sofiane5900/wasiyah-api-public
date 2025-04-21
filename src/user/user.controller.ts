@@ -5,14 +5,12 @@ import {
   Get,
   Param,
   Delete,
-  Query,
   Patch,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
 import { User } from './user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import {
@@ -24,39 +22,45 @@ import {
 import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
 import { UserResponseDto } from './dto/user-response.dto';
+import { UserRepository } from './user.repository';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly userRepository: UserRepository,
+  ) {}
 
   // Récupérer tous les utilisateurs avec recherche
   @Get()
   @Roles('ROLE_ADMIN')
   @UseGuards(RolesGuard)
   @ApiGetResource(User, true)
-  async findAll(@Query() query: QueryUserDto): Promise<User[]> {
-    return this.userService.findAll(query);
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.findAll();
   }
 
   // Récupérer un utilisateur par ID
   @Get(':id')
   @ApiGetResource(User)
-  async findOne(@Param('id') id: number): Promise<User> {
-    return this.userService.findOne(id);
+  async getUser(@Param('id') id: number): Promise<User | null> {
+    return await this.userRepository.findOneBy({ id });
   }
 
   // Créer un utilisateur
   @Post()
   @ApiPostRessource(UserResponseDto)
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    return this.userService.createUser(createUserDto);
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<UserResponseDto> {
+    return this.userService.create(createUserDto);
   }
 
   // Mettre à jour un utilisateur
   @Patch(':id')
   @ApiPatchRessource(User)
-  async update(
+  async updateUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
@@ -66,7 +70,7 @@ export class UserController {
   // Supprimer un utilisateur
   @Delete(':id')
   @ApiDeleteRessource(User)
-  async remove(@Param('id') id: number): Promise<void> {
+  async removeUser(@Param('id') id: number): Promise<void> {
     return this.userService.remove(id);
   }
 }
