@@ -20,7 +20,8 @@
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/data-source.ts src/migrations/migrations",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
     "prepare:test": "ts-node scripts/create-test-db.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "make:repository": "ts-node scripts/generate-repository.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
