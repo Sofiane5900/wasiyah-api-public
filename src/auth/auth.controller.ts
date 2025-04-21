@@ -29,7 +29,7 @@ export class AuthController {
     return this.authService.login(body.email, body.password, reply);
   }
 
-  @Get('verify-email')
+  @Get('verify-email/:token')
   @ApiOperation({ summary: 'Verify email with a token' })
   @ApiResponse({ status: 200, description: 'Email verified with success.' })
   @ApiResponse({ status: 400, description: 'Link invalid or expired.' })

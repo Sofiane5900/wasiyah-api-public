@@ -62,8 +62,7 @@ export class UserController {
       { email: user.email },
       { expiresIn: '15m' },
     );
-    const link = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
-    await this.mailService.sendVerificationEmail(user.email, link);
+    await this.mailService.sendVerificationEmail(user.email, token);
     return user;
   }
 
