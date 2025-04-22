@@ -1,5 +1,7 @@
 import { IsString, IsOptional, IsEmail, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { UniqueEntity } from '../../common/validator/unique-entity.validator';
+import { User } from '../user.entity';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -24,6 +26,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsEmail()
+  @UniqueEntity(User, 'email', { message: 'Cet email à déjà un compte' })
   email?: string;
 
   @ApiProperty({

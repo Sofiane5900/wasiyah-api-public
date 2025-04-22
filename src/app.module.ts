@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
+import { UniqueEntityConstraint } from './common/validator/unique-entity.validator';
 
 @Module({
   imports: [
@@ -27,6 +28,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UniqueEntityConstraint],
 })
 export class AppModule {}

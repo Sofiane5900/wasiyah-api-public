@@ -8,6 +8,7 @@ import {
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './filter/filter-exception';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -33,6 +34,7 @@ async function bootstrap() {
       errorHttpStatusCode: 422,
     }),
   );
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
 
