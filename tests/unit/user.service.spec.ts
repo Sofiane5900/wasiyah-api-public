@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-// src/user/user.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -20,9 +18,13 @@ vi.mock('argon2', () => ({
   hash: vi.fn().mockResolvedValue('hashed_password'),
 }));
 
-vi.mock('class-transformer', () => ({
-  plainToClass: vi.fn().mockImplementation((cls, obj) => obj),
-}));
+vi.mock('class-transformer', () => {
+  return {
+    plainToClass: vi
+      .fn()
+      .mockImplementation(<T>(_cls: unknown, obj: T): T => obj),
+  };
+});
 
 describe('UserService', () => {
   let userService: UserService;
