@@ -9,6 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Document } from '../document/document.entity';
+import { RelationshipType } from '../enum/roles';
 @Entity('SAFE')
 export class Safe {
   @ApiProperty({
@@ -27,11 +28,15 @@ export class Safe {
   name: string;
   @ApiProperty({
     description: 'Type of safe (personal, professional, family, etc.)',
-    type: String,
-    example: 'Personal',
+    enum: RelationshipType,
+    default: RelationshipType.CLOSE_FAMILY,
   })
-  @Column({ length: 50 })
-  type: string;
+  @Column({
+    type: 'enum',
+    enum: RelationshipType,
+    default: RelationshipType.CLOSE_FAMILY,
+    length: 50,
+  })
   @ApiProperty({
     description: 'Encrypted content of the safe or encryption key',
     type: String,

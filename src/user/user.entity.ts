@@ -12,6 +12,7 @@ import { Death } from '../death/death.entity';
 import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
+import { StatusUser } from '../enum/roles';
 @Entity()
 export class User {
   @ApiProperty({
@@ -74,9 +75,12 @@ export class User {
     description: 'status',
     type: [String],
   })
-  @Column({ length: 50 })
-  status: string;
-
+  @Column({
+    type: 'enum',
+    enum: StatusUser,
+    default: StatusUser.PENDING,
+    length: 50,
+  })
   @ApiProperty({
     description: 'Organ donor',
     type: [Boolean],
