@@ -9,115 +9,101 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Repayment } from '../repayment/repayment.entity';
-
 @Entity('LOAN')
 export class Loan {
   @ApiProperty({
-    description: 'Identifiant unique du prêt',
+    description: 'Unique identifier of the loan',
     type: Number,
     example: 1,
   })
   @PrimaryGeneratedColumn({ name: 'Id_LOAN' })
   id: number;
-
   @ApiProperty({
-    description: 'Nature ou objet du prêt',
+    description: 'Nature or purpose of the loan',
     type: String,
-    example: 'Immobilier',
+    example: 'Real Estate',
   })
   @Column({ length: 50 })
   nature: string;
-
   @ApiProperty({
-    description: 'Nom du créancier qui a accordé le prêt',
+    description: 'Name of the creditor who granted the loan',
     type: String,
-    example: 'Banque Nationale',
+    example: 'National Bank',
   })
   @Column({ name: 'creditor_name', length: 50 })
   creditorName: string;
-
   @ApiProperty({
-    description: 'Montant du prêt',
+    description: 'Amount of the loan',
     type: Number,
     example: 150000.0,
   })
   @Column({ type: 'numeric', precision: 15, scale: 2 })
   amount: number;
-
   @ApiProperty({
-    description: 'Date à laquelle le prêt a été accordé',
+    description: 'Date when the loan was granted',
     type: Date,
     example: '2024-01-15T10:00:00Z',
   })
   @Column({ name: 'loan_date', type: 'timestamp' })
   loanDate: Date;
-
   @ApiProperty({
-    description: 'Date déchéance du prêt',
+    description: 'Due date of the loan',
     type: Date,
     example: '2029-01-15T10:00:00Z',
   })
   @Column({ name: 'due_date', type: 'timestamp' })
   dueDate: Date;
-
   @ApiProperty({
-    description: 'Indique si le prêt est annulé en cas de décès de lemprunteur',
+    description: 'Indicates if the loan is forgiven in case of borrower death',
     type: Boolean,
     example: false,
   })
   @Column({ name: 'forgiven_after_death' })
   forgivenAfterDeath: boolean;
-
   @ApiProperty({
-    description: 'Noms des témoins du prêt, séparés par des virgules',
+    description: 'Names of loan witnesses, separated by commas',
     type: String,
-    example: 'Jean Dupont, Marie Martin',
+    example: 'John Smith, Mary Johnson',
   })
   @Column({ length: 50 })
   witnesses: string;
-
   @ApiProperty({
-    description: 'URL vers la preuve documentaire du prêt',
+    description: 'URL to the documentary proof of the loan',
     type: String,
-    example: '/documents/contrats/pret_12345.pdf',
+    example: '/documents/contracts/loan_12345.pdf',
   })
   @Column({ name: 'proof_url', length: 50 })
   proofUrl: string;
-
   @ApiProperty({
-    description: 'Indique sil sagit dun prêt ou dun don false',
+    description: 'Indicates if this is a loan or a gift',
     type: Boolean,
     example: true,
   })
   @Column({ name: 'is_loan' })
   isLoan: boolean;
-
   @ApiProperty({
-    description: 'Indique si lobjet du prêt est matériel ou financier',
+    description: 'Indicates if the loan object is material or financial',
     type: Boolean,
     example: false,
   })
   @Column({ name: 'is_material' })
   isMaterial: boolean;
-
   @ApiProperty({
-    description: 'Identifiant de lutilisateur concerné par ce prêt',
+    description: 'User ID associated with this loan',
     type: Number,
     example: 42,
   })
   @Column({ name: 'Id_User' })
   UserId: number;
-
   @ApiProperty({
-    description: 'Utilisateur associé à ce prêt',
+    description: 'User associated with this loan',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
   @JoinColumn({ name: 'Id_User' })
   User: User;
-
   @ApiProperty({
-    description: 'Liste des remboursements effectués pour ce prêt',
+    description: 'List of repayments made for this loan',
     type: [Repayment],
   })
   @OneToMany(() => Repayment, (repayment) => repayment.loan)

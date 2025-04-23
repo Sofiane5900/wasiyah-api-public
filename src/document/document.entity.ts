@@ -1,4 +1,3 @@
-export class DocumentEntity {}
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,7 +11,7 @@ import { Safe } from '../safe/safe.entity';
 @Entity('DOCUMENT')
 export class Document {
   @ApiProperty({
-    description: 'Identifiant unique du document',
+    description: 'Unique identifier of the document',
     type: Number,
     example: 1,
   })
@@ -20,7 +19,7 @@ export class Document {
   id: number;
 
   @ApiProperty({
-    description: 'Nom du fichier du document',
+    description: 'File name of the document',
     type: String,
     example: 'testament_officiel.pdf',
   })
@@ -28,7 +27,7 @@ export class Document {
   fileName: string;
 
   @ApiProperty({
-    description: 'Type du document (ex: PDF, DOCX, JPG)',
+    description: 'Type of document (ex: PDF, DOCX, JPG)',
     type: String,
     example: 'PDF',
   })
@@ -36,7 +35,7 @@ export class Document {
   documentType: string;
 
   @ApiProperty({
-    description: 'Taille du document en méga-octets',
+    description: 'Size of the document in megabytes',
     type: Number,
     example: 2.45,
   })
@@ -44,7 +43,7 @@ export class Document {
   sizeMb: number;
 
   @ApiProperty({
-    description: "Date d'ajout du document",
+    description: 'Date when the document was added',
     type: Date,
     example: '2025-02-15T09:45:00Z',
   })
@@ -52,7 +51,7 @@ export class Document {
   addedDate: Date;
 
   @ApiProperty({
-    description: 'Identifiant du coffre-fort contenant ce document',
+    description: 'Identifier of the safe containing this document',
     type: Number,
     example: 3,
   })
@@ -60,7 +59,7 @@ export class Document {
   safeId: number;
 
   @ApiProperty({
-    description: 'Coffre-fort contenant ce document',
+    description: 'Safe containing this document',
     type: () => Safe,
   })
   @ManyToOne(() => Safe, (safe) => safe.documents)

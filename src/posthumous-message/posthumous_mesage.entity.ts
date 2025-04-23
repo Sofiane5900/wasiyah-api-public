@@ -11,7 +11,7 @@ import { User } from '../user/user.entity';
 @Entity('POSTHUMOUS_MESSAGE')
 export class PosthumousMessage {
   @ApiProperty({
-    description: 'Identifiant unique du message posthume',
+    description: 'Unique identifier of the posthumous message',
     type: Number,
     example: 1,
   })
@@ -19,31 +19,31 @@ export class PosthumousMessage {
   id: number;
 
   @ApiProperty({
-    description: 'Adresse email du destinataire du message posthume',
+    description: 'Email address of the posthumous message recipient',
     type: String,
-    example: 'destinataire@example.com',
+    example: 'recipient@example.com',
   })
   @Column({ name: 'recipient_email', length: 50 })
   recipientEmail: string;
 
   @ApiProperty({
-    description: 'Titre du message posthume',
+    description: 'Title of the posthumous message',
     type: String,
-    example: 'Mes dernières volontés',
+    example: 'My last wishes',
   })
   @Column({ length: 50 })
   title: string;
 
   @ApiProperty({
-    description: 'Contenu textuel du message posthume',
+    description: 'Text content of the posthumous message',
     type: String,
-    example: 'Je tenais à vous dire...',
+    example: 'I wanted to tell you...',
   })
   @Column({ type: 'text' })
   content: string;
 
   @ApiProperty({
-    description: 'Date de création du message posthume',
+    description: 'Creation date of the posthumous message',
     type: String,
     example: '2025-01-15',
   })
@@ -51,7 +51,7 @@ export class PosthumousMessage {
   creationDate: string;
 
   @ApiProperty({
-    description: 'Indique si le message a été ouvert après le décès',
+    description: 'Indicates if the message has been opened after death',
     type: Boolean,
     example: false,
   })
@@ -59,7 +59,7 @@ export class PosthumousMessage {
   openedAfterDeath: boolean;
 
   @ApiProperty({
-    description: 'Nombre de pièces jointes associées au message',
+    description: 'Number of attachments associated with the message',
     type: Number,
     example: 2,
   })
@@ -67,7 +67,7 @@ export class PosthumousMessage {
   attachmentCount: number;
 
   @ApiProperty({
-    description: 'Identifiant de lutilisateur auteur du message posthume',
+    description: 'User ID of the posthumous message author',
     type: Number,
     example: 42,
   })
@@ -75,7 +75,7 @@ export class PosthumousMessage {
   UserId: number;
 
   @ApiProperty({
-    description: 'Utilisateur auteur du message posthume',
+    description: 'User who authored the posthumous message',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)

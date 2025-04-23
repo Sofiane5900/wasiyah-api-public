@@ -30,7 +30,7 @@ import { UserResponseDto } from './dto/user-response.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // Récupérer tous les utilisateurs avec recherche
+  // Retrieve all users with search
   @Get()
   @Roles('ROLE_ADMIN')
   @UseGuards(RolesGuard)
@@ -39,21 +39,21 @@ export class UserController {
     return this.userService.findAll(query);
   }
 
-  // Récupérer un utilisateur par ID
+  // Retrieve a user by ID
   @Get(':id')
   @ApiGetResource(User)
   async findOne(@Param('id') id: number): Promise<User> {
     return this.userService.findOne(id);
   }
 
-  // Créer un utilisateur
+  // Create a user
   @Post()
   @ApiPostRessource(UserResponseDto)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     return this.userService.createUser(createUserDto);
   }
 
-  // Mettre à jour un utilisateur
+  // Update a user
   @Patch(':id')
   @ApiPatchRessource(User)
   async update(
@@ -63,7 +63,7 @@ export class UserController {
     return this.userService.update(id, updateUserDto);
   }
 
-  // Supprimer un utilisateur
+  // Delete a user
   @Delete(':id')
   @ApiDeleteRessource(User)
   async remove(@Param('id') id: number): Promise<void> {

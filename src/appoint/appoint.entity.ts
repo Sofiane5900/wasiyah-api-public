@@ -1,4 +1,3 @@
-export class AppointEntity {}
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Wakil } from '../wakil/wakil.entity';
@@ -7,21 +6,21 @@ import { ApiProperty } from '@nestjs/swagger';
 @Entity('APPOINT')
 export class Appoint {
   @ApiProperty({
-    description: 'Id User',
+    description: 'User Id',
     type: Number,
   })
   @PrimaryColumn({ name: 'Id_User' })
   UserId: number;
 
   @ApiProperty({
-    description: 'Id Wakil',
+    description: 'Wakil Id',
     type: Number,
   })
   @PrimaryColumn({ name: 'Id_WAKIL' })
   wakilId: number;
 
   @ApiProperty({
-    description: 'date de désignation',
+    description: 'designation date',
     type: Date,
     example: '2023-10-01T00:00:00Z',
   })
@@ -29,36 +28,36 @@ export class Appoint {
   designationDate: Date;
 
   @ApiProperty({
-    description: 'type de relation',
+    description: 'relationship type',
     type: String,
-    example: 'Famille, Ami, etc.',
+    example: 'Family, Friend, etc.',
   })
   @Column({ name: 'relation_type', length: 50 })
   relationType: string;
 
   @ApiProperty({
-    description: 'nombre d’années de relation',
+    description: 'number of years of relationship',
     type: Number,
   })
   @Column({ name: 'relation_seniority' })
   relationSeniority: number;
 
   @ApiProperty({
-    description: 'si le wakil est validé',
+    description: 'if the wakil is validated',
     type: Boolean,
   })
   @Column({ name: 'is_valid', default: false })
   isValid: boolean;
 
   @ApiProperty({
-    description: 'si revoqué',
+    description: 'if revoked',
     type: Boolean,
   })
   @Column({ name: 'is_revoked', default: false })
   isRevoked: boolean;
 
   @ApiProperty({
-    description: 'date de révocation',
+    description: 'revocation date',
     type: String,
     example: '2023-10-01T00:00:00Z',
   })

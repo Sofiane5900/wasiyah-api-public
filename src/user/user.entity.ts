@@ -12,60 +12,59 @@ import { Death } from '../death/death.entity';
 import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
-
 @Entity()
 export class User {
   @ApiProperty({
-    description: "id de l'utilisateur",
+    description: 'identifier of the user',
     type: Number,
   })
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty({
-    description: "Le prénom de l'utilisateur",
+    description: "User's first name",
     type: String,
   })
   @Column('varchar', { length: 50 })
   firstName: string;
 
   @ApiProperty({
-    description: "Le nom de l'utilisateur",
+    description: "User's last name",
     type: String,
   })
   @Column('varchar', { length: 50 })
   lastName: string;
 
   @ApiProperty({
-    description: "L'email de l'utilisateur",
+    description: "User's email",
     type: String,
   })
   @Column('varchar', { unique: true, length: 50 })
   email: string;
 
   @ApiProperty({
-    description: "Le mot de passe de l'utilisateur",
+    description: "User's password",
     type: String,
   })
   @Column('varchar')
   password: string;
 
   @ApiProperty({
-    description: 'date de naissance',
+    description: 'birth date',
     type: [String],
   })
   @Column({ name: 'birth_date', length: 50 })
   birthDate: string;
 
   @ApiProperty({
-    description: 'date de création',
+    description: 'creation date',
     type: [String],
   })
   @Column({ name: 'creation_date', type: 'timestamp' })
   creationDate: Date;
 
   @ApiProperty({
-    description: 'Authentification 2FA',
+    description: '2FA Authentication',
     type: [Boolean],
   })
   @Column({ name: 'two_factor_enabled_', default: false })
@@ -79,14 +78,14 @@ export class User {
   status: string;
 
   @ApiProperty({
-    description: 'Dons organes',
+    description: 'Organ donor',
     type: [Boolean],
   })
   @Column({ name: 'organDonor', default: false })
   organDonor: boolean;
 
   @ApiProperty({
-    description: "Les rôles de l'utilisateur",
+    description: "User's roles",
     type: [String],
     example: ['ROLE_USER', 'ROLE_ADMIN'],
   })
