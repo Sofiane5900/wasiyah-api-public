@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Loan } from './loan.entity';
+import { Loan } from '../loan/loan.entity';
 
 @Entity('REPAYMENT')
 export class Repayment {

@@ -6,7 +6,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Musi } from './musi.entity';
+import { User } from '../user/user.entity';
 
 @Entity('TESTAMENT')
 export class Testament {
@@ -54,17 +54,17 @@ export class Testament {
   recipient: string;
 
   @ApiProperty({
-    description: 'Identifiant du musicien associé',
+    description: 'Identifiant du Usercien associé',
     type: Number,
   })
-  @Column({ name: 'Id_MUSI', unique: true })
-  musiId: number;
+  @Column({ name: 'Id_User', unique: true })
+  UserId: number;
 
   @ApiProperty({
-    description: 'Relation avec le musicien concerné',
-    type: () => Musi,
+    description: 'Relation avec le Usercien concerné',
+    type: () => User,
   })
-  @OneToOne(() => Musi, (musi) => musi.id)
-  @JoinColumn({ name: 'Id_MUSI' })
-  musi: Musi;
+  @OneToOne(() => User, (User) => User.id)
+  @JoinColumn({ name: 'Id_User' })
+  User: User;
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Appoint } from './appoint.entity';
-import { Declare } from './declare.entity';
+import { Appoint } from '../appoint/appoint.entity';
+import { Declare } from '../declare/declare.entity';
 
 @Entity('WAKIL')
 export class Wakil {

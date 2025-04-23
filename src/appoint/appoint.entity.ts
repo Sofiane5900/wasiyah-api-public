@@ -1,16 +1,17 @@
+export class AppointEntity {}
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Musi } from './musi.entity';
-import { Wakil } from './wakil.entity';
+import { User } from '../user/user.entity';
+import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('APPOINT')
 export class Appoint {
   @ApiProperty({
-    description: 'Id Musi',
+    description: 'Id User',
     type: Number,
   })
-  @PrimaryColumn({ name: 'Id_MUSI' })
-  musiId: number;
+  @PrimaryColumn({ name: 'Id_User' })
+  UserId: number;
 
   @ApiProperty({
     description: 'Id Wakil',
@@ -64,9 +65,9 @@ export class Appoint {
   @Column({ name: 'revocation_date', length: 50 })
   revocationDate: string;
 
-  @ManyToOne(() => Musi, (musi) => musi.appointments)
-  @JoinColumn({ name: 'Id_MUSI' })
-  musi: Musi;
+  @ManyToOne(() => User, (User) => User.appointments)
+  @JoinColumn({ name: 'Id_User' })
+  User: User;
 
   @ManyToOne(() => Wakil, (wakil) => wakil.appointments)
   @JoinColumn({ name: 'Id_WAKIL' })

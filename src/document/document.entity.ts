@@ -1,3 +1,4 @@
+export class DocumentEntity {}
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Safe } from './safe.entity';
+import { Safe } from '../safe/safe.entity';
 
 @Entity('DOCUMENT')
 export class Document {

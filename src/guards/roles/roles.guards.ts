@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { User } from '../../user/user.entity';
+import { User } from '../../user/user.entity'; // Assurez-vous que le chemin est correct
 import { FastifyRequest } from 'fastify';
 
 @Injectable()

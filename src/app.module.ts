@@ -6,6 +6,17 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
+import { UniqueEntityConstraint } from './common/validator/unique-entity.validator';
+import { AppointModule } from './appoint/appoint.module';
+import { DeathModule } from './death/death.module';
+import { DeclareModule } from './declare/declare.module';
+import { DocumentModule } from './document/document.module';
+import { LoanModule } from './loan/loan.module';
+import { PosthumousMessageModule } from './posthumous-message/posthumous-message.module';
+import { RepaymentModule } from './repayment/repayment.module';
+import { SafeModule } from './safe/safe.module';
+import { TestamentModule } from './testament/testament.module';
+import { WakilModule } from './wakil/wakil.module';
 
 @Module({
   imports: [
@@ -25,8 +36,18 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    AppointModule,
+    DeathModule,
+    DeclareModule,
+    DocumentModule,
+    LoanModule,
+    PosthumousMessageModule,
+    RepaymentModule,
+    SafeModule,
+    TestamentModule,
+    WakilModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UniqueEntityConstraint],
 })
 export class AppModule {}

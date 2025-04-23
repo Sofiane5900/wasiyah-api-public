@@ -7,8 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Musi } from './musi.entity';
-import { Document } from './document.entity';
+import { User } from '../user/user.entity';
+import { Document } from '../document/document.entity';
 
 @Entity('SAFE')
 export class Safe {
@@ -50,16 +50,16 @@ export class Safe {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_MUSI' })
-  musiId: number;
+  @Column({ name: 'Id_User' })
+  UserId: number;
 
   @ApiProperty({
     description: 'Utilisateur propriétaire du coffre-fort',
-    type: () => Musi,
+    type: () => User,
   })
-  @ManyToOne(() => Musi, (musi) => musi.id)
-  @JoinColumn({ name: 'Id_MUSI' })
-  musi: Musi;
+  @ManyToOne(() => User, (User) => User.id)
+  @JoinColumn({ name: 'Id_User' })
+  User: User;
 
   @ApiProperty({
     description: 'Liste des documents stockés dans ce coffre-fort',

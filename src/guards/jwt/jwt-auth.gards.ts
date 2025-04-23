@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { FastifyRequest } from 'fastify';
-import { User } from '../../user/user.entity';
+import { User } from '../../user/user.entity'; // Assurez-vous que le chemin est correct
 
 interface JwtPayload {
   sub: string;

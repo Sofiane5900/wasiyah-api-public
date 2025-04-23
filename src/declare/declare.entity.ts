@@ -1,7 +1,8 @@
+export class DeclareEntity {}
 import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Wakil } from './wakil.entity';
-import { Death } from './death.entity';
+import { Wakil } from '../wakil/wakil.entity';
+import { Death } from '../death/death.entity';
 
 @Entity('DECLARE')
 export class Declare {

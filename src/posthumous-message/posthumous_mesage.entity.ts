@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Musi } from './musi.entity';
+import { User } from '../user/user.entity';
 
 @Entity('POSTHUMOUS_MESSAGE')
 export class PosthumousMessage {
@@ -71,14 +71,14 @@ export class PosthumousMessage {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_MUSI' })
-  musiId: number;
+  @Column({ name: 'Id_User' })
+  UserId: number;
 
   @ApiProperty({
     description: 'Utilisateur auteur du message posthume',
-    type: () => Musi,
+    type: () => User,
   })
-  @ManyToOne(() => Musi, (musi) => musi.id)
-  @JoinColumn({ name: 'Id_MUSI' })
-  musi: Musi;
+  @ManyToOne(() => User, (User) => User.id)
+  @JoinColumn({ name: 'Id_User' })
+  User: User;
 }

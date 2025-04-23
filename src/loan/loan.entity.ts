@@ -7,8 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Musi } from './musi.entity';
-import { Repayment } from './repayment.entity';
+import { User } from '../user/user.entity';
+import { Repayment } from '../repayment/repayment.entity';
 
 @Entity('LOAN')
 export class Loan {
@@ -105,16 +105,16 @@ export class Loan {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_MUSI' })
-  musiId: number;
+  @Column({ name: 'Id_User' })
+  UserId: number;
 
   @ApiProperty({
     description: 'Utilisateur associé à ce prêt',
-    type: () => Musi,
+    type: () => User,
   })
-  @ManyToOne(() => Musi, (musi) => musi.id)
-  @JoinColumn({ name: 'Id_MUSI' })
-  musi: Musi;
+  @ManyToOne(() => User, (User) => User.id)
+  @JoinColumn({ name: 'Id_User' })
+  User: User;
 
   @ApiProperty({
     description: 'Liste des remboursements effectués pour ce prêt',

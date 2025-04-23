@@ -6,15 +6,15 @@ import {
   OneToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { PosthumousMessage } from './posthumous_message.entity';
-import { Death } from './death.entity';
-import { Safe } from './safe.entity';
-import { Loan } from './loan.entity';
-import { Testament } from './testament.entity';
-import { Appoint } from './appoint.entity';
+import { Testament } from '../testament/testament.entity';
+import { Appoint } from '../appoint/appoint.entity';
+import { Death } from '../death/death.entity';
+import { Loan } from '../loan/loan.entity';
+import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
+import { Safe } from '../safe/safe.entity';
 
 @Entity()
-export class Musi {
+export class User {
   @ApiProperty({
     description: "id de l'utilisateur",
     type: Number,
@@ -95,22 +95,22 @@ export class Musi {
 
   @OneToMany(
     () => PosthumousMessage,
-    (posthumousMessage) => posthumousMessage.musi,
+    (posthumousMessage) => posthumousMessage.User,
   )
   posthumousMessages: PosthumousMessage[];
 
-  @OneToOne(() => Death, (death) => death.musi)
+  @OneToOne(() => Death, (death) => death.User)
   death: Death;
 
-  @OneToMany(() => Safe, (safe) => safe.musi)
+  @OneToMany(() => Safe, (safe) => safe.User)
   safes: Safe[];
 
-  @OneToMany(() => Loan, (loan) => loan.musi)
+  @OneToMany(() => Loan, (loan) => loan.User)
   loans: Loan[];
 
-  @OneToOne(() => Testament, (testament) => testament.musi)
+  @OneToOne(() => Testament, (testament) => testament.User)
   testament: Testament;
 
-  @OneToMany(() => Appoint, (appoint) => appoint.musi)
+  @OneToMany(() => Appoint, (appoint) => appoint.User)
   appointments: Appoint[];
 }
