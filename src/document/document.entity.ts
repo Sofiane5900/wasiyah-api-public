@@ -1,21 +1,15 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Safe } from '../safe/safe.entity';
 
-@Entity('DOCUMENT')
+@Entity('document')
 export class Document {
   @ApiProperty({
     description: 'Unique identifier of the document',
     type: Number,
     example: 1,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_DOCUMENT' })
+  @PrimaryColumn({ name: 'Id_DOCUMENT' })
   id: number;
 
   @ApiProperty({
@@ -63,6 +57,6 @@ export class Document {
     type: () => Safe,
   })
   @ManyToOne(() => Safe, (safe) => safe.documents)
-  @JoinColumn({ name: 'Id_COFFRE' })
+  @JoinColumn()
   safe: Safe;
 }

@@ -1,24 +1,25 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Document } from '../document/document.entity';
 import { RelationshipType } from '../enum/roles';
-@Entity('SAFE')
+@Entity('safe')
 export class Safe {
   @ApiProperty({
     description: 'Unique identifier of the digital safe',
     type: Number,
     example: 1,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_COFFRE' })
+  @PrimaryColumn('uuid')
   id: number;
+
   @ApiProperty({
     description: 'Name of the safe',
     type: String,
@@ -26,6 +27,7 @@ export class Safe {
   })
   @Column({ length: 50 })
   name: string;
+
   @ApiProperty({
     description: 'Type of safe (personal, professional, family, etc.)',
     enum: RelationshipType,
@@ -44,6 +46,7 @@ export class Safe {
   })
   @Column({ name: 'encrypted_content', length: 50 })
   encryptedContent: string;
+
   @ApiProperty({
     description: 'User ID of the safe owner',
     type: Number,
@@ -51,13 +54,15 @@ export class Safe {
   })
   @Column({ name: 'Id_User' })
   UserId: number;
+
   @ApiProperty({
     description: 'User who owns the safe',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
-  @JoinColumn({ name: 'Id_User' })
+  @JoinColumn()
   User: User;
+
   @ApiProperty({
     description: 'List of documents stored in this safe',
     type: [Document],

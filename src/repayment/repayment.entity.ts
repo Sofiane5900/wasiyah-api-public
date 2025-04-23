@@ -1,21 +1,16 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Loan } from '../loan/loan.entity';
-@Entity('REPAYMENT')
+@Entity('repayement')
 export class Repayment {
   @ApiProperty({
     description: 'Unique identifier of the repayment',
     type: Number,
     example: 1,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_REPAYMENT' })
+  @PrimaryColumn('uuid')
   id: number;
+
   @ApiProperty({
     description: 'Amount of the repayment',
     type: Number,
@@ -23,6 +18,7 @@ export class Repayment {
   })
   @Column()
   amount: number;
+
   @ApiProperty({
     description: 'Date when the repayment was made',
     type: Date,
@@ -30,6 +26,7 @@ export class Repayment {
   })
   @Column({ name: 'repayment_date', type: 'timestamp' })
   repaymentDate: Date;
+
   @ApiProperty({
     description: 'URL to the proof of repayment',
     type: String,
@@ -37,6 +34,7 @@ export class Repayment {
   })
   @Column({ name: 'proof_url', length: 50 })
   proofUrl: string;
+
   @ApiProperty({
     description: 'Identifier of the loan associated with this repayment',
     type: Number,
@@ -44,11 +42,12 @@ export class Repayment {
   })
   @Column({ name: 'Id_LOAN' })
   loanId: number;
+
   @ApiProperty({
     description: 'Loan associated with this repayment',
     type: () => Loan,
   })
   @ManyToOne(() => Loan, (loan) => loan.repayments)
-  @JoinColumn({ name: 'Id_LOAN' })
+  @JoinColumn()
   loan: Loan;
 }

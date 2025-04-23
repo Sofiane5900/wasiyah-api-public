@@ -4,6 +4,7 @@ import {
   Column,
   OneToMany,
   OneToOne,
+  PrimaryColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Testament } from '../testament/testament.entity';
@@ -13,13 +14,13 @@ import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
 import { StatusUser } from '../enum/roles';
-@Entity()
+@Entity('user')
 export class User {
   @ApiProperty({
     description: 'identifier of the user',
     type: Number,
   })
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn('uuid')
   id: number;
 
   @ApiProperty({

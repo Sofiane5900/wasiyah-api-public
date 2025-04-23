@@ -1,20 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 
-@Entity('TESTAMENT')
+@Entity('testament')
 export class Testament {
   @ApiProperty({
     description: 'Unique identifier of the testament',
     type: Number,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_TESTAMENT' })
+  @PrimaryColumn({ name: 'Id_TESTAMENT' })
   id: number;
 
   @ApiProperty({
@@ -65,6 +59,6 @@ export class Testament {
     type: () => User,
   })
   @OneToOne(() => User, (User) => User.id)
-  @JoinColumn({ name: 'Id_User' })
+  @JoinColumn()
   User: User;
 }

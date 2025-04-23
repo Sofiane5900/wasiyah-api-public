@@ -1,21 +1,15 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 
-@Entity('POSTHUMOUS_MESSAGE')
+@Entity('posthumousMessage')
 export class PosthumousMessage {
   @ApiProperty({
     description: 'Unique identifier of the posthumous message',
     type: Number,
     example: 1,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_POSTHUMOUS_MESSAGE' })
+  @PrimaryColumn('uuid')
   id: number;
 
   @ApiProperty({
@@ -79,6 +73,6 @@ export class PosthumousMessage {
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
-  @JoinColumn({ name: 'Id_User' })
+  @JoinColumn()
   User: User;
 }

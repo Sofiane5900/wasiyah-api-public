@@ -3,13 +3,13 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Appoint } from '../appoint/appoint.entity';
 import { Declare } from '../declare/declare.entity';
 
-@Entity('WAKIL')
+@Entity('wakil')
 export class Wakil {
   @ApiProperty({
     description: 'Unique identifier of the wakil',
     type: Number,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_WAKIL' })
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @ApiProperty({

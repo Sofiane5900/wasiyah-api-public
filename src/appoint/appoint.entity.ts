@@ -3,13 +3,13 @@ import { User } from '../user/user.entity';
 import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity('APPOINT')
+@Entity('appoint')
 export class Appoint {
   @ApiProperty({
     description: 'User Id',
     type: Number,
   })
-  @PrimaryColumn({ name: 'Id_User' })
+  @PrimaryColumn('uuid')
   UserId: number;
 
   @ApiProperty({

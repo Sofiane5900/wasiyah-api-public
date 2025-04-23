@@ -1,23 +1,24 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
   OneToMany,
+  PrimaryColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Repayment } from '../repayment/repayment.entity';
-@Entity('LOAN')
+@Entity('loan')
 export class Loan {
   @ApiProperty({
     description: 'Unique identifier of the loan',
     type: Number,
     example: 1,
   })
-  @PrimaryGeneratedColumn({ name: 'Id_LOAN' })
+  @PrimaryColumn('uuid')
   id: number;
+
   @ApiProperty({
     description: 'Nature or purpose of the loan',
     type: String,
@@ -25,6 +26,7 @@ export class Loan {
   })
   @Column({ length: 50 })
   nature: string;
+
   @ApiProperty({
     description: 'Name of the creditor who granted the loan',
     type: String,
@@ -32,6 +34,7 @@ export class Loan {
   })
   @Column({ name: 'creditor_name', length: 50 })
   creditorName: string;
+
   @ApiProperty({
     description: 'Amount of the loan',
     type: Number,
@@ -39,6 +42,7 @@ export class Loan {
   })
   @Column({ type: 'numeric', precision: 15, scale: 2 })
   amount: number;
+
   @ApiProperty({
     description: 'Date when the loan was granted',
     type: Date,
@@ -46,6 +50,7 @@ export class Loan {
   })
   @Column({ name: 'loan_date', type: 'timestamp' })
   loanDate: Date;
+
   @ApiProperty({
     description: 'Due date of the loan',
     type: Date,
@@ -53,6 +58,7 @@ export class Loan {
   })
   @Column({ name: 'due_date', type: 'timestamp' })
   dueDate: Date;
+
   @ApiProperty({
     description: 'Indicates if the loan is forgiven in case of borrower death',
     type: Boolean,
@@ -60,6 +66,7 @@ export class Loan {
   })
   @Column({ name: 'forgiven_after_death' })
   forgivenAfterDeath: boolean;
+
   @ApiProperty({
     description: 'Names of loan witnesses, separated by commas',
     type: String,
@@ -67,6 +74,7 @@ export class Loan {
   })
   @Column({ length: 50 })
   witnesses: string;
+
   @ApiProperty({
     description: 'URL to the documentary proof of the loan',
     type: String,
@@ -74,6 +82,7 @@ export class Loan {
   })
   @Column({ name: 'proof_url', length: 50 })
   proofUrl: string;
+
   @ApiProperty({
     description: 'Indicates if this is a loan or a gift',
     type: Boolean,
@@ -81,6 +90,7 @@ export class Loan {
   })
   @Column({ name: 'is_loan' })
   isLoan: boolean;
+
   @ApiProperty({
     description: 'Indicates if the loan object is material or financial',
     type: Boolean,
@@ -88,6 +98,7 @@ export class Loan {
   })
   @Column({ name: 'is_material' })
   isMaterial: boolean;
+
   @ApiProperty({
     description: 'User ID associated with this loan',
     type: Number,
@@ -95,13 +106,15 @@ export class Loan {
   })
   @Column({ name: 'Id_User' })
   UserId: number;
+
   @ApiProperty({
     description: 'User associated with this loan',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
-  @JoinColumn({ name: 'Id_User' })
+  @JoinColumn()
   User: User;
+
   @ApiProperty({
     description: 'List of repayments made for this loan',
     type: [Repayment],
