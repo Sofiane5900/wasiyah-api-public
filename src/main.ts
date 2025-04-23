@@ -8,9 +8,17 @@ import {
 import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './filter/filter-exception';
+import { useContainer } from 'class-validator';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({ logger: true }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Wasiyah API')
@@ -33,9 +41,10 @@ async function bootstrap() {
       errorHttpStatusCode: 422,
     }),
   );
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.listen(process.env.PORT ?? 8000);
+  await app.listen(process.env.PORT ?? 8000, '0.0.0.0');
 }
 bootstrap();

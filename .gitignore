@@ -86,3 +86,9 @@ next-env.d.ts
 
 # Clés JWT
 /jwt
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
+import { UniqueEntityConstraint } from './common/validator/unique-entity.validator';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
@@ -42,6 +43,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UniqueEntityConstraint],
 })
 export class AppModule {}

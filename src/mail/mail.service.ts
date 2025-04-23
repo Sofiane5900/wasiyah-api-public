@@ -1,12 +1,14 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { UrlGeneratorService } from '../common/service/url-generator.service';
+import { UrlGeneratorService } from '../common/url-generator/url-generator.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly urlGeneratorService: UrlGeneratorService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
@@ -22,13 +24,15 @@ export class MailService {
     }
   }
 
-  async sendVerificationEmail(to: string, token: string): Promise<void> {
+  async sendVerificationEmail(email: string): Promise<void> {
+    const token = this.jwtService.sign({ email: email }, { expiresIn: '15m' });
+
     const link = this.urlGeneratorService.generateAbsolute(
-      'verify-email/:token',
-      { token: token },
+      'auth/verify-email?token=' + token,
     );
+
     const subject = 'Verify your email address';
     const html = `<p>Click here to verify your account :</p><a href="${link}">${link}</a>`;
-    await this.sendEmail(to, subject, html);
+    await this.sendEmail(email, subject, html);
   }
 }
