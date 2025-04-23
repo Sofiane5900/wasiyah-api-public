@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryColumn } from 'typeorm';
 import { Appoint } from '../appoint/appoint.entity';
 import { Declare } from '../declare/declare.entity';
 
@@ -9,7 +9,7 @@ export class Wakil {
     description: 'Unique identifier of the wakil',
     type: Number,
   })
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid')
   id: number;
 
   @ApiProperty({
