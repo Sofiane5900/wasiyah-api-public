@@ -1,27 +1,30 @@
 import { test, expect } from 'vitest';
-import axios from "axios";
-import {UserResponseDto} from "../../src/user/dto/user-response.dto";
+import axios from 'axios';
+import { UserResponseDto } from '../../src/user/dto/user-response.dto';
+import { User } from '../../src/user/user.entity';
+import process from 'node:process';
+import dotenv from 'dotenv';
 
-const BASE_URL = 'http://localhost:8000';
+dotenv.config({ path: '.env.test' });
 
-const uniqueEmail = `user-e2e-${Date.now()}@example.com`;
-const password = 'T3stP@ssword!';
+const BASE_URL = process.env.BASE_TEST_URL;
+
+const user = new User();
+user.firstName = 'E2E';
+user.lastName = 'User';
+user.email = `user-e2e-${Date.now()}@example.com`;
+user.password = 'T3stP@ssword!';
 
 test('User E2E - should create a new user', async () => {
-  const response = await axios.post(`${BASE_URL}/api/v1/users`, {
-      firstName: 'E2E',
-      lastName: 'User',
-      email: uniqueEmail,
-      password,
-  });
+  const response = await axios.post(`${BASE_URL}/users`, user);
 
   expect(response.status).toBe(201);
   const body = (await response.data) as UserResponseDto;
   expect(body).toMatchObject({
-    email: uniqueEmail,
-    firstName: 'E2E',
-    lastName: 'User',
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
     isEmailVerified: false,
   });
   expect(body).toHaveProperty('id');
-});
+}, 10000);

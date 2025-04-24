@@ -21,4 +21,7 @@ export class UserResponseDto {
     example: ['ROLE_USER'],
   })
   roles: string[];
+
+  @ApiProperty()
+  isEmailVerified: boolean;
 }
