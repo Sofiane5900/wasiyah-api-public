@@ -1,5 +1,4 @@
-// src/auth/auth.controller.ts
-import { Controller, Post, Body, Res, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { FastifyReply } from 'fastify';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -30,10 +29,10 @@ export class AuthController {
   }
 
   @Get('verify-email')
-  @ApiOperation({ summary: 'Verify email with a token' })
+  @ApiOperation({ summary: 'Retrieves a verify email resource.' })
   @ApiResponse({ status: 200, description: 'Email verified with success.' })
   @ApiResponse({ status: 400, description: 'Link invalid or expired.' })
-  async verifyEmail(@Param('token') token: string) {
+  async verifyEmail(@Query('token') token: string) {
     return this.authService.verifyEmail(token);
   }
 }

@@ -6,6 +6,7 @@ import { jwtConstants } from '../config/jwt.config';
 import { UserModule } from '../user/user.module';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 import { MailService } from 'src/mail/mail.service';
+import { UrlGeneratorModule } from '../common/url-generator/url-generator.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MailService } from 'src/mail/mail.service';
       },
     }),
     forwardRef(() => UserModule),
+    UrlGeneratorModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard, MailService],

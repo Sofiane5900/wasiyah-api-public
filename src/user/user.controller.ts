@@ -25,7 +25,6 @@ import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
 import { UserResponseDto } from './dto/user-response.dto';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
-import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 
 @ApiTags('users')
@@ -33,7 +32,6 @@ import { MailService } from 'src/mail/mail.service';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly jwtService: JwtService,
     private readonly mailService: MailService,
   ) {}
 
@@ -58,12 +56,7 @@ export class UserController {
   @ApiPostRessource(UserResponseDto)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const user = await this.userService.createUser(createUserDto);
-    const token = this.jwtService.sign(
-      { email: user.email },
-      { expiresIn: '15m' },
-    );
-    const link = `http://localhost:8000/api/v1/auth/verify-email?token=${token}`;
-    await this.mailService.sendVerificationEmail(user.email, link);
+    await this.mailService.sendVerificationEmail(user.email);
     return user;
   }
 

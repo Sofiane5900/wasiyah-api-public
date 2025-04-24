@@ -5,10 +5,11 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { MailService } from 'src/mail/mail.service';
+import { UrlGeneratorService } from '../common/url-generator/url-generator.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
-  providers: [UserService, MailService],
+  providers: [UserService, MailService, UrlGeneratorService],
   controllers: [UserController],
   exports: [UserService],
 })

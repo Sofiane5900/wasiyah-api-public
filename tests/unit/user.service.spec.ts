@@ -18,11 +18,12 @@ vi.mock('argon2', () => ({
   hash: vi.fn().mockResolvedValue('hashed_password'),
 }));
 
-vi.mock('class-transformer', () => {
+vi.mock('class-transformer', async () => {
+  const actual = await vi.importActual<typeof import('class-transformer')>('class-transformer');
+
   return {
-    plainToClass: vi
-      .fn()
-      .mockImplementation(<T>(_cls: unknown, obj: T): T => obj),
+    ...actual,
+    plainToClass: vi.fn().mockImplementation(<T>(_cls: unknown, obj: T): T => obj),
   };
 });
 
