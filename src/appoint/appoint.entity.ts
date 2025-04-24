@@ -16,7 +16,7 @@ export class Appoint {
     description: 'Wakil Id',
     type: Number,
   })
-  @PrimaryColumn({ name: 'Id_WAKIL' })
+  @PrimaryColumn('uuid')
   wakilId: number;
 
   @ApiProperty({

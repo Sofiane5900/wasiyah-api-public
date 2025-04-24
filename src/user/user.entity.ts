@@ -6,7 +6,7 @@ import { Death } from '../death/death.entity';
 import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
-import { StatusUser } from '../enum/roles';
+import { StatusUser } from '../enum/Roles';
 @Entity('user')
 export class User {
   @ApiProperty({
@@ -46,14 +46,14 @@ export class User {
 
   @ApiProperty({
     description: 'birth date',
-    type: [String],
+    type: Date,
   })
-  @Column({ name: 'birth_date', length: 50 })
-  birthDate: string;
+  @Column({ name: 'birth_date', type: 'timestamp' })
+  birthDate: Date;
 
   @ApiProperty({
     description: 'creation date',
-    type: [String],
+    type: Date,
   })
   @Column({ name: 'creation_date', type: 'timestamp' })
   creationDate: Date;
@@ -73,8 +73,9 @@ export class User {
     type: 'enum',
     enum: StatusUser,
     default: StatusUser.PENDING,
-    length: 50,
   })
+  status: StatusUser;
+
   @ApiProperty({
     description: 'Organ donor',
     type: [Boolean],

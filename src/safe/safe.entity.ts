@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Document } from '../document/document.entity';
-import { RelationshipType } from '../enum/roles';
+import { RelationshipType } from '../enum/Roles';
 @Entity('safe')
 export class Safe {
   @ApiProperty({
@@ -37,8 +37,9 @@ export class Safe {
     type: 'enum',
     enum: RelationshipType,
     default: RelationshipType.CLOSE_FAMILY,
-    length: 50,
   })
+  type: RelationshipType;
+
   @ApiProperty({
     description: 'Encrypted content of the safe or encryption key',
     type: String,
