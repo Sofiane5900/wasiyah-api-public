@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 export class UserResponseDto {
   @ApiProperty()
@@ -13,8 +14,14 @@ export class UserResponseDto {
   @ApiProperty()
   email: string;
 
+  @Exclude()
+  password: string;
+
   @ApiProperty({
     example: ['ROLE_USER'],
   })
   roles: string[];
+
+  @ApiProperty()
+  isEmailVerified: boolean;
 }

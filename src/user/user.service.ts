@@ -9,12 +9,16 @@ import { QueryUserDto } from './dto/query-user.dto';
 import * as argon2 from 'argon2';
 import { UserResponseDto } from './dto/user-response.dto';
 import { plainToClass } from 'class-transformer';
+import { JwtService } from '@nestjs/jwt';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   // Création d'un utilisateur
@@ -67,7 +71,7 @@ export class UserService {
   async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({
       where: { email },
-      select: ['id', 'email', 'password', 'roles'],
+      select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
     });
 
     if (!user) {
