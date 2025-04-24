@@ -24,6 +24,11 @@ jobs:
           POSTGRES_DB: wasiyah_db
           POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale-provider=icu --icu-locale=fr
 
+      mailer:
+        image: dockage/mailcatcher:0.9.0
+        ports:
+          - "1025:1025"
+
     steps:
 
       - name: checkout repository
