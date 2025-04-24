@@ -23,7 +23,7 @@ export class Testament {
     type: String,
     format: 'date-time',
   })
-  @Column({ name: 'creation_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   creationDate: Date;
 
   @ApiProperty({
@@ -37,7 +37,7 @@ export class Testament {
     description: 'Activity status of the testament (active or not)',
     type: Boolean,
   })
-  @Column({ name: 'is_active' })
+  @Column({ default: false })
   isActive: boolean;
 
   @ApiProperty({
@@ -51,7 +51,7 @@ export class Testament {
     description: 'Associated User ID',
     type: Number,
   })
-  @Column({ name: 'Id_User', unique: true })
+  @Column({ unique: true })
   UserId: number;
 
   @ApiProperty({

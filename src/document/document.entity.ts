@@ -17,7 +17,7 @@ export class Document {
     type: String,
     example: 'testament_officiel.pdf',
   })
-  @Column({ name: 'file_name', length: 50 })
+  @Column({ length: 50 })
   fileName: string;
 
   @ApiProperty({
@@ -25,7 +25,7 @@ export class Document {
     type: String,
     example: 'PDF',
   })
-  @Column({ name: 'document_type', length: 50 })
+  @Column({ length: 10 })
   documentType: string;
 
   @ApiProperty({
@@ -33,7 +33,7 @@ export class Document {
     type: Number,
     example: 2.45,
   })
-  @Column({ name: 'size_mb', type: 'numeric', precision: 15, scale: 2 })
+  @Column({ type: 'numeric', precision: 15, scale: 2 })
   sizeMb: number;
 
   @ApiProperty({
@@ -41,7 +41,7 @@ export class Document {
     type: Date,
     example: '2025-02-15T09:45:00Z',
   })
-  @Column({ name: 'added_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   addedDate: Date;
 
   @ApiProperty({
@@ -49,7 +49,7 @@ export class Document {
     type: Number,
     example: 3,
   })
-  @Column({ name: 'Id_COFFRE' })
+  @Column()
   safeId: number;
 
   @ApiProperty({

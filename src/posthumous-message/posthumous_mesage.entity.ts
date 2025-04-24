@@ -17,7 +17,7 @@ export class PosthumousMessage {
     type: String,
     example: 'recipient@example.com',
   })
-  @Column({ name: 'recipient_email', length: 50 })
+  @Column({ length: 50 })
   recipientEmail: string;
 
   @ApiProperty({
@@ -41,7 +41,7 @@ export class PosthumousMessage {
     type: String,
     example: '2025-01-15',
   })
-  @Column({ name: 'creation_date', length: 50 })
+  @Column({ length: 50 })
   creationDate: string;
 
   @ApiProperty({
@@ -49,7 +49,7 @@ export class PosthumousMessage {
     type: Boolean,
     example: false,
   })
-  @Column({ name: 'opened_after_death' })
+  @Column()
   openedAfterDeath: boolean;
 
   @ApiProperty({
@@ -57,7 +57,7 @@ export class PosthumousMessage {
     type: Number,
     example: 2,
   })
-  @Column({ name: 'attachment_count' })
+  @Column()
   attachmentCount: number;
 
   @ApiProperty({
@@ -65,7 +65,7 @@ export class PosthumousMessage {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_User' })
+  @Column()
   UserId: number;
 
   @ApiProperty({

@@ -24,7 +24,7 @@ export class Death {
     type: String,
     example: 'Pending',
   })
-  @Column({ name: 'validation_status', length: 50 })
+  @Column({ length: 50 })
   validationStatus: string;
 
   @ApiProperty({
@@ -40,7 +40,7 @@ export class Death {
     type: Date,
     example: '2025-01-15T10:30:00Z',
   })
-  @Column({ name: 'declaration_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   declarationDate: Date;
 
   @ApiProperty({
@@ -48,7 +48,7 @@ export class Death {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_User', unique: true })
+  @Column({ unique: true })
   UserId: number;
 
   @ApiProperty({

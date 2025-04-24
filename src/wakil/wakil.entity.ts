@@ -16,14 +16,14 @@ export class Wakil {
     description: 'Last name of the wakil',
     type: String,
   })
-  @Column({ name: 'last_name', length: 50 })
+  @Column({ length: 50 })
   lastName: string;
 
   @ApiProperty({
     description: 'First name of the wakil',
     type: String,
   })
-  @Column({ name: 'first_name', length: 50 })
+  @Column({ length: 50 })
   firstName: string;
 
   @ApiProperty({
@@ -37,7 +37,7 @@ export class Wakil {
     description: 'Trust score of the wakil',
     type: Number,
   })
-  @Column({ name: 'trust_score' })
+  @Column()
   trustScore: number;
 
   @ApiProperty({

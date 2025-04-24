@@ -6,7 +6,7 @@ import { Death } from '../death/death.entity';
 import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
-import { StatusUser } from '../enum/Roles';
+import { StatusUser, RoleUser } from '../enum/Roles';
 @Entity('user')
 export class User {
   @ApiProperty({
@@ -20,49 +20,49 @@ export class User {
     description: "User's first name",
     type: String,
   })
-  @Column('varchar', { length: 50 })
+  @Column({ length: 50 })
   firstName: string;
 
   @ApiProperty({
     description: "User's last name",
     type: String,
   })
-  @Column('varchar', { length: 50 })
+  @Column({ length: 50 })
   lastName: string;
 
   @ApiProperty({
     description: "User's email",
     type: String,
   })
-  @Column('varchar', { unique: true, length: 50 })
+  @Column({ unique: true, length: 50 })
   email: string;
 
   @ApiProperty({
     description: "User's password",
     type: String,
   })
-  @Column('varchar')
+  @Column({ length: 50 })
   password: string;
 
   @ApiProperty({
     description: 'birth date',
     type: Date,
   })
-  @Column({ name: 'birth_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   birthDate: Date;
 
   @ApiProperty({
     description: 'creation date',
     type: Date,
   })
-  @Column({ name: 'creation_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   creationDate: Date;
 
   @ApiProperty({
     description: '2FA Authentication',
     type: [Boolean],
   })
-  @Column({ name: 'two_factor_enabled_', default: false })
+  @Column({ default: false })
   twoFactorEnabled: boolean;
 
   @ApiProperty({
@@ -80,7 +80,7 @@ export class User {
     description: 'Organ donor',
     type: [Boolean],
   })
-  @Column({ name: 'organDonor', default: false })
+  @Column({ default: false })
   organDonor: boolean;
 
   @ApiProperty({
@@ -88,8 +88,8 @@ export class User {
     type: [String],
     example: ['ROLE_USER', 'ROLE_ADMIN'],
   })
-  @Column('simple-array', { default: ['ROLE_USER'] })
-  roles: string[];
+  @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_USER })
+  roles: RoleUser;
 
   @OneToMany(
     () => PosthumousMessage,

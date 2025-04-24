@@ -2,6 +2,7 @@ import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { RelationshipType } from '../enum/Roles';
 
 @Entity('appoint')
 export class Appoint {
@@ -24,45 +25,49 @@ export class Appoint {
     type: Date,
     example: '2023-10-01T00:00:00Z',
   })
-  @Column({ name: 'designation_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   designationDate: Date;
 
   @ApiProperty({
     description: 'relationship type',
-    type: String,
-    example: 'Family, Friend, etc.',
+    enum: RelationshipType,
+    default: RelationshipType.CLOSE_FAMILY,
   })
-  @Column({ name: 'relation_type', length: 50 })
-  relationType: string;
+  @Column({
+    type: 'enum',
+    enum: RelationshipType,
+    default: RelationshipType.CLOSE_FAMILY,
+  })
+  relation_type: RelationshipType;
 
   @ApiProperty({
     description: 'number of years of relationship',
     type: Number,
   })
-  @Column({ name: 'relation_seniority' })
+  @Column()
   relationSeniority: number;
 
   @ApiProperty({
     description: 'if the wakil is validated',
     type: Boolean,
   })
-  @Column({ name: 'is_valid', default: false })
+  @Column({ default: false })
   isValid: boolean;
 
   @ApiProperty({
     description: 'if revoked',
     type: Boolean,
   })
-  @Column({ name: 'is_revoked', default: false })
+  @Column({ default: false })
   isRevoked: boolean;
 
   @ApiProperty({
     description: 'revocation date',
-    type: String,
+    type: Date,
     example: '2023-10-01T00:00:00Z',
   })
-  @Column({ name: 'revocation_date', length: 50 })
-  revocationDate: string;
+  @Column({ type: 'timestamp', nullable: true })
+  revocationDate: Date;
 
   @ManyToOne(() => User, (User) => User.appointments)
   @JoinColumn({ name: 'Id_User' })

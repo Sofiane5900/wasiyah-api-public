@@ -21,13 +21,13 @@ const dataSource = new DataSource({
 
 async function dropAndCreateDatabase(databaseName: string) {
   try {
-    // Connexion à la base de données 'postgres'
+    // Connect to the 'postgres' database
     await dataSource.initialize();
     console.log(
-      chalk.green(`Connexion à la base de données 'postgres' réussie.`),
+      chalk.green(`Successfully connected to the 'postgres' database.`),
     );
 
-    // Vérification si la base de données de test existe
+    // Check if the test database exists
     const result: Array<{ '1': number }> = await dataSource.query(
       `SELECT 1 FROM pg_database WHERE datname=$1`,
       [databaseName],
@@ -35,49 +35,38 @@ async function dropAndCreateDatabase(databaseName: string) {
 
     if (result.length > 0) {
       console.log(
-        chalk.yellow(
-          `Base de données '${databaseName}' trouvée, suppression...`,
-        ),
+        chalk.yellow(`Database '${databaseName}' found, deleting...`),
       );
-      // Supprimer la base de données si elle existe déjà
+      // Delete the database if it already exists
       await dataSource.query(`DROP DATABASE IF EXISTS ${databaseName};`);
-      console.log(chalk.green(`Base de données '${databaseName}' supprimée.`));
+      console.log(chalk.green(`Database '${databaseName}' deleted.`));
     }
 
-    console.log(
-      chalk.blue(`Création de la base de données '${databaseName}'...`),
-    );
+    console.log(chalk.blue(`Creating the database '${databaseName}'...`));
     await dataSource.query(`CREATE DATABASE ${databaseName};`);
-    console.log(chalk.green(`Base de données '${databaseName}' créée.`));
+    console.log(chalk.green(`Database '${databaseName}' created.`));
 
     await dataSource.destroy();
   } catch (error) {
-    console.error(
-      chalk.red('Erreur lors de la gestion de la base de données :', error),
-    );
-    throw new Error('Impossible de vérifier ou créer la base de données.');
+    console.error(chalk.red('Error while managing the database:', error));
+    throw new Error('Unable to verify or create the database.');
   }
 }
 
-// Fonction pour lancer les migrations
+// Function to run migrations
 function runMigrations() {
-  console.log(chalk.cyan('Exécution des migrations...'));
+  console.log(chalk.cyan('Running migrations...'));
   execSync('pnpm migration:run', { stdio: 'inherit' });
-  console.log(chalk.green('Migrations exécutées avec succès.'));
+  console.log(chalk.green('Migrations successfully executed.'));
 }
 
-// Créer la base de données de test et lancer les migrations
+// Create the test database and run migrations
 async function prepareTestDatabase() {
   try {
     await dropAndCreateDatabase(DB_TEST_NAME);
     runMigrations();
   } catch (error) {
-    console.error(
-      chalk.red(
-        'Erreur lors de la préparation de la base de données de test:',
-        error,
-      ),
-    );
+    console.error(chalk.red('Error while preparing the test database:', error));
     process.exit(1);
   }
 }

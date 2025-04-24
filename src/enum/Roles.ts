@@ -12,3 +12,14 @@ export enum StatusUser {
   INACTIVE = 'inactive',
   PENDING = 'pending',
 }
+
+export enum TypeSafe {
+  FAMILY = 'family',
+  PERSONAL = 'personal',
+  PROFESSIONAL = 'professional',
+}
+
+export enum RoleUser {
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_USER = 'ROLE_USER',
+}

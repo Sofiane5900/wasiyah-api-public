@@ -24,7 +24,7 @@ export class Repayment {
     type: Date,
     example: '2025-03-15T14:30:00Z',
   })
-  @Column({ name: 'repayment_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   repaymentDate: Date;
 
   @ApiProperty({
@@ -32,7 +32,7 @@ export class Repayment {
     type: String,
     example: '/documents/proofs/repayment_12345.pdf',
   })
-  @Column({ name: 'proof_url', length: 50 })
+  @Column({ length: 50 })
   proofUrl: string;
 
   @ApiProperty({
@@ -40,7 +40,7 @@ export class Repayment {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_LOAN' })
+  @Column()
   loanId: number;
 
   @ApiProperty({

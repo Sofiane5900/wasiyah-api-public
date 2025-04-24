@@ -32,7 +32,7 @@ export class Loan {
     type: String,
     example: 'National Bank',
   })
-  @Column({ name: 'creditor_name', length: 50 })
+  @Column({ length: 50 })
   creditorName: string;
 
   @ApiProperty({
@@ -48,7 +48,7 @@ export class Loan {
     type: Date,
     example: '2024-01-15T10:00:00Z',
   })
-  @Column({ name: 'loan_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   loanDate: Date;
 
   @ApiProperty({
@@ -56,7 +56,7 @@ export class Loan {
     type: Date,
     example: '2029-01-15T10:00:00Z',
   })
-  @Column({ name: 'due_date', type: 'timestamp' })
+  @Column({ type: 'timestamp' })
   dueDate: Date;
 
   @ApiProperty({
@@ -64,7 +64,7 @@ export class Loan {
     type: Boolean,
     example: false,
   })
-  @Column({ name: 'forgiven_after_death' })
+  @Column()
   forgivenAfterDeath: boolean;
 
   @ApiProperty({
@@ -80,7 +80,7 @@ export class Loan {
     type: String,
     example: '/documents/contracts/loan_12345.pdf',
   })
-  @Column({ name: 'proof_url', length: 50 })
+  @Column({ length: 50 })
   proofUrl: string;
 
   @ApiProperty({
@@ -88,7 +88,7 @@ export class Loan {
     type: Boolean,
     example: true,
   })
-  @Column({ name: 'is_loan' })
+  @Column()
   isLoan: boolean;
 
   @ApiProperty({
@@ -96,7 +96,7 @@ export class Loan {
     type: Boolean,
     example: false,
   })
-  @Column({ name: 'is_material' })
+  @Column()
   isMaterial: boolean;
 
   @ApiProperty({
@@ -104,7 +104,7 @@ export class Loan {
     type: Number,
     example: 42,
   })
-  @Column({ name: 'Id_User' })
+  @Column()
   UserId: number;
 
   @ApiProperty({
