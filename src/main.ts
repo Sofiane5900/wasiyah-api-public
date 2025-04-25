@@ -5,7 +5,6 @@ import {
   DocumentBuilder,
   SwaggerCustomOptions,
 } from '@nestjs/swagger';
-import * as cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { AllExceptionsFilter } from './filter/filter-exception';
 import { useContainer } from 'class-validator';
@@ -13,6 +12,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import fastifyCookie from '@fastify/cookie';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -42,9 +42,9 @@ async function bootstrap() {
     }),
   );
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  app.use(cookieParser());
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  await app.register(fastifyCookie);
   await app.listen(process.env.PORT ?? 8000, '0.0.0.0');
 }
 bootstrap();
