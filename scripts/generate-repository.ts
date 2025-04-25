@@ -5,14 +5,17 @@ import chalk from "chalk";
 // Fonction pour générer un Repository
 function generateRepository(entityName: string): void {
   const repositoryPath = path.join(__dirname, '..', 'src', entityName.toLowerCase(), `${entityName.toLowerCase()}.repository.ts`);
-  console.log(repositoryPath)
   const repositoryContent = `
 import { Injectable } from '@nestjs/common';
 import { ServiceEntityRepository } from '../common/abstract/abstract-service-entity.repository';
 import { ${entityName} } from './${entityName.toLowerCase()}.entity';
+import {DataSource} from "typeorm";
 
 @Injectable()
 export class ${entityName}Repository extends ServiceEntityRepository<${entityName}> {
+   constructor(private readonly dataSource: DataSource) {
+    super(User, dataSource.createEntityManager());
+  }
 
   // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
   /*async findByExampleField(value: string): Promise<${entityName} | null> {

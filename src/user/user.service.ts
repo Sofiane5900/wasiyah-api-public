@@ -6,10 +6,14 @@ import * as argon2 from 'argon2';
 import { UserResponseDto } from './dto/user-response.dto';
 import { plainToClass } from 'class-transformer';
 import { UserRepository } from './user.repository';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    @InjectRepository(UserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   // Création d'un utilisateur
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {

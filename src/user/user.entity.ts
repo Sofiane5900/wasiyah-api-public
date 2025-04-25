@@ -32,6 +32,13 @@ export class User {
   email: string;
 
   @ApiProperty({
+    description: "Vérification email de l'utilisateur",
+    type: Boolean,
+  })
+  @Column({ type: 'bool', default: 'false' })
+  isEmailVerified: boolean;
+
+  @ApiProperty({
     description: "Le mot de passe de l'utilisateur",
     type: String,
   })

@@ -23,19 +23,22 @@ import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserRepository } from './user.repository';
+import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
+import { MailService } from 'src/mail/mail.service';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(
-    private readonly userService: UserService,
     private readonly userRepository: UserRepository,
+    private readonly userService: UserService,
+    private readonly mailService: MailService,
   ) {}
 
   // Récupérer tous les utilisateurs avec recherche
   @Get()
   @Roles('ROLE_ADMIN')
-  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(User, true)
   async getAllUsers(): Promise<User[]> {
     return this.userRepository.findAll();
@@ -54,7 +57,9 @@ export class UserController {
   async createUser(
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserResponseDto> {
-    return this.userService.create(createUserDto);
+    const user = await this.userService.create(createUserDto);
+    await this.mailService.sendVerificationEmail(user.email);
+    return user;
   }
 
   // Mettre à jour un utilisateur

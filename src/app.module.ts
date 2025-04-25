@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
 import { UniqueEntityConstraint } from './common/validator/unique-entity.validator';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { RepositoriesModule } from './common/module/repositories.module';
 
 @Module({
   imports: [
@@ -23,6 +25,21 @@ import { UniqueEntityConstraint } from './common/validator/unique-entity.validat
         process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/**/*.{ts,js}'],
+    }),
+    RepositoriesModule.forRoot(),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.SMTP_HOST || 'mailer',
+        port: Number(process.env.SMTP_PORT) || 1025,
+        auth: process.env.SMTP_USER
+          ? {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS,
+            }
+          : undefined,
+      },
+      preview: true,
+      template: {},
     }),
     UserModule,
     AuthModule,

@@ -1,4 +1,11 @@
 services:
+  mailcatcher:
+    container_name: 'mailer'
+    restart: on-failure
+    image: dockage/mailcatcher:0.9.0
+    ports:
+      - "1080:1080"
+      - "1025:1025"
 
   adminer:
     image: adminer
