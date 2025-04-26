@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  forwardRef,
-} from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Appoint } from '../appoint/appoint.entity';
 import { Death } from '../death/death.entity';
@@ -121,11 +114,7 @@ export class User {
   @OneToMany(() => Loan, (loan) => loan.User)
   loans: Loan[];
 
-  @OneToOne(
-    () => Testament,
-    forwardRef(() => Testament),
-    (testament) => testament.user,
-  )
+  @OneToOne(() => Testament, (testament) => testament.user)
   testament: Testament;
 
   @OneToMany(() => Appoint, (appoint) => appoint.User)
