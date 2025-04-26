@@ -5,11 +5,11 @@ import { Loan } from '../loan/loan.entity';
 export class Repayment {
   @ApiProperty({
     description: 'Unique identifier of the repayment',
-    type: Number,
-    example: 1,
+    type: String,
+    example: '1-dsf-qsff-1234',
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Amount of the repayment',
@@ -24,7 +24,7 @@ export class Repayment {
     type: Date,
     example: '2025-03-15T14:30:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   repaymentDate: Date;
 
   @ApiProperty({

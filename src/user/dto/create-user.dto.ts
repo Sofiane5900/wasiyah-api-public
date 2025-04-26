@@ -2,6 +2,7 @@ import { IsString, IsEmail, MinLength, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user.entity';
 import { UniqueEntity } from '../../common/validator/unique-entity.validator';
+import { RoleUser } from 'src/enum/Roles';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -49,8 +50,8 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: "The user's roles",
-    type: Array,
-    example: ['ROLE_USER'],
+    type: 'string',
+    example: ['ROLE_USER', 'ROLE_ADMIN'],
   })
-  roles: string[];
+  roles: RoleUser;
 }

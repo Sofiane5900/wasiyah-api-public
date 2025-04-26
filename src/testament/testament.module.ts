@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
-import { TestamentController } from './testament.controller';
-import { TestamentService } from './testament.service';
+import { forwardRef, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Testament } from './testament.entity';
+import { UserModule } from 'src/user/user.module';
 
-@Module({
-  controllers: [TestamentController],
-  providers: [TestamentService],
-})
+Module({
+  imports: [
+    TypeOrmModule.forFeature([Testament]),
+    forwardRef(() => UserModule),
+  ],
+  exports: [TypeOrmModule],
+});
 export class TestamentModule {}

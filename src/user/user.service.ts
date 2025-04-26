@@ -8,12 +8,16 @@ import { QueryUserDto } from './dto/query-user.dto';
 import * as argon2 from 'argon2';
 import { UserResponseDto } from './dto/user-response.dto';
 import { plainToClass } from 'class-transformer';
+import { JwtService } from '@nestjs/jwt';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
   // Create a user
@@ -51,7 +55,7 @@ export class UserService {
   }
 
   // Retrieve a user by ID
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
     });
@@ -67,7 +71,7 @@ export class UserService {
   async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({
       where: { email },
-      select: ['id', 'email', 'password', 'roles'],
+      select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
     });
 
     if (!user) {
@@ -78,7 +82,7 @@ export class UserService {
   }
 
   // Update a user
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepository.update(id, updateUserDto);
     const updatedUser = await this.userRepository.findOne({
       where: { id },
@@ -92,7 +96,7 @@ export class UserService {
   }
 
   // Delete a user
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const user = await this.userRepository.findOne({
       where: { id },
     });

@@ -7,37 +7,37 @@ import { Declare } from '../declare/declare.entity';
 export class Wakil {
   @ApiProperty({
     description: 'Unique identifier of the wakil',
-    type: Number,
+    type: String,
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Last name of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column('varchar', { length: 50 })
   lastName: string;
 
   @ApiProperty({
     description: 'First name of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column('varchar', { length: 50 })
   firstName: string;
 
   @ApiProperty({
     description: 'Email address of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column('varchar', { length: 50 })
   email: string;
 
   @ApiProperty({
     description: 'Trust score of the wakil',
     type: Number,
   })
-  @Column()
+  @Column('int') // C'est un nombre, donc ici on garde 'int'
   trustScore: number;
 
   @ApiProperty({

@@ -1,20 +1,28 @@
-import { Entity, Column, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  forwardRef,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Testament } from '../testament/testament.entity';
 import { Appoint } from '../appoint/appoint.entity';
 import { Death } from '../death/death.entity';
 import { Loan } from '../loan/loan.entity';
 import { PosthumousMessage } from '../posthumous-message/posthumous_mesage.entity';
 import { Safe } from '../safe/safe.entity';
-import { StatusUser, RoleUser } from '../enum/Roles';
+import { RoleUser } from '../enum/Roles';
+import { StatusUser } from '../enum/User';
+import { Testament } from '../testament/testament.entity';
 @Entity('user')
 export class User {
   @ApiProperty({
     description: 'identifier of the user',
-    type: Number,
+    type: String,
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: "User's first name",
@@ -48,14 +56,14 @@ export class User {
     description: 'birth date',
     type: Date,
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   birthDate: Date;
 
   @ApiProperty({
     description: 'creation date',
     type: Date,
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   creationDate: Date;
 
   @ApiProperty({
@@ -64,6 +72,13 @@ export class User {
   })
   @Column({ default: false })
   twoFactorEnabled: boolean;
+
+  @ApiProperty({
+    description: 'is email verified',
+    type: [Boolean],
+  })
+  @Column({ default: false })
+  isEmailVerified: boolean;
 
   @ApiProperty({
     description: 'status',
@@ -97,7 +112,7 @@ export class User {
   )
   posthumousMessages: PosthumousMessage[];
 
-  @OneToOne(() => Death, (death) => death.User)
+  @OneToOne(() => Death, (death) => death.user)
   death: Death;
 
   @OneToMany(() => Safe, (safe) => safe.User)
@@ -106,7 +121,11 @@ export class User {
   @OneToMany(() => Loan, (loan) => loan.User)
   loans: Loan[];
 
-  @OneToOne(() => Testament, (testament) => testament.User)
+  @OneToOne(
+    () => Testament,
+    forwardRef(() => Testament),
+    (testament) => testament.user,
+  )
   testament: Testament;
 
   @OneToMany(() => Appoint, (appoint) => appoint.User)

@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { jwtConstants } from '../config/jwt.config';
 import { UserModule } from '../user/user.module';
+import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
+import { MailService } from 'src/mail/mail.service';
+import { UrlGeneratorModule } from '../common/url-generator/url-generator.module';
 
 @Module({
   imports: [
@@ -15,9 +18,11 @@ import { UserModule } from '../user/user.module';
         expiresIn: '1h',
       },
     }),
-    UserModule,
+    forwardRef(() => UserModule),
+    UrlGeneratorModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtAuthGuard, MailService],
+  exports: [JwtAuthGuard, JwtModule],
 })
 export class AuthModule {}

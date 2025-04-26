@@ -2,30 +2,30 @@ import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { RelationshipType } from '../enum/Roles';
+import { RelationshipType } from '../enum/Relation';
 
 @Entity('appoint')
 export class Appoint {
   @ApiProperty({
     description: 'User Id',
-    type: Number,
+    type: String,
   })
   @PrimaryColumn('uuid')
-  UserId: number;
+  UserId: string;
 
   @ApiProperty({
     description: 'Wakil Id',
-    type: Number,
+    type: String,
   })
   @PrimaryColumn('uuid')
-  wakilId: number;
+  wakilId: string;
 
   @ApiProperty({
     description: 'designation date',
     type: Date,
     example: '2023-10-01T00:00:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   designationDate: Date;
 
   @ApiProperty({
@@ -66,7 +66,7 @@ export class Appoint {
     type: Date,
     example: '2023-10-01T00:00:00Z',
   })
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ nullable: true })
   revocationDate: Date;
 
   @ManyToOne(() => User, (User) => User.appointments)

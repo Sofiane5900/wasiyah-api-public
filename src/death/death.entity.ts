@@ -1,30 +1,24 @@
-import {
-  Entity,
-  Column,
-  OneToOne,
-  JoinColumn,
-  OneToMany,
-  PrimaryColumn,
-} from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Declare } from '../declare/declare.entity';
+
 @Entity('death')
 export class Death {
   @ApiProperty({
     description: 'Unique identifier of the death declaration',
-    type: Number,
+    type: String,
     example: 1,
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Validation status of the death declaration',
     type: String,
     example: 'Pending',
   })
-  @Column({ length: 50 })
+  @Column({ type: 'varchar', length: 50 })
   validationStatus: string;
 
   @ApiProperty({
@@ -32,7 +26,7 @@ export class Death {
     type: Boolean,
     example: false,
   })
-  @Column()
+  @Column('boolean', { default: false })
   contestation: boolean;
 
   @ApiProperty({
@@ -40,7 +34,7 @@ export class Death {
     type: Date,
     example: '2025-01-15T10:30:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column('date')
   declarationDate: Date;
 
   @ApiProperty({
@@ -48,21 +42,21 @@ export class Death {
     type: Number,
     example: 42,
   })
-  @Column({ unique: true })
+  @Column('numeric', { unique: true })
   UserId: number;
 
   @ApiProperty({
     description: 'User associated with this death declaration',
     type: () => User,
   })
-  @OneToOne(() => User, (User) => User)
+  @OneToOne(() => User, (user) => user.death)
   @JoinColumn()
-  User: User;
+  user: User;
 
   @ApiProperty({
-    description: 'List of declarations made by Wakils regarding this death',
-    type: [Declare],
+    description: 'Declaration made by Wakil for this death',
+    type: () => Declare,
   })
-  @OneToMany(() => Declare, (declare) => declare.death)
-  declarations: Declare[];
+  @OneToOne(() => Declare, (declaration) => declaration.death)
+  declaration: Declare;
 }

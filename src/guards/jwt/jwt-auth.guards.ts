@@ -7,11 +7,11 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { FastifyRequest } from 'fastify';
 import { User } from '../../user/user.entity';
-
+import { RoleUser } from 'src/enum/Roles';
 interface JwtPayload {
   sub: string;
   email: string;
-  roles: string[];
+  roles: RoleUser;
 }
 
 @Injectable()
@@ -35,7 +35,7 @@ export class JwtAuthGuard implements CanActivate {
       });
 
       request.user = {
-        id: Number(payload.sub), // Explicit conversion of 'sub' to a number
+        id: String(payload.sub), // Explicit conversion of 'sub' to a number
         email: payload.email,
         roles: payload.roles,
       } as User;

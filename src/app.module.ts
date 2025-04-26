@@ -17,6 +17,9 @@ import { RepaymentModule } from './repayment/repayment.module';
 import { SafeModule } from './safe/safe.module';
 import { TestamentModule } from './testament/testament.module';
 import { WakilModule } from './wakil/wakil.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { User } from './user/user.entity';
+import { Testament } from './testament/testament.entity';
 
 @Module({
   imports: [
@@ -33,6 +36,21 @@ import { WakilModule } from './wakil/wakil.module';
         process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/**/*.{ts,js}'],
+    }),
+    TypeOrmModule.forFeature([User, Testament]),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.SMTP_HOST || 'mailer',
+        port: Number(process.env.SMTP_PORT) || 1025,
+        auth: process.env.SMTP_USER
+          ? {
+              user: process.env.SMTP_USER,
+              pass: process.env.SMTP_PASS,
+            }
+          : undefined,
+      },
+      preview: true,
+      template: {},
     }),
     UserModule,
     AuthModule,

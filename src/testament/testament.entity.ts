@@ -6,16 +6,16 @@ import { User } from '../user/user.entity';
 export class Testament {
   @ApiProperty({
     description: 'Unique identifier of the testament',
-    type: Number,
+    type: String,
   })
-  @PrimaryColumn({ name: 'Id_TESTAMENT' })
-  id: number;
+  @PrimaryColumn('uuid')
+  id: string;
 
   @ApiProperty({
     description: 'Content of the testament',
     type: String,
   })
-  @Column({ type: 'text' })
+  @Column('text')
   content: string;
 
   @ApiProperty({
@@ -23,42 +23,42 @@ export class Testament {
     type: String,
     format: 'date-time',
   })
-  @Column({ type: 'timestamp' })
+  @Column('date')
   creationDate: Date;
 
   @ApiProperty({
     description: 'Version of the testament',
     type: Number,
   })
-  @Column()
+  @Column('numeric')
   version: number;
 
   @ApiProperty({
     description: 'Activity status of the testament (active or not)',
     type: Boolean,
   })
-  @Column({ default: false })
+  @Column({ type: Boolean, default: false })
   isActive: boolean;
 
   @ApiProperty({
     description: 'Beneficiary of the testament',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   recipient: string;
 
   @ApiProperty({
     description: 'Associated User ID',
     type: Number,
   })
-  @Column({ unique: true })
-  UserId: number;
+  @Column({ type: 'uuid', unique: true })
+  userId: string;
 
   @ApiProperty({
     description: 'Relationship with the concerned User',
     type: () => User,
   })
-  @OneToOne(() => User, (User) => User.id)
+  @OneToOne(() => User, (user) => user.testament)
   @JoinColumn()
-  User: User;
+  user: User;
 }

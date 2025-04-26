@@ -6,11 +6,11 @@ import { User } from '../user/user.entity';
 export class PosthumousMessage {
   @ApiProperty({
     description: 'Unique identifier of the posthumous message',
-    type: Number,
+    type: String,
     example: 1,
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Email address of the posthumous message recipient',
@@ -33,7 +33,7 @@ export class PosthumousMessage {
     type: String,
     example: 'I wanted to tell you...',
   })
-  @Column({ type: 'text' })
+  @Column()
   content: string;
 
   @ApiProperty({

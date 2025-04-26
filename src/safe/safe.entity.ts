@@ -9,16 +9,16 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Document } from '../document/document.entity';
-import { TypeSafe } from '../enum/Roles';
+import { TypeSafe } from '../enum/Safe';
 @Entity('safe')
 export class Safe {
   @ApiProperty({
     description: 'Unique identifier of the digital safe',
-    type: Number,
-    example: 1,
+    type: String,
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Name of the safe',

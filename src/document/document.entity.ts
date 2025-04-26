@@ -6,11 +6,11 @@ import { Safe } from '../safe/safe.entity';
 export class Document {
   @ApiProperty({
     description: 'Unique identifier of the document',
-    type: Number,
-    example: 1,
+    type: String,
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
-  @PrimaryColumn({ name: 'Id_DOCUMENT' })
-  id: number;
+  @PrimaryColumn('uuid')
+  id: string;
 
   @ApiProperty({
     description: 'File name of the document',
@@ -31,9 +31,9 @@ export class Document {
   @ApiProperty({
     description: 'Size of the document in megabytes',
     type: Number,
-    example: 2.45,
+    example: 2,
   })
-  @Column({ type: 'numeric', precision: 15, scale: 2 })
+  @Column()
   sizeMb: number;
 
   @ApiProperty({
@@ -41,7 +41,7 @@ export class Document {
     type: Date,
     example: '2025-02-15T09:45:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   addedDate: Date;
 
   @ApiProperty({
