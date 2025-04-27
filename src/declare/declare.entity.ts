@@ -27,7 +27,7 @@ export class Declare {
     type: Date,
     example: '2025-01-20T14:30:00Z',
   })
-  @Column('date')
+  @Column()
   deathValidationDate: Date;
 
   @ApiProperty({

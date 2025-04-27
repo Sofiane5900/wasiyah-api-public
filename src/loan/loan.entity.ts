@@ -17,7 +17,7 @@ export class Loan {
     example: 1,
   })
   @PrimaryColumn('uuid')
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: 'Nature or purpose of the loan',
@@ -48,7 +48,7 @@ export class Loan {
     type: Date,
     example: '2024-01-15T10:00:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   loanDate: Date;
 
   @ApiProperty({
@@ -56,7 +56,7 @@ export class Loan {
     type: Date,
     example: '2029-01-15T10:00:00Z',
   })
-  @Column({ type: 'timestamp' })
+  @Column()
   dueDate: Date;
 
   @ApiProperty({

@@ -15,7 +15,7 @@ export class Testament {
     description: 'Content of the testament',
     type: String,
   })
-  @Column('text')
+  @Column()
   content: string;
 
   @ApiProperty({
@@ -23,14 +23,14 @@ export class Testament {
     type: String,
     format: 'date-time',
   })
-  @Column('date')
+  @Column()
   creationDate: Date;
 
   @ApiProperty({
     description: 'Version of the testament',
     type: Number,
   })
-  @Column('numeric')
+  @Column()
   version: number;
 
   @ApiProperty({

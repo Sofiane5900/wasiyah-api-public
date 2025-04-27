@@ -18,7 +18,7 @@ export class Death {
     type: String,
     example: 'Pending',
   })
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ length: 50 })
   validationStatus: string;
 
   @ApiProperty({
@@ -26,7 +26,7 @@ export class Death {
     type: Boolean,
     example: false,
   })
-  @Column('boolean', { default: false })
+  @Column({ default: false })
   contestation: boolean;
 
   @ApiProperty({
@@ -34,7 +34,7 @@ export class Death {
     type: Date,
     example: '2025-01-15T10:30:00Z',
   })
-  @Column('date')
+  @Column()
   declarationDate: Date;
 
   @ApiProperty({
@@ -42,7 +42,7 @@ export class Death {
     type: Number,
     example: 42,
   })
-  @Column('numeric', { unique: true })
+  @Column({ unique: true })
   UserId: number;
 
   @ApiProperty({

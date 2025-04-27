@@ -16,21 +16,21 @@ export class Wakil {
     description: 'Last name of the wakil',
     type: String,
   })
-  @Column('varchar', { length: 50 })
+  @Column({ length: 50 })
   lastName: string;
 
   @ApiProperty({
     description: 'First name of the wakil',
     type: String,
   })
-  @Column('varchar', { length: 50 })
+  @Column({ length: 50 })
   firstName: string;
 
   @ApiProperty({
     description: 'Email address of the wakil',
     type: String,
   })
-  @Column('varchar', { length: 50 })
+  @Column({ length: 50 })
   email: string;
 
   @ApiProperty({
