@@ -64,6 +64,6 @@ export class PosthumousMessage {
     description: 'User who authored the posthumous message',
     type: () => User,
   })
-  @ManyToOne(() => User, (User) => User.id)
-  User: User;
+  @ManyToOne('user', 'posthumousMessages')
+  user: User;
 }

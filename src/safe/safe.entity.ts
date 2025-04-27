@@ -52,8 +52,8 @@ export class Safe {
     description: 'User who owns the safe',
     type: () => User,
   })
-  @ManyToOne(() => User, (User) => User.id)
-  User: User;
+  @ManyToOne('User', 'safes')
+  user: User;
 
   @ApiProperty({
     description: 'List of documents stored in this safe',

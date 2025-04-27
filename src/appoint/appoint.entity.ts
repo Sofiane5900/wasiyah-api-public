@@ -63,8 +63,8 @@ export class Appoint {
   @Column({ type: Date, nullable: true })
   revocationDate: Date;
 
-  @ManyToOne(() => User, (User) => User.appointments)
-  User: User;
+  @ManyToOne('user', 'appointments')
+  user: User;
 
   @ManyToOne(() => Wakil, (wakil) => wakil.appointments)
   wakil: Wakil;

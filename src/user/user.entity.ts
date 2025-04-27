@@ -99,18 +99,17 @@ export class User {
   @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_USER })
   roles: RoleUser;
 
-  @OneToMany(
-    () => PosthumousMessage,
-    (posthumousMessage) => posthumousMessage.User,
-  )
+  @OneToMany('PosthumousMessage', 'user')
   posthumousMessages: PosthumousMessage[];
 
-  @OneToMany(() => Safe, (safe) => safe.User)
+  @OneToMany('Safe', 'user')
   safes: Safe[];
 
-  @OneToMany(() => Loan, (loan) => loan.User)
+  @OneToMany('Loan', 'user')
+  // @OneToMany(() => Loan, (loan) => loan.user)
   loans: Loan[];
 
-  @OneToMany(() => Appoint, (appoint) => appoint.User)
+  // @OneToMany(() => Appoint, (appoint) => appoint.User)
+  @OneToMany('Appoint', 'user')
   appointments: Appoint[];
 }

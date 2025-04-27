@@ -103,8 +103,8 @@ export class Loan {
     description: 'User associated with this loan',
     type: () => User,
   })
-  @ManyToOne(() => User, (User) => User.id)
-  User: User;
+  @ManyToOne('User', 'loans')
+  user: User;
 
   @ApiProperty({
     description: 'List of repayments made for this loan',
