@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
-@Entity('testament')
+@Entity()
 export class Testament {
   @ApiProperty({
     description: 'Unique identifier of the testament',

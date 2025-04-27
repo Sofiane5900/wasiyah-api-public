@@ -4,7 +4,7 @@ import { Wakil } from '../wakil/wakil.entity';
 import { Death } from '../death/death.entity';
 import 'reflect-metadata';
 
-@Entity('declare')
+@Entity()
 export class Declare {
   @ApiProperty({
     description:
@@ -27,13 +27,13 @@ export class Declare {
     description: 'Representative (Wakil) who made the declaration',
     type: () => Wakil,
   })
-  @ManyToOne(() => Wakil, (wakil) => wakil.declarations)
+  @ManyToOne(() => Wakil, 'declarations')
   wakil: Wakil;
 
   @ApiProperty({
     description: 'Death declaration concerned by this validation',
     type: () => Death,
   })
-  @ManyToOne(() => Death, (death) => death.declarations)
+  @ManyToOne(() => Death, 'declarations')
   death: Death;
 }

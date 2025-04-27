@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Loan } from '../loan/loan.entity';
 
-@Entity('repayement')
+@Entity()
 export class Repayment {
   @ApiProperty({
     description: 'Unique identifier of the repayment',
@@ -40,6 +40,6 @@ export class Repayment {
     description: 'Loan associated with this repayment',
     type: () => Loan,
   })
-  @ManyToOne(() => Loan, (loan) => loan.repayments)
+  @ManyToOne(() => Loan, 'repayments')
   loan: Loan;
 }

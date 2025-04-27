@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Safe } from '../safe/safe.entity';
 
-@Entity('document')
+@Entity()
 export class Document {
   @ApiProperty({
     description: 'Unique identifier of the document',
@@ -49,6 +49,6 @@ export class Document {
     description: 'Safe containing this document',
     type: () => Safe,
   })
-  @ManyToOne(() => Safe, (safe) => safe.documents)
+  @ManyToOne(() => Safe, 'documents')
   safe: Safe;
 }

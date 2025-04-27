@@ -7,7 +7,7 @@ import { Safe } from '../safe/safe.entity';
 import { RoleUser } from '../enum/Roles';
 import { StatusUser } from '../enum/User';
 
-@Entity('user')
+@Entity()
 export class User {
   @ApiProperty({
     description: 'identifier of the user',
@@ -99,17 +99,15 @@ export class User {
   @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_USER })
   roles: RoleUser;
 
-  @OneToMany('PosthumousMessage', 'user')
+  @OneToMany(() => PosthumousMessage, 'user')
   posthumousMessages: PosthumousMessage[];
 
-  @OneToMany('Safe', 'user')
+  @OneToMany(() => Safe, 'user')
   safes: Safe[];
 
-  @OneToMany('Loan', 'user')
-  // @OneToMany(() => Loan, (loan) => loan.user)
+  @OneToMany(() => Loan, 'user')
   loans: Loan[];
 
-  // @OneToMany(() => Appoint, (appoint) => appoint.User)
-  @OneToMany('Appoint', 'user')
+  @OneToMany(() => Appoint, 'user')
   appointments: Appoint[];
 }

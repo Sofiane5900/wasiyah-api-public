@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 
-@Entity('posthumous_message')
+@Entity()
 export class PosthumousMessage {
   @ApiProperty({
     description: 'Unique identifier of the posthumous message',
@@ -64,6 +64,6 @@ export class PosthumousMessage {
     description: 'User who authored the posthumous message',
     type: () => User,
   })
-  @ManyToOne('user', 'posthumousMessages')
+  @ManyToOne(() => User, 'posthumousMessages')
   user: User;
 }

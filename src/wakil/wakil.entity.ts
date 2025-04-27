@@ -3,7 +3,7 @@ import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appoint } from '../appoint/appoint.entity';
 import { Declare } from '../declare/declare.entity';
 
-@Entity('wakil')
+@Entity()
 export class Wakil {
   @ApiProperty({
     description: 'Unique identifier of the wakil',
@@ -45,13 +45,13 @@ export class Wakil {
     description: 'List of appointments associated with this wakil',
     type: () => [Appoint],
   })
-  @OneToMany(() => Appoint, (appoint) => appoint.wakil)
+  @OneToMany(() => Appoint, 'wakil')
   appointments: Appoint[];
 
   @ApiProperty({
     description: 'List of declarations made by this wakil',
     type: () => [Declare],
   })
-  @OneToMany(() => Declare, (declare) => declare.wakil)
+  @OneToMany(() => Declare, 'wakil')
   declarations: Declare[];
 }

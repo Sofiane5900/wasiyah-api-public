@@ -9,7 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Repayment } from '../repayment/repayment.entity';
 
-@Entity('loan')
+@Entity()
 export class Loan {
   @ApiProperty({
     description: 'Unique identifier of the loan',
@@ -103,13 +103,13 @@ export class Loan {
     description: 'User associated with this loan',
     type: () => User,
   })
-  @ManyToOne('User', 'loans')
+  @ManyToOne(() => User, 'loans')
   user: User;
 
   @ApiProperty({
     description: 'List of repayments made for this loan',
     type: [Repayment],
   })
-  @OneToMany(() => Repayment, (repayment) => repayment.loan)
+  @OneToMany(() => Repayment, 'loan')
   repayments: Repayment[];
 }

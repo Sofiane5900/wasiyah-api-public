@@ -10,7 +10,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Declare } from '../declare/declare.entity';
 
-@Entity('death')
+@Entity()
 export class Death {
   @ApiProperty({
     description: 'Unique identifier of the death declaration',
@@ -56,6 +56,6 @@ export class Death {
     description: 'Declaration made by Wakil for this death',
     type: () => Declare,
   })
-  @OneToMany(() => Declare, (declaration) => declaration.death)
+  @OneToMany(() => Declare, 'death')
   declarations: Declare[];
 }

@@ -4,7 +4,7 @@ import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { RelationshipType } from '../enum/Relation';
 
-@Entity('appoint')
+@Entity()
 export class Appoint {
   @ApiProperty({
     description: 'appoint identifier',
@@ -63,9 +63,9 @@ export class Appoint {
   @Column({ type: Date, nullable: true })
   revocationDate: Date;
 
-  @ManyToOne('user', 'appointments')
+  @ManyToOne(() => User, 'appointments')
   user: User;
 
-  @ManyToOne(() => Wakil, (wakil) => wakil.appointments)
+  @ManyToOne(() => Wakil, 'appointments')
   wakil: Wakil;
 }

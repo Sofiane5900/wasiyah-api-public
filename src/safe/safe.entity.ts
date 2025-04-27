@@ -10,7 +10,7 @@ import { User } from '../user/user.entity';
 import { Document } from '../document/document.entity';
 import { TypeSafe } from '../enum/Safe';
 
-@Entity('safe')
+@Entity()
 export class Safe {
   @ApiProperty({
     description: 'Unique identifier of the digital safe',
@@ -52,13 +52,13 @@ export class Safe {
     description: 'User who owns the safe',
     type: () => User,
   })
-  @ManyToOne('User', 'safes')
+  @ManyToOne(() => User, 'safes')
   user: User;
 
   @ApiProperty({
     description: 'List of documents stored in this safe',
     type: [Document],
   })
-  @OneToMany(() => Document, (document) => document.safe)
+  @OneToMany(() => Document, 'safe')
   documents: Document[];
 }
