@@ -1,7 +1,8 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Wakil } from '../wakil/wakil.entity';
 import { Death } from '../death/death.entity';
+import 'reflect-metadata';
 
 @Entity('declare')
 export class Declare {
@@ -9,25 +10,17 @@ export class Declare {
     description:
       'Identifier of the representative (Wakil) who declared the death',
     type: String,
-    example: 1,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  @PrimaryColumn('uuid')
-  wakilId: string;
-
-  @ApiProperty({
-    description: 'Identifier of the concerned death declaration',
-    type: String,
-    example: '2d2f3c4-5e6b-7a8d-9b0c-1a2b3c4d5e6f',
-  })
-  @PrimaryColumn('uuid')
-  deathId: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ApiProperty({
     description: 'Date when the representative validated the death declaration',
     type: Date,
     example: '2025-01-20T14:30:00Z',
   })
-  @Column()
+  @Column({ type: Date })
   deathValidationDate: Date;
 
   @ApiProperty({
@@ -35,14 +28,12 @@ export class Declare {
     type: () => Wakil,
   })
   @ManyToOne(() => Wakil, (wakil) => wakil.declarations)
-  @JoinColumn([{ name: 'wakilId', referencedColumnName: 'id' }])
   wakil: Wakil;
 
   @ApiProperty({
     description: 'Death declaration concerned by this validation',
     type: () => Death,
   })
-  @ManyToOne(() => Death, (death) => death.declaration, { eager: false })
-  @JoinColumn([{ name: 'deathId', referencedColumnName: 'id' }])
+  @ManyToOne(() => Death, (death) => death.declarations)
   death: Death;
 }

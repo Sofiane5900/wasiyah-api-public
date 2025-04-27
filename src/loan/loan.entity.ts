@@ -2,21 +2,21 @@ import {
   Entity,
   Column,
   ManyToOne,
-  JoinColumn,
   OneToMany,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Repayment } from '../repayment/repayment.entity';
+
 @Entity('loan')
 export class Loan {
   @ApiProperty({
     description: 'Unique identifier of the loan',
-    type: Number,
-    example: 1,
+    type: String,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
@@ -24,7 +24,7 @@ export class Loan {
     type: String,
     example: 'Real Estate',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   nature: string;
 
   @ApiProperty({
@@ -32,7 +32,7 @@ export class Loan {
     type: String,
     example: 'National Bank',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   creditorName: string;
 
   @ApiProperty({
@@ -48,7 +48,7 @@ export class Loan {
     type: Date,
     example: '2024-01-15T10:00:00Z',
   })
-  @Column()
+  @Column({ type: Date })
   loanDate: Date;
 
   @ApiProperty({
@@ -56,7 +56,7 @@ export class Loan {
     type: Date,
     example: '2029-01-15T10:00:00Z',
   })
-  @Column()
+  @Column({ type: Date })
   dueDate: Date;
 
   @ApiProperty({
@@ -64,7 +64,7 @@ export class Loan {
     type: Boolean,
     example: false,
   })
-  @Column()
+  @Column({ type: Boolean })
   forgivenAfterDeath: boolean;
 
   @ApiProperty({
@@ -72,7 +72,7 @@ export class Loan {
     type: String,
     example: 'John Smith, Mary Johnson',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   witnesses: string;
 
   @ApiProperty({
@@ -80,7 +80,7 @@ export class Loan {
     type: String,
     example: '/documents/contracts/loan_12345.pdf',
   })
-  @Column({ length: 50 })
+  @Column({ type: String })
   proofUrl: string;
 
   @ApiProperty({
@@ -88,7 +88,7 @@ export class Loan {
     type: Boolean,
     example: true,
   })
-  @Column()
+  @Column({ type: String })
   isLoan: boolean;
 
   @ApiProperty({
@@ -96,23 +96,14 @@ export class Loan {
     type: Boolean,
     example: false,
   })
-  @Column()
+  @Column({ type: Boolean })
   isMaterial: boolean;
-
-  @ApiProperty({
-    description: 'User ID associated with this loan',
-    type: Number,
-    example: 42,
-  })
-  @Column()
-  UserId: number;
 
   @ApiProperty({
     description: 'User associated with this loan',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
-  @JoinColumn()
   User: User;
 
   @ApiProperty({

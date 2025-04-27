@@ -18,8 +18,7 @@ import { SafeModule } from './safe/safe.module';
 import { TestamentModule } from './testament/testament.module';
 import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { User } from './user/user.entity';
-import { Testament } from './testament/testament.entity';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -36,8 +35,8 @@ import { Testament } from './testament/testament.entity';
         process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/**/*.{ts,js}'],
+      namingStrategy: new SnakeNamingStrategy(),
     }),
-    TypeOrmModule.forFeature([User, Testament]),
     MailerModule.forRoot({
       transport: {
         host: process.env.SMTP_HOST || 'mailer',

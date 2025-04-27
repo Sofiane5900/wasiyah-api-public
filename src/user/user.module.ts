@@ -6,14 +6,9 @@ import { UserController } from './user.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { MailService } from 'src/mail/mail.service';
 import { UrlGeneratorService } from '../common/url-generator/url-generator.service';
-import { TestamentModule } from 'src/testament/testament.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    forwardRef(() => AuthModule),
-    TestamentModule,
-  ],
+  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
   providers: [UserService, MailService, UrlGeneratorService],
   controllers: [UserController],
   exports: [UserService],

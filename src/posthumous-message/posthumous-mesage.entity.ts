@@ -1,15 +1,15 @@
-import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 
-@Entity('posthumousMessage')
+@Entity('posthumous_message')
 export class PosthumousMessage {
   @ApiProperty({
     description: 'Unique identifier of the posthumous message',
     type: String,
-    example: 1,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
@@ -17,7 +17,7 @@ export class PosthumousMessage {
     type: String,
     example: 'recipient@example.com',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   recipientEmail: string;
 
   @ApiProperty({
@@ -25,7 +25,7 @@ export class PosthumousMessage {
     type: String,
     example: 'My last wishes',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   title: string;
 
   @ApiProperty({
@@ -33,7 +33,7 @@ export class PosthumousMessage {
     type: String,
     example: 'I wanted to tell you...',
   })
-  @Column()
+  @Column({ type: 'text' })
   content: string;
 
   @ApiProperty({
@@ -41,15 +41,15 @@ export class PosthumousMessage {
     type: String,
     example: '2025-01-15',
   })
-  @Column({ length: 50 })
-  creationDate: string;
+  @Column({ type: Date })
+  creationDate: Date;
 
   @ApiProperty({
     description: 'Indicates if the message has been opened after death',
     type: Boolean,
     example: false,
   })
-  @Column()
+  @Column({ type: Boolean })
   openedAfterDeath: boolean;
 
   @ApiProperty({
@@ -57,22 +57,13 @@ export class PosthumousMessage {
     type: Number,
     example: 2,
   })
-  @Column()
+  @Column({ type: Number })
   attachmentCount: number;
-
-  @ApiProperty({
-    description: 'User ID of the posthumous message author',
-    type: Number,
-    example: 42,
-  })
-  @Column()
-  UserId: number;
 
   @ApiProperty({
     description: 'User who authored the posthumous message',
     type: () => User,
   })
   @ManyToOne(() => User, (User) => User.id)
-  @JoinColumn()
   User: User;
 }

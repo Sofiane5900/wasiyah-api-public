@@ -1,4 +1,11 @@
-import { Entity, Column, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/user.entity';
 import { Declare } from '../declare/declare.entity';
@@ -8,9 +15,9 @@ export class Death {
   @ApiProperty({
     description: 'Unique identifier of the death declaration',
     type: String,
-    example: 1,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330\n',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
@@ -18,7 +25,7 @@ export class Death {
     type: String,
     example: 'Pending',
   })
-  @Column({ length: 50 })
+  @Column({ length: 50, type: String })
   validationStatus: string;
 
   @ApiProperty({
@@ -26,7 +33,7 @@ export class Death {
     type: Boolean,
     example: false,
   })
-  @Column({ default: false })
+  @Column({ default: false, type: Boolean })
   contestation: boolean;
 
   @ApiProperty({
@@ -34,22 +41,14 @@ export class Death {
     type: Date,
     example: '2025-01-15T10:30:00Z',
   })
-  @Column()
+  @Column({ type: Date })
   declarationDate: Date;
-
-  @ApiProperty({
-    description: 'User ID associated with this death declaration',
-    type: Number,
-    example: 42,
-  })
-  @Column({ unique: true })
-  UserId: number;
 
   @ApiProperty({
     description: 'User associated with this death declaration',
     type: () => User,
   })
-  @OneToOne(() => User, (user) => user.death)
+  @OneToOne(() => User)
   @JoinColumn()
   user: User;
 
@@ -57,6 +56,6 @@ export class Death {
     description: 'Declaration made by Wakil for this death',
     type: () => Declare,
   })
-  @OneToOne(() => Declare, (declaration) => declaration.death)
-  declaration: Declare;
+  @OneToMany(() => Declare, (declaration) => declaration.death)
+  declarations: Declare[];
 }

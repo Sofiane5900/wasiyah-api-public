@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, OneToMany, PrimaryColumn } from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appoint } from '../appoint/appoint.entity';
 import { Declare } from '../declare/declare.entity';
 
@@ -8,36 +8,37 @@ export class Wakil {
   @ApiProperty({
     description: 'Unique identifier of the wakil',
     type: String,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
     description: 'Last name of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   lastName: string;
 
   @ApiProperty({
     description: 'First name of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   firstName: string;
 
   @ApiProperty({
     description: 'Email address of the wakil',
     type: String,
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   email: string;
 
   @ApiProperty({
     description: 'Trust score of the wakil',
     type: Number,
   })
-  @Column('int') // C'est un nombre, donc ici on garde 'int'
+  @Column('int')
   trustScore: number;
 
   @ApiProperty({

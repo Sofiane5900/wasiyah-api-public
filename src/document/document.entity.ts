@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Safe } from '../safe/safe.entity';
 
@@ -9,7 +9,7 @@ export class Document {
     type: String,
     example: '123e4567-e89b-12d3-a456-426614174000',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
@@ -17,15 +17,16 @@ export class Document {
     type: String,
     example: 'testament_officiel.pdf',
   })
-  @Column({ length: 50 })
+  @Column({ type: String, length: 50 })
   fileName: string;
 
+  // TODO Create enum for this attribute
   @ApiProperty({
     description: 'Type of document (ex: PDF, DOCX, JPG)',
     type: String,
     example: 'PDF',
   })
-  @Column({ length: 10 })
+  @Column({ type: String, length: 10 })
   documentType: string;
 
   @ApiProperty({
@@ -33,7 +34,7 @@ export class Document {
     type: Number,
     example: 2,
   })
-  @Column()
+  @Column({ type: Number })
   sizeMb: number;
 
   @ApiProperty({
@@ -41,22 +42,13 @@ export class Document {
     type: Date,
     example: '2025-02-15T09:45:00Z',
   })
-  @Column()
+  @Column({ type: Date })
   addedDate: Date;
-
-  @ApiProperty({
-    description: 'Identifier of the safe containing this document',
-    type: Number,
-    example: 3,
-  })
-  @Column()
-  safeId: number;
 
   @ApiProperty({
     description: 'Safe containing this document',
     type: () => Safe,
   })
   @ManyToOne(() => Safe, (safe) => safe.documents)
-  @JoinColumn()
   safe: Safe;
 }

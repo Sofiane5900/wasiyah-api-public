@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from '../user/user.entity';
 
 @Entity('testament')
@@ -7,15 +13,16 @@ export class Testament {
   @ApiProperty({
     description: 'Unique identifier of the testament',
     type: String,
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty({
     description: 'Content of the testament',
     type: String,
   })
-  @Column()
+  @Column({ type: String })
   content: string;
 
   @ApiProperty({
@@ -23,7 +30,7 @@ export class Testament {
     type: String,
     format: 'date-time',
   })
-  @Column()
+  @Column({ type: Date })
   creationDate: Date;
 
   @ApiProperty({
@@ -48,17 +55,10 @@ export class Testament {
   recipient: string;
 
   @ApiProperty({
-    description: 'Associated User ID',
-    type: Number,
-  })
-  @Column({ type: 'uuid', unique: true })
-  userId: string;
-
-  @ApiProperty({
     description: 'Relationship with the concerned User',
     type: () => User,
   })
-  @OneToOne(() => User, (user) => user.testament)
+  @OneToOne(() => User)
   @JoinColumn()
   user: User;
 }
