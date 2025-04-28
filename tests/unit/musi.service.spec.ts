@@ -2,11 +2,11 @@ import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserService } from 'src/musi/musi.service';
+import { MusiService } from 'src/musi/musi.service';
 import { Musi } from 'src/musi/musi.entity';
 import { CreateMusiDto } from 'src/musi/dto/create-musi.dto';
-import { UpdateUserDto } from 'src/musi/dto/update-musi.dto';
-import { QueryUserDto } from 'src/musi/dto/query-musi.dto';
+import { UpdateMusiDto } from 'src/musi/dto/update-musi.dto';
+import { QueryMusiDto } from 'src/musi/dto/query-musi.dto';
 import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
@@ -35,14 +35,14 @@ vi.mock('class-transformer', async () => {
   };
 });
 
-describe('UserService', () => {
-  let userService: UserService;
-  let userRepository: Partial<Repository<Musi>>;
+describe('MusiService', () => {
+  let musiService: MusiService;
+  let musiRepository: Partial<Repository<Musi>>;
   let jwtService: Partial<JwtService>;
   let mailService: Partial<MailService>;
   let queryBuilder: any;
 
-  const mockUser: Partial<Musi> = {
+  const mockMusi: Partial<Musi> = {
     firstName: 'John',
     lastName: 'Doe',
     email: 'john.doe@example.com',
@@ -63,13 +63,13 @@ describe('UserService', () => {
     // Création d'un mock pour le queryBuilder
     queryBuilder = {
       andWhere: vi.fn().mockReturnThis(),
-      getMany: vi.fn().mockResolvedValue([mockUser]),
+      getMany: vi.fn().mockResolvedValue([mockMusi]),
     };
 
     // Création des mocks
-    userRepository = {
-      save: vi.fn().mockResolvedValue(mockUser),
-      findOne: vi.fn().mockResolvedValue(mockUser),
+    musiRepository = {
+      save: vi.fn().mockResolvedValue(mockMusi),
+      findOne: vi.fn().mockResolvedValue(mockMusi),
       update: vi.fn().mockResolvedValue({ affected: 1 }),
       delete: vi.fn().mockResolvedValue({ affected: 1 }),
       createQueryBuilder: vi.fn().mockReturnValue(queryBuilder),
@@ -85,10 +85,10 @@ describe('UserService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UserService,
+        MusiService,
         {
           provide: getRepositoryToken(Musi),
-          useValue: userRepository,
+          useValue: musiRepository,
         },
         {
           provide: JwtService,
@@ -101,15 +101,15 @@ describe('UserService', () => {
       ],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
+    musiService = module.get<MusiService>(MusiService);
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  describe('createUser', () => {
-    it('should create a new user with hashed password', async () => {
+  describe('createMusi', () => {
+    it('should create a new musi with hashed password', async () => {
       const CreateMusiDto: CreateMusiDto = {
         firstName: 'John',
         lastName: 'Doe',
@@ -118,10 +118,10 @@ describe('UserService', () => {
         roles: RoleUser.ROLE_USER,
       };
 
-      const result = await userService.createUser(CreateMusiDto);
+      const result = await musiService.createUser(CreateMusiDto);
 
       expect(argon2.hash).toHaveBeenCalledWith('password123');
-      expect(userRepository.save).toHaveBeenCalledWith({
+      expect(musiRepository.save).toHaveBeenCalledWith({
         ...CreateMusiDto,
         password: 'hashed_password',
       });
@@ -131,130 +131,130 @@ describe('UserService', () => {
       const plainToClassMock = vi.mocked(plainToClass);
       expect(plainToClassMock.mock.calls.length).toBe(1);
 
-      expect(plainToClassMock.mock.calls[0][1]).toEqual(mockUser);
+      expect(plainToClassMock.mock.calls[0][1]).toEqual(mockMusi);
 
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual(mockMusi);
     });
   });
 
   describe('findAll', () => {
     it('should return all users without filters', async () => {
-      const query: QueryUserDto = {};
+      const query: QueryMusiDto = {};
 
-      const result = await userService.findAll(query);
+      const result = await musiService.findAll(query);
 
-      expect(userRepository.createQueryBuilder).toHaveBeenCalledWith('user');
+      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
       expect(queryBuilder.andWhere).not.toHaveBeenCalled();
       expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([mockMusi]);
     });
 
     it('should filter users by firstName', async () => {
-      const query: QueryUserDto = { firstName: 'John' };
+      const query: QueryMusiDto = { firstName: 'John' };
 
-      const result = await userService.findAll(query);
+      const result = await musiService.findAll(query);
 
-      expect(userRepository.createQueryBuilder).toHaveBeenCalledWith('user');
+      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
       expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'user.firstName LIKE :name',
+        'musi.firstName LIKE :name',
         {
           firstName: '%John%',
         },
       );
       expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([mockMusi]);
     });
 
     it('should filter users by lastName', async () => {
-      const query: QueryUserDto = { lastName: 'Doe' };
+      const query: QueryMusiDto = { lastName: 'Doe' };
 
-      const result = await userService.findAll(query);
+      const result = await musiService.findAll(query);
 
-      expect(userRepository.createQueryBuilder).toHaveBeenCalledWith('user');
+      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
       expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'user.lastName LIKE :name',
+        'musi.lastName LIKE :name',
         {
           lastName: '%Doe%',
         },
       );
       expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([mockMusi]);
     });
 
     it('should filter users by email', async () => {
-      const query: QueryUserDto = { email: 'john.doe' };
+      const query: QueryMusiDto = { email: 'john.doe' };
 
-      const result = await userService.findAll(query);
+      const result = await musiService.findAll(query);
 
-      expect(userRepository.createQueryBuilder).toHaveBeenCalledWith('user');
+      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
       expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'user.email LIKE :email',
+        'musi.email LIKE :email',
         {
           email: '%john.doe%',
         },
       );
       expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([mockMusi]);
     });
 
     it('should apply multiple filters', async () => {
-      const query: QueryUserDto = {
+      const query: QueryMusiDto = {
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe',
       };
 
-      const result = await userService.findAll(query);
+      const result = await musiService.findAll(query);
 
-      expect(userRepository.createQueryBuilder).toHaveBeenCalledWith('user');
+      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
       expect(queryBuilder.andWhere).toHaveBeenCalledTimes(3);
       expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([mockMusi]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a user by id', async () => {
-      const result = await userService.findOne('1');
+    it('should return a musi by id', async () => {
+      const result = await musiService.findOne('1');
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '1' },
       });
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual(mockMusi);
     });
 
-    it('should throw NotFoundException when user is not found', async () => {
-      userRepository.findOne = vi.fn().mockResolvedValue(null);
+    it('should throw NotFoundException when musi is not found', async () => {
+      musiRepository.findOne = vi.fn().mockResolvedValue(null);
 
-      await expect(userService.findOne('999')).rejects.toThrow(
+      await expect(musiService.findOne('999')).rejects.toThrow(
         NotFoundException,
       );
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '999' },
       });
     });
   });
 
   describe('findByEmail', () => {
-    it('should return a user by email with specific selected fields', async () => {
-      const result = await userService.findByEmail('john.doe@example.com');
+    it('should return a musi by email with specific selected fields', async () => {
+      const result = await musiService.findByEmail('john.doe@example.com');
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { email: 'john.doe@example.com' },
         select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
       });
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual(mockMusi);
     });
 
-    it('should throw NotFoundException when user is not found by email', async () => {
-      userRepository.findOne = vi.fn().mockResolvedValue(null);
+    it('should throw NotFoundException when musi is not found by email', async () => {
+      musiRepository.findOne = vi.fn().mockResolvedValue(null);
 
       await expect(
-        userService.findByEmail('nonexistent@example.com'),
+        musiService.findByEmail('nonexistent@example.com'),
       ).rejects.toThrow(NotFoundException);
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { email: 'nonexistent@example.com' },
         select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
       });
@@ -262,60 +262,60 @@ describe('UserService', () => {
   });
 
   describe('update', () => {
-    it('should update and return a user', async () => {
-      const updateUserDto: UpdateUserDto = {
+    it('should update and return a musi', async () => {
+      const updateMusiDto: UpdateMusiDto = {
         firstName: 'Jane',
       };
 
-      const result = await userService.update('1', updateUserDto);
+      const result = await musiService.update('1', updateMusiDto);
 
-      expect(userRepository.update).toHaveBeenCalledWith('1', updateUserDto);
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.update).toHaveBeenCalledWith('1', updateMusiDto);
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '1' },
       });
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual(mockMusi);
     });
 
-    it('should throw NotFoundException when updating non-existent user', async () => {
-      userRepository.update = vi.fn().mockResolvedValue({ affected: 1 });
-      userRepository.findOne = vi.fn().mockResolvedValue(null);
+    it('should throw NotFoundException when updating non-existent musi', async () => {
+      musiRepository.update = vi.fn().mockResolvedValue({ affected: 1 });
+      musiRepository.findOne = vi.fn().mockResolvedValue(null);
 
-      const updateUserDto: UpdateUserDto = {
+      const updateMusiDto: UpdateMusiDto = {
         firstName: 'Jane',
       };
 
-      await expect(userService.update('999', updateUserDto)).rejects.toThrow(
+      await expect(musiService.update('999', updateMusiDto)).rejects.toThrow(
         NotFoundException,
       );
 
-      expect(userRepository.update).toHaveBeenCalledWith('999', updateUserDto);
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.update).toHaveBeenCalledWith('999', updateMusiDto);
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '999' },
       });
     });
   });
 
   describe('remove', () => {
-    it('should remove a user successfully', async () => {
-      await userService.remove('1');
+    it('should remove musi successfully', async () => {
+      await musiService.remove('1');
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '1' },
       });
-      expect(userRepository.delete).toHaveBeenCalledWith('1');
+      expect(musiRepository.delete).toHaveBeenCalledWith('1');
     });
 
-    it('should throw NotFoundException when removing non-existent user', async () => {
-      userRepository.findOne = vi.fn().mockResolvedValue(null);
+    it('should throw NotFoundException when removing non-existent musi', async () => {
+      musiRepository.findOne = vi.fn().mockResolvedValue(null);
 
-      await expect(userService.remove('999')).rejects.toThrow(
+      await expect(musiService.remove('999')).rejects.toThrow(
         NotFoundException,
       );
 
-      expect(userRepository.findOne).toHaveBeenCalledWith({
+      expect(musiRepository.findOne).toHaveBeenCalledWith({
         where: { id: '999' },
       });
-      expect(userRepository.delete).not.toHaveBeenCalled();
+      expect(musiRepository.delete).not.toHaveBeenCalled();
     });
   });
 });

@@ -10,7 +10,7 @@ import { StatusUser } from '../enum/User';
 @Entity()
 export class Musi {
   @ApiProperty({
-    description: 'identifier of the user',
+    description: 'identifier of the musi',
     type: String,
     example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
@@ -18,28 +18,28 @@ export class Musi {
   id: string;
 
   @ApiProperty({
-    description: "User's first name",
+    description: 'Musi first name',
     type: String,
   })
   @Column({ type: String, length: 50 })
   firstName: string;
 
   @ApiProperty({
-    description: "User's last name",
+    description: 'Musi last name',
     type: String,
   })
   @Column({ type: String, length: 50 })
   lastName: string;
 
   @ApiProperty({
-    description: "User's email",
+    description: 'Musi email',
     type: String,
   })
   @Column({ type: String, unique: true })
   email: string;
 
   @ApiProperty({
-    description: "User's password",
+    description: 'Musi password',
     type: String,
   })
   @Column({ type: String })
@@ -92,7 +92,7 @@ export class Musi {
   organDonor: boolean;
 
   @ApiProperty({
-    description: "User's roles",
+    description: 'Musi roles',
     type: [String],
     example: ['ROLE_USER', 'ROLE_ADMIN'],
   })

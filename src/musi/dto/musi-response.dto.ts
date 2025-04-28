@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { RoleUser } from 'src/enum/Roles';
-export class UserResponseDto {
+export class MusiResponseDto {
   @ApiProperty()
   id: string;
 

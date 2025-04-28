@@ -9,7 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UniqueEntity } from '../../common/validator/unique-entity.validator';
 import { Musi } from '../musi.entity';
 
-export class UpdateUserDto {
+export class UpdateMusiDto {
   @ApiProperty({
     description: "The user's first name",
     type: String,

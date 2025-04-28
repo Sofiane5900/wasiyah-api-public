@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './musi/musi.module';
+import { MusiModule } from './musi/musi.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
@@ -51,7 +51,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
       preview: true,
       template: {},
     }),
-    UserModule,
+    MusiModule,
     AuthModule,
     AppointModule,
     DeathModule,

@@ -1,12 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Testament } from './testament.entity';
-import { UserModule } from 'src/musi/musi.module';
+import { MusiModule } from 'src/musi/musi.module';
 
 Module({
   imports: [
     TypeOrmModule.forFeature([Testament]),
-    forwardRef(() => UserModule),
+    forwardRef(() => MusiModule),
   ],
   exports: [TypeOrmModule],
 });

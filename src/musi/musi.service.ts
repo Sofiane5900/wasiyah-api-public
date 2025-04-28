@@ -3,16 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Musi } from './musi.entity';
 import { CreateMusiDto } from './dto/create-musi.dto';
-import { UpdateUserDto } from './dto/update-musi.dto';
-import { QueryUserDto } from './dto/query-musi.dto';
+import { UpdateMusiDto } from './dto/update-musi.dto';
+import { QueryMusiDto } from './dto/query-musi.dto';
 import * as argon2 from 'argon2';
-import { UserResponseDto } from './dto/musi-response.dto';
+import { MusiResponseDto } from './dto/musi-response.dto';
 import { plainToClass } from 'class-transformer';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
-export class UserService {
+export class MusiService {
   constructor(
     @InjectRepository(Musi)
     private userRepository: Repository<Musi>,
@@ -20,69 +20,69 @@ export class UserService {
     private mailService: MailService,
   ) {}
 
-  // Create a user
-  async createUser(createUserDto: CreateMusiDto): Promise<UserResponseDto> {
+  // Create a musi
+  async createUser(createUserDto: CreateMusiDto): Promise<MusiResponseDto> {
     const hashedPassword = await argon2.hash(createUserDto.password);
-    const user = await this.userRepository.save({
+    const musi = await this.userRepository.save({
       ...createUserDto,
       password: hashedPassword,
     });
 
-    return plainToClass(UserResponseDto, user);
+    return plainToClass(MusiResponseDto, musi);
   }
 
-  // Retrieve all users with search options
-  async findAll(query: QueryUserDto): Promise<Musi[]> {
+  // Retrieve all musis with search options
+  async findAll(query: QueryMusiDto): Promise<Musi[]> {
     const { firstName, lastName, email } = query;
-    const queryBuilder = this.userRepository.createQueryBuilder('user');
+    const queryBuilder = this.userRepository.createQueryBuilder('musi');
 
     if (firstName) {
-      queryBuilder.andWhere('user.firstName LIKE :name', {
+      queryBuilder.andWhere('musi.firstName LIKE :name', {
         firstName: `%${firstName}%`,
       });
     }
     if (lastName) {
-      queryBuilder.andWhere('user.lastName LIKE :name', {
+      queryBuilder.andWhere('musi.lastName LIKE :name', {
         lastName: `%${lastName}%`,
       });
     }
 
     if (email) {
-      queryBuilder.andWhere('user.email LIKE :email', { email: `%${email}%` });
+      queryBuilder.andWhere('musi.email LIKE :email', { email: `%${email}%` });
     }
 
     return queryBuilder.getMany();
   }
 
-  // Retrieve a user by ID
+  // Retrieve a musi by ID
   async findOne(id: string): Promise<Musi> {
-    const user = await this.userRepository.findOne({
+    const musi = await this.userRepository.findOne({
       where: { id },
     });
 
-    if (!user) {
+    if (!musi) {
       throw new NotFoundException();
     }
 
-    return user;
+    return musi;
   }
 
-  // Retrieve a user by email
+  // Retrieve a musi by email
   async findByEmail(email: string): Promise<Musi | undefined> {
-    const user = await this.userRepository.findOne({
+    const musi = await this.userRepository.findOne({
       where: { email },
       select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
     });
 
-    if (!user) {
+    if (!musi) {
       throw new NotFoundException();
     }
 
-    return user;
+    return musi;
   }
 
-  // Update a user
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<Musi> {
+  // Update a musi
+  async update(id: string, updateUserDto: UpdateMusiDto): Promise<Musi> {
     await this.userRepository.update(id, updateUserDto);
     const updatedUser = await this.userRepository.findOne({
       where: { id },
@@ -95,13 +95,13 @@ export class UserService {
     return updatedUser;
   }
 
-  // Delete a user
+  // Delete a musi
   async remove(id: string): Promise<void> {
-    const user = await this.userRepository.findOne({
+    const musi = await this.userRepository.findOne({
       where: { id },
     });
 
-    if (!user) {
+    if (!musi) {
       throw new NotFoundException();
     }
 
