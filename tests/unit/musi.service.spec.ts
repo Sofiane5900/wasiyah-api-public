@@ -48,7 +48,7 @@ describe('MusiService', () => {
     email: 'john.doe@example.com',
     password: 'hashed_password',
     isEmailVerified: false,
-    roles: RoleUser.ROLE_USER,
+    roles: RoleUser.ROLE_MUSI,
     birthDate: new Date('1990-01-01'),
     creationDate: new Date('2010-01-01'),
     twoFactorEnabled: false,
@@ -115,7 +115,7 @@ describe('MusiService', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
-        roles: RoleUser.ROLE_USER,
+        roles: RoleUser.ROLE_MUSI,
       };
 
       const result = await musiService.createUser(CreateMusiDto);

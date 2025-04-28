@@ -96,7 +96,7 @@ export class Musi {
     type: [String],
     example: ['ROLE_USER', 'ROLE_ADMIN'],
   })
-  @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_USER })
+  @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_MUSI })
   roles: RoleUser;
 
   @OneToMany(() => PosthumousMessage, 'user')
