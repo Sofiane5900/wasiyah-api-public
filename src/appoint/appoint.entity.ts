@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 import { Wakil } from '../wakil/wakil.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { RelationshipType } from '../enum/Relation';
@@ -63,8 +63,8 @@ export class Appoint {
   @Column({ type: Date, nullable: true })
   revocationDate: Date;
 
-  @ManyToOne(() => User, 'appointments')
-  user: User;
+  @ManyToOne(() => Musi, 'appointments')
+  user: Musi;
 
   @ManyToOne(() => Wakil, 'appointments')
   wakil: Wakil;

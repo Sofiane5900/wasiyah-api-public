@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { DeathController } from './death.controller';
 import { DeathService } from './death.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([Musi])],
   controllers: [DeathController],
   providers: [DeathService],
 })

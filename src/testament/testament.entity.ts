@@ -6,7 +6,7 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 
 @Entity()
 export class Testament {
@@ -56,9 +56,9 @@ export class Testament {
 
   @ApiProperty({
     description: 'Relationship with the concerned User',
-    type: () => User,
+    type: () => Musi,
   })
-  @OneToOne(() => User)
+  @OneToOne(() => Musi)
   @JoinColumn()
-  user: User;
+  user: Musi;
 }

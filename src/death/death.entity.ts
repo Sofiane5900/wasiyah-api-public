@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 import { Declare } from '../declare/declare.entity';
 
 @Entity()
@@ -46,11 +46,11 @@ export class Death {
 
   @ApiProperty({
     description: 'User associated with this death declaration',
-    type: () => User,
+    type: () => Musi,
   })
-  @OneToOne(() => User)
+  @OneToOne(() => Musi)
   @JoinColumn()
-  user: User;
+  user: Musi;
 
   @ApiProperty({
     description: 'Declaration made by Wakil for this death',

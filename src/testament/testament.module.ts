@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Testament } from './testament.entity';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from 'src/musi/musi.module';
 
 Module({
   imports: [

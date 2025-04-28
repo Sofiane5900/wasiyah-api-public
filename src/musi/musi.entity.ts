@@ -8,7 +8,7 @@ import { RoleUser } from '../enum/Roles';
 import { StatusUser } from '../enum/User';
 
 @Entity()
-export class User {
+export class Musi {
   @ApiProperty({
     description: 'identifier of the user',
     type: String,

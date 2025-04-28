@@ -1,17 +1,17 @@
 import 'reflect-metadata';
 import { test, expect } from 'vitest';
 import axios from 'axios';
-import { UserResponseDto } from '../../src/user/dto/user-response.dto';
-import { User } from '../../src/user/user.entity';
+import { UserResponseDto } from '../../src/musi/dto/musi-response.dto';
+import { Musi } from '../../src/musi/musi.entity';
 import process from 'node:process';
 import dotenv from 'dotenv';
-import {StatusUser} from "../../src/enum/User";
+import { StatusUser } from '../../src/enum/User';
 
 dotenv.config({ path: '.env.test' });
 
 const BASE_URL = process.env.BASE_TEST_URL;
 
-const user = new User();
+const user = new Musi();
 user.firstName = 'E2E';
 user.lastName = 'User';
 user.email = `user-e2e-${Date.now()}@example.com`;
@@ -35,5 +35,4 @@ test('User E2E - should create a new user', async () => {
   } catch (error) {
     throw error;
   }
-
 }, 10000);

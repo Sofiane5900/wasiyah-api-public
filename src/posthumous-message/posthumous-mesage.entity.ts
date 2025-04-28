@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 
 @Entity()
 export class PosthumousMessage {
@@ -62,8 +62,8 @@ export class PosthumousMessage {
 
   @ApiProperty({
     description: 'User who authored the posthumous message',
-    type: () => User,
+    type: () => Musi,
   })
-  @ManyToOne(() => User, 'posthumousMessages')
-  user: User;
+  @ManyToOne(() => Musi, 'posthumousMessages')
+  user: Musi;
 }

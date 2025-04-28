@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UniqueEntity } from '../../common/validator/unique-entity.validator';
-import { User } from '../user.entity';
+import { Musi } from '../musi.entity';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -32,7 +32,7 @@ export class UpdateUserDto {
   })
   @IsOptional()
   @IsEmail()
-  @UniqueEntity(User, 'email', {
+  @UniqueEntity(Musi, 'email', {
     message: 'This email is already associated with an account',
   })
   email?: string;

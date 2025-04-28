@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 import { Document } from '../document/document.entity';
 import { TypeSafe } from '../enum/Safe';
 
@@ -50,10 +50,10 @@ export class Safe {
 
   @ApiProperty({
     description: 'User who owns the safe',
-    type: () => User,
+    type: () => Musi,
   })
-  @ManyToOne(() => User, 'safes')
-  user: User;
+  @ManyToOne(() => Musi, 'safes')
+  user: Musi;
 
   @ApiProperty({
     description: 'List of documents stored in this safe',

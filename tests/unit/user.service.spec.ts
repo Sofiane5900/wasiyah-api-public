@@ -2,11 +2,11 @@ import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserService } from 'src/user/user.service';
-import { User } from 'src/user/user.entity';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { UpdateUserDto } from 'src/user/dto/update-user.dto';
-import { QueryUserDto } from 'src/user/dto/query-user.dto';
+import { UserService } from 'src/musi/musi.service';
+import { Musi } from 'src/musi/musi.entity';
+import { CreateMusiDto } from 'src/musi/dto/create-musi.dto';
+import { UpdateUserDto } from 'src/musi/dto/update-musi.dto';
+import { QueryUserDto } from 'src/musi/dto/query-musi.dto';
 import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
@@ -37,12 +37,12 @@ vi.mock('class-transformer', async () => {
 
 describe('UserService', () => {
   let userService: UserService;
-  let userRepository: Partial<Repository<User>>;
+  let userRepository: Partial<Repository<Musi>>;
   let jwtService: Partial<JwtService>;
   let mailService: Partial<MailService>;
   let queryBuilder: any;
 
-  const mockUser: Partial<User> = {
+  const mockUser: Partial<Musi> = {
     firstName: 'John',
     lastName: 'Doe',
     email: 'john.doe@example.com',
@@ -87,7 +87,7 @@ describe('UserService', () => {
       providers: [
         UserService,
         {
-          provide: getRepositoryToken(User),
+          provide: getRepositoryToken(Musi),
           useValue: userRepository,
         },
         {
@@ -110,7 +110,7 @@ describe('UserService', () => {
 
   describe('createUser', () => {
     it('should create a new user with hashed password', async () => {
-      const createUserDto: CreateUserDto = {
+      const CreateMusiDto: CreateMusiDto = {
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe@example.com',
@@ -118,11 +118,11 @@ describe('UserService', () => {
         roles: RoleUser.ROLE_USER,
       };
 
-      const result = await userService.createUser(createUserDto);
+      const result = await userService.createUser(CreateMusiDto);
 
       expect(argon2.hash).toHaveBeenCalledWith('password123');
       expect(userRepository.save).toHaveBeenCalledWith({
-        ...createUserDto,
+        ...CreateMusiDto,
         password: 'hashed_password',
       });
 

@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
+import { UserService } from '../musi/musi.service';
 import { FastifyReply } from 'fastify';
 import * as argon2 from 'argon2';
 import { RoleUser } from 'src/enum/Roles';

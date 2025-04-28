@@ -9,11 +9,11 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
-import { User } from './user.entity';
+import { UserService } from './musi.service';
+import { CreateMusiDto } from './dto/create-musi.dto';
+import { UpdateUserDto } from './dto/update-musi.dto';
+import { QueryUserDto } from './dto/query-musi.dto';
+import { Musi } from './musi.entity';
 import { ApiTags } from '@nestjs/swagger';
 import {
   ApiDeleteRessource,
@@ -23,7 +23,7 @@ import {
 } from '../openapi/api.decorator';
 import { Roles } from '../guards/roles/roles.decorator';
 import { RolesGuard } from '../guards/roles/roles.guards';
-import { UserResponseDto } from './dto/user-response.dto';
+import { UserResponseDto } from './dto/musi-response.dto';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 import { MailService } from 'src/mail/mail.service';
 
@@ -39,40 +39,40 @@ export class UserController {
   @Get()
   @Roles('ROLE_ADMIN')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiGetResource(User, true)
-  async findAll(@Query() query: QueryUserDto): Promise<User[]> {
+  @ApiGetResource(Musi, true)
+  async findAll(@Query() query: QueryUserDto): Promise<Musi[]> {
     return this.userService.findAll(query);
   }
 
   // Retrieve a user by ID
   @Get(':id')
-  @ApiGetResource(User)
-  async findOne(@Param('id') id: string): Promise<User> {
+  @ApiGetResource(Musi)
+  async findOne(@Param('id') id: string): Promise<Musi> {
     return this.userService.findOne(id);
   }
 
   // Create a user
   @Post()
   @ApiPostRessource(UserResponseDto)
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    const user = await this.userService.createUser(createUserDto);
+  async create(@Body() CreateMusiDto: CreateMusiDto): Promise<UserResponseDto> {
+    const user = await this.userService.createUser(CreateMusiDto);
     await this.mailService.sendVerificationEmail(user.email);
     return user;
   }
 
   // Update a user
   @Patch(':id')
-  @ApiPatchRessource(User)
+  @ApiPatchRessource(Musi)
   async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<Musi> {
     return this.userService.update(id, updateUserDto);
   }
 
   // Delete a user
   @Delete(':id')
-  @ApiDeleteRessource(User)
+  @ApiDeleteRessource(Musi)
   async remove(@Param('id') id: string): Promise<void> {
     return this.userService.remove(id);
   }

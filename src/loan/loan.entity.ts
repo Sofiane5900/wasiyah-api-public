@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user/user.entity';
+import { Musi } from '../musi/musi.entity';
 import { Repayment } from '../repayment/repayment.entity';
 
 @Entity()
@@ -101,10 +101,10 @@ export class Loan {
 
   @ApiProperty({
     description: 'User associated with this loan',
-    type: () => User,
+    type: () => Musi,
   })
-  @ManyToOne(() => User, 'loans')
-  user: User;
+  @ManyToOne(() => Musi, 'loans')
+  user: Musi;
 
   @ApiProperty({
     description: 'List of repayments made for this loan',
