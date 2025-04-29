@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-
-export class UserResponseDto {
+import { RoleUser } from 'src/enum/Roles';
+export class MusiResponseDto {
   @ApiProperty()
-  id: number;
+  id: string;
 
   @ApiProperty()
   firstName: string;
@@ -17,10 +17,8 @@ export class UserResponseDto {
   @Exclude()
   password: string;
 
-  @ApiProperty({
-    example: ['ROLE_USER'],
-  })
-  roles: string[];
+  @ApiProperty()
+  roles: RoleUser;
 
   @ApiProperty()
   isEmailVerified: boolean;

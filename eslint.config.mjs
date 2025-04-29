@@ -4,6 +4,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import progress from 'eslint-plugin-file-progress'
+import unusedImports from "eslint-plugin-unused-imports";
 
 export default tseslint.config(
   {
@@ -28,12 +29,17 @@ export default tseslint.config(
     },
   },
   {
+    plugins: {
+      "unused-imports": unusedImports,
+    },
+  },
+  {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'off', // TODO à réactiver
       '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off'
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
 

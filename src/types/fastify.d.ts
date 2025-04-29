@@ -1,4 +1,4 @@
-import { User } from '../user/user.entity';
+import { User } from '../musi/musi.entity';
 
 declare module 'fastify' {
   interface FastifyRequest {

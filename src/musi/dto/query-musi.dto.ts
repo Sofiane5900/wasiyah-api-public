@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class QueryUserDto {
+export class QueryMusiDto {
   @IsOptional()
   @IsString()
   firstName?: string;

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { User } from '../../user/user.entity';
+import { Musi } from '../../musi/musi.entity';
 import { FastifyRequest } from 'fastify';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<FastifyRequest>();
-    const user = request.user as User;
+    const user = request.user as Musi;
 
     if (!user?.roles?.length) {
       return false;

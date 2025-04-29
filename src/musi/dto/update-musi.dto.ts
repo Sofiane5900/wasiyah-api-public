@@ -7,11 +7,11 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { UniqueEntity } from '../../common/validator/unique-entity.validator';
-import { User } from '../user.entity';
+import { Musi } from '../musi.entity';
 
-export class UpdateUserDto {
+export class UpdateMusiDto {
   @ApiProperty({
-    description: "Le prénom de l'utilisateur",
+    description: "The user's first name",
     type: String,
   })
   @IsOptional()
@@ -19,7 +19,7 @@ export class UpdateUserDto {
   firstName?: string;
 
   @ApiProperty({
-    description: "Le nom de l'utilisateur",
+    description: "The user's last name",
     type: String,
   })
   @IsOptional()
@@ -27,16 +27,18 @@ export class UpdateUserDto {
   lastName?: string;
 
   @ApiProperty({
-    description: "L'email de l'utilisateur",
+    description: "The user's email address",
     type: String,
   })
   @IsOptional()
   @IsEmail()
-  @UniqueEntity(User, 'email', { message: 'Cet email à déjà un compte' })
+  @UniqueEntity(Musi, 'email', {
+    message: 'This email is already associated with an account',
+  })
   email?: string;
 
   @ApiProperty({
-    description: "Le mot de passe de l'utilisateur",
+    description: "The user's password",
     type: String,
     minLength: 8,
   })
