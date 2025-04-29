@@ -7,38 +7,39 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { FastifyReply } from 'fastify';
 import * as argon2 from 'argon2';
-import { UserRepository } from '../user/user.repository';
+import { RoleUser } from 'src/enum/Roles';
+import { MusiRepository } from '../musi/musi.repository';
 
-interface SafeUser {
-  id: number;
+interface SafeMusi {
+  id: string;
   email: string;
-  roles: string[];
+  roles: RoleUser;
   isEmailVerified: boolean;
 }
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly musiRepository: MusiRepository,
     private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(
     email: string,
     password: string,
-  ): Promise<SafeUser | null> {
-    const user = await this.userRepository.findOneBy({ email });
-    if (!user) return null;
+  ): Promise<SafeMusi | null> {
+    const musi = await this.musiRepository.findOneBy({ email });
+    if (!musi) return null;
 
-    const isPasswordValid = await argon2.verify(user.password, password);
+    const isPasswordValid = await argon2.verify(musi.password, password);
     if (!isPasswordValid) return null;
 
-    const { id, email: userEmail, roles } = user;
+    const { id, email: musiEmail, roles } = musi;
     return {
       id,
-      email: userEmail,
+      email: musiEmail,
       roles,
-      isEmailVerified: user.isEmailVerified,
+      isEmailVerified: musi.isEmailVerified,
     };
   }
 
@@ -47,15 +48,15 @@ export class AuthService {
     password: string,
     reply: FastifyReply,
   ): Promise<void> {
-    const user = await this.validateUser(email, password);
-    if (!user || !user.isEmailVerified) {
+    const musi = await this.validateUser(email, password);
+    if (!musi || !musi.isEmailVerified) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const token = this.jwtService.sign({
-      sub: user.id,
-      email: user.email,
-      roles: user.roles,
+      sub: musi.id,
+      email: musi.email,
+      roles: musi.roles,
     });
 
     reply.cookie('access_token', token, {
@@ -73,20 +74,20 @@ export class AuthService {
       const payload = await this.jwtService.verifyAsync<{ email: string }>(
         token,
       );
-      const user = await this.userRepository.findOneBy({
+      const musi = await this.musiRepository.findOneBy({
         email: payload.email,
       });
 
-      if (!user) {
+      if (!musi) {
         throw new NotFoundException('User not found');
       }
 
-      if (user.isEmailVerified) {
+      if (musi.isEmailVerified) {
         throw new ConflictException('Email is already verified');
       }
 
-      user.isEmailVerified = true;
-      await this.userRepository.update(user.id, user);
+      musi.isEmailVerified = true;
+      await this.musiRepository.update(musi.id, musi);
 
       return { message: 'Email verified with success!' };
     } catch {

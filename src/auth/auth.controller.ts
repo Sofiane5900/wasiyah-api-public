@@ -16,7 +16,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: 201,
-    description: `User login ressource`,
+    description: `Musi login ressource`,
     schema: {
       type: 'object',
       properties: {

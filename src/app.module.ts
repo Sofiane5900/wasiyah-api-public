@@ -2,12 +2,23 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { MusiModule } from './musi/musi.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as process from 'node:process';
 import { AuthModule } from './auth/auth.module';
 import { UniqueEntityConstraint } from './common/validator/unique-entity.validator';
+import { AppointModule } from './appoint/appoint.module';
+import { DeathModule } from './death/death.module';
+import { DeclareModule } from './declare/declare.module';
+import { DocumentModule } from './document/document.module';
+import { LoanModule } from './loan/loan.module';
+import { PosthumousMessageModule } from './posthumous-message/posthumous-message.module';
+import { RepaymentModule } from './repayment/repayment.module';
+import { SafeModule } from './safe/safe.module';
+import { TestamentModule } from './testament/testament.module';
+import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 @Module({
   imports: [
@@ -24,6 +35,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
         process.env.NODE_ENV !== 'test' ? 'wasiyah_db' : 'wasiyah_db_test',
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/**/*.{ts,js}'],
+      namingStrategy: new SnakeNamingStrategy(),
     }),
     MailerModule.forRoot({
       transport: {
@@ -39,8 +51,18 @@ import { MailerModule } from '@nestjs-modules/mailer';
       preview: true,
       template: {},
     }),
-    UserModule,
+    MusiModule,
     AuthModule,
+    AppointModule,
+    DeathModule,
+    DeclareModule,
+    DocumentModule,
+    LoanModule,
+    PosthumousMessageModule,
+    RepaymentModule,
+    SafeModule,
+    TestamentModule,
+    WakilModule,
   ],
   controllers: [AppController],
   providers: [AppService, UniqueEntityConstraint],

@@ -57,8 +57,3 @@ jobs:
           pnpm build
           pnpm dev &
           pnpm test
-
-      - name: Coverage tests
-        run: |
-          pnpm dev &
-          pnpm test:coverage

@@ -14,12 +14,12 @@ import {DataSource} from "typeorm";
 @Injectable()
 export class ${entityName}Repository extends ServiceEntityRepository<${entityName}> {
    constructor(private readonly dataSource: DataSource) {
-    super(User, dataSource.createEntityManager());
+    super(${entityName}, dataSource.createEntityManager());
   }
 
   // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
   /*async findByExampleField(value: string): Promise<${entityName} | null> {
-    return this.findOne({ where: { value } });
+    return this.findOneBy({ value });
   }*/
 }
   `;
