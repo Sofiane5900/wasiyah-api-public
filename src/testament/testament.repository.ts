@@ -9,7 +9,7 @@ export class TestamentRepository extends ServiceEntityRepository<Testament> {
     super(Testament, dataSource.createEntityManager());
   }
 
-  // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
+  // Example method—you can adapt it or add others as needed.
   /*async findByExampleField(value: string): Promise<Testament | null> {
     return this.findOneBy({ value });
   }*/

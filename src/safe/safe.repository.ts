@@ -9,7 +9,7 @@ export class SafeRepository extends ServiceEntityRepository<Safe> {
     super(Safe, dataSource.createEntityManager());
   }
 
-  // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
+  // Example method—you can adapt it or add others as needed.
   /*async findByExampleField(value: string): Promise<Safe | null> {
     return this.findOneBy({ value });
   }*/

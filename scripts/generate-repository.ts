@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import chalk from "chalk";
 
-// Fonction pour générer un Repository
+// Fonction to générate a Repository
 function generateRepository(entityName: string): void {
   const repositoryPath = path.join(__dirname, '..', 'src', entityName.toLowerCase(), `${entityName.toLowerCase()}.repository.ts`);
   const repositoryContent = `
@@ -17,24 +17,24 @@ export class ${entityName}Repository extends ServiceEntityRepository<${entityNam
     super(${entityName}, dataSource.createEntityManager());
   }
 
-  // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
+  // Example method—you can adapt it or add others as needed.
   /*async findByExampleField(value: string): Promise<${entityName} | null> {
     return this.findOneBy({ value });
   }*/
 }
   `;
 
-  // Vérifie si le fichier existe déjà
+  // check if file exists
   if (fs.existsSync(repositoryPath)) {
     console.log(chalk.yellow(`Le repository de l'entité ${entityName} existe déjà.`));
   } else {
-    // Crée le dossier si nécessaire
+    // Create the folder if not exists
     const modulePath = path.dirname(repositoryPath);
     if (!fs.existsSync(modulePath)) {
       fs.mkdirSync(modulePath, { recursive: true });
     }
 
-    // Crée le fichier repository
+    // Create the repository file
     fs.writeFileSync(repositoryPath, repositoryContent);
     console.log(chalk.green(`Le repository de l'entité ${entityName} a été créé avec succès.`));
   }

@@ -9,7 +9,7 @@ export class LoanRepository extends ServiceEntityRepository<Loan> {
     super(Loan, dataSource.createEntityManager());
   }
 
-  // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
+  // Example method—you can adapt it or add others as needed.
   /*async findByExampleField(value: string): Promise<Loan | null> {
     return this.findOneBy({ value });
   }*/

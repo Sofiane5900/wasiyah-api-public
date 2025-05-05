@@ -9,6 +9,7 @@ Each business domain is isolated in its own independent module, following a clea
 - **Service**: Contains business logic
 - **Entity**: Defines the data model (TypeORM)
 - **Module**: Declares the dependencies and binds components
+- **Repository**: Declares the data access components of the entity
 
 This design enables:
 - A **clear separation of concerns**
@@ -27,6 +28,7 @@ wakil/
 ├── wakil.service.ts      // Business logic (trust score, etc.)
 ├── wakil.entity.ts       // TypeORM entity representing a wakil
 ├── wakil.module.ts       // NestJS module declaration
+├── wakil.repository.ts   // Data access components of the entity
 ```
 
 ## Domain Modules Overview

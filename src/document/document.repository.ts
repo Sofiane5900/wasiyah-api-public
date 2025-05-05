@@ -9,7 +9,7 @@ export class DocumentRepository extends ServiceEntityRepository<Document> {
     super(Document, dataSource.createEntityManager());
   }
 
-  // Méthode d'exemple, tu peux l'adapter ou en ajouter d'autres
+  // Example method—you can adapt it or add others as needed.
   /*async findByExampleField(value: string): Promise<Document | null> {
     return this.findOneBy({ value });
   }*/
