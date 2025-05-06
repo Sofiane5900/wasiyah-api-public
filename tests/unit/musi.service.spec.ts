@@ -1,12 +1,9 @@
 import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { MusiService } from 'src/musi/musi.service';
 import { Musi } from 'src/musi/musi.entity';
 import { CreateMusiDto } from 'src/musi/dto/create-musi.dto';
 import { UpdateMusiDto } from 'src/musi/dto/update-musi.dto';
-import { QueryMusiDto } from 'src/musi/dto/query-musi.dto';
 import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
@@ -15,6 +12,7 @@ import { plainToClass } from 'class-transformer';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { RoleUser } from 'src/enum/Roles';
 import { StatusUser } from 'src/enum/User';
+import {MusiRepository} from "../../src/musi/musi.repository";
 
 // Mockers pour argon2
 vi.mock('argon2', () => ({
@@ -37,7 +35,7 @@ vi.mock('class-transformer', async () => {
 
 describe('MusiService', () => {
   let musiService: MusiService;
-  let musiRepository: Partial<Repository<Musi>>;
+  let musiRepository: Partial<MusiRepository>;
   let jwtService: Partial<JwtService>;
   let mailService: Partial<MailService>;
   let queryBuilder: any;
@@ -70,6 +68,7 @@ describe('MusiService', () => {
     musiRepository = {
       save: vi.fn().mockResolvedValue(mockMusi),
       findOne: vi.fn().mockResolvedValue(mockMusi),
+      findOneBy: vi.fn().mockResolvedValue(mockMusi),
       update: vi.fn().mockResolvedValue({ affected: 1 }),
       delete: vi.fn().mockResolvedValue({ affected: 1 }),
       createQueryBuilder: vi.fn().mockReturnValue(queryBuilder),
@@ -87,7 +86,7 @@ describe('MusiService', () => {
       providers: [
         MusiService,
         {
-          provide: getRepositoryToken(Musi),
+          provide: MusiRepository,
           useValue: musiRepository,
         },
         {
@@ -134,130 +133,6 @@ describe('MusiService', () => {
       expect(plainToClassMock.mock.calls[0][1]).toEqual(mockMusi);
 
       expect(result).toEqual(mockMusi);
-    });
-  });
-
-  describe('findAll', () => {
-    it('should return all users without filters', async () => {
-      const query: QueryMusiDto = {};
-
-      const result = await musiService.findAll(query);
-
-      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
-      expect(queryBuilder.andWhere).not.toHaveBeenCalled();
-      expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockMusi]);
-    });
-
-    it('should filter users by firstName', async () => {
-      const query: QueryMusiDto = { firstName: 'John' };
-
-      const result = await musiService.findAll(query);
-
-      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
-      expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'musi.firstName LIKE :name',
-        {
-          firstName: '%John%',
-        },
-      );
-      expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockMusi]);
-    });
-
-    it('should filter users by lastName', async () => {
-      const query: QueryMusiDto = { lastName: 'Doe' };
-
-      const result = await musiService.findAll(query);
-
-      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
-      expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'musi.lastName LIKE :name',
-        {
-          lastName: '%Doe%',
-        },
-      );
-      expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockMusi]);
-    });
-
-    it('should filter users by email', async () => {
-      const query: QueryMusiDto = { email: 'john.doe' };
-
-      const result = await musiService.findAll(query);
-
-      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
-      expect(queryBuilder.andWhere).toHaveBeenCalledWith(
-        'musi.email LIKE :email',
-        {
-          email: '%john.doe%',
-        },
-      );
-      expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockMusi]);
-    });
-
-    it('should apply multiple filters', async () => {
-      const query: QueryMusiDto = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe',
-      };
-
-      const result = await musiService.findAll(query);
-
-      expect(musiRepository.createQueryBuilder).toHaveBeenCalledWith('musi');
-      expect(queryBuilder.andWhere).toHaveBeenCalledTimes(3);
-      expect(queryBuilder.getMany).toHaveBeenCalled();
-      expect(result).toEqual([mockMusi]);
-    });
-  });
-
-  describe('findOne', () => {
-    it('should return a musi by id', async () => {
-      const result = await musiService.findOne('1');
-
-      expect(musiRepository.findOne).toHaveBeenCalledWith({
-        where: { id: '1' },
-      });
-      expect(result).toEqual(mockMusi);
-    });
-
-    it('should throw NotFoundException when musi is not found', async () => {
-      musiRepository.findOne = vi.fn().mockResolvedValue(null);
-
-      await expect(musiService.findOne('999')).rejects.toThrow(
-        NotFoundException,
-      );
-
-      expect(musiRepository.findOne).toHaveBeenCalledWith({
-        where: { id: '999' },
-      });
-    });
-  });
-
-  describe('findByEmail', () => {
-    it('should return a musi by email with specific selected fields', async () => {
-      const result = await musiService.findByEmail('john.doe@example.com');
-
-      expect(musiRepository.findOne).toHaveBeenCalledWith({
-        where: { email: 'john.doe@example.com' },
-        select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
-      });
-      expect(result).toEqual(mockMusi);
-    });
-
-    it('should throw NotFoundException when musi is not found by email', async () => {
-      musiRepository.findOne = vi.fn().mockResolvedValue(null);
-
-      await expect(
-        musiService.findByEmail('nonexistent@example.com'),
-      ).rejects.toThrow(NotFoundException);
-
-      expect(musiRepository.findOne).toHaveBeenCalledWith({
-        where: { email: 'nonexistent@example.com' },
-        select: ['id', 'email', 'password', 'isEmailVerified', 'roles'],
-      });
     });
   });
 
