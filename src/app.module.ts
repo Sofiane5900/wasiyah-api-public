@@ -19,6 +19,7 @@ import { TestamentModule } from './testament/testament.module';
 import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     SafeModule,
     TestamentModule,
     WakilModule,
+    ResetPasswordModule,
   ],
   controllers: [AppController],
   providers: [AppService, UniqueEntityConstraint],

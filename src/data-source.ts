@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as process from 'node:process';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
