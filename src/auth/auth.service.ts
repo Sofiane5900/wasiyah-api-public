@@ -59,20 +59,20 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const token = this.jwtService.sign({
+    const accessToken = this.jwtService.sign({
       sub: safeMusi.id,
       email: safeMusi.email,
       roles: safeMusi.roles,
     });
 
-    reply.cookie('access_token', token, {
+    reply.cookie('access_token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
       sameSite: 'strict',
       path: '/',
     });
 
-    reply.send({ token });
+    reply.send({ accessToken });
   }
 
   async verifyEmail(token: string) {
