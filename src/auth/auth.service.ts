@@ -129,4 +129,36 @@ export class AuthService {
 
     return token;
   }
+
+  async refreshAcessToken(refreshToken: string, reply: FastifyReply) {
+    const storedToken = await this.refreshTokenRepository.findOneBy({
+      token: refreshToken,
+    });
+
+    if (!storedToken || storedToken.expiresAt < new Date()) {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+
+    const musi = await this.musiRepository.findOneBy({
+      email: storedToken.email,
+    });
+    if (!musi || !musi.isEmailVerified) {
+      throw new UnauthorizedException('Musi not found or not verified');
+    }
+
+    const accessToken = this.jwtService.sign({
+      sub: musi.id,
+      email: musi.email,
+      roles: musi.roles,
+    });
+    
+    reply.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'prod',
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    reply.send({ accessToken });
+  }
 }
