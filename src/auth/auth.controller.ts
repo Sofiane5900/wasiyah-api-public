@@ -1,6 +1,15 @@
-import { Controller, Post, Body, Res, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  Get,
+  Query,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
@@ -34,5 +43,21 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Link invalid or expired.' })
   async verifyEmail(@Query('token') token: string) {
     return this.authService.verifyEmail(token);
+  }
+
+  @Get('refresh-token')
+  @ApiOperation({
+    summary: 'Refreshes access token using refresh token cookie',
+  })
+  @ApiResponse({ status: 200, description: 'Access token refreshed' })
+  @ApiResponse({ status: 401, description: 'Invalid or expired refresh token' })
+  async refreshToken(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
+    const refreshToken = req.cookies?.refresh_token;
+
+    if (!refreshToken) {
+      throw new UnauthorizedException('No refresh token found');
+    }
+
+    return this.authService.refreshAcessToken(refreshToken, reply);
   }
 }
