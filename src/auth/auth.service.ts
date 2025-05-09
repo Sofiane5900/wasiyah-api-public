@@ -10,6 +10,8 @@ import * as argon2 from 'argon2';
 import { RoleUser } from 'src/enum/Roles';
 import { MusiRepository } from '../musi/musi.repository';
 import { RefreshTokenRepository } from 'src/musi/refresh-token.repository';
+import { Musi } from 'src/musi/musi.entity';
+import { randomBytes } from 'crypto';
 
 interface SafeMusi {
   id: string;
@@ -95,5 +97,21 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException('Invalid or expired token');
     }
+  }
+  Ò;
+
+  async createRefreshToken(musi: Musi): Promise<string> {
+    const token = randomBytes(32).toString('hex');
+    // TODO : Create a utils fucntion for Date readability
+    // 604800000 ms = 7 days
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+    await this.refreshTokenRepository.save({
+      user: musi,
+      token,
+      expiresAt,
+    });
+
+    return token;
   }
 }
