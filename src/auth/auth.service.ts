@@ -52,15 +52,17 @@ export class AuthService {
     password: string,
     reply: FastifyReply,
   ): Promise<void> {
-    const musi = await this.validateUser(email, password);
-    if (!musi || !musi.isEmailVerified) {
+    // "safeMusi" does not contain the password.
+    // We name it "safe" to distinguish it from the full Musi entity.
+    const safeMusi = await this.validateUser(email, password);
+    if (!safeMusi || !safeMusi.isEmailVerified) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const token = this.jwtService.sign({
-      sub: musi.id,
-      email: musi.email,
-      roles: musi.roles,
+      sub: safeMusi.id,
+      email: safeMusi.email,
+      roles: safeMusi.roles,
     });
 
     reply.cookie('access_token', token, {
