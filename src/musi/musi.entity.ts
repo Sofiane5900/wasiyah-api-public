@@ -1,4 +1,10 @@
-import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Appoint } from '../appoint/appoint.entity';
 import { Loan } from '../loan/loan.entity';
@@ -56,7 +62,7 @@ export class Musi {
     description: 'creation date',
     type: Date,
   })
-  @Column({ type: Date })
+  @CreateDateColumn({ type: Date })
   creationDate: Date;
 
   @ApiProperty({

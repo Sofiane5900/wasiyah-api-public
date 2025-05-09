@@ -151,7 +151,7 @@ export class AuthService {
       email: musi.email,
       roles: musi.roles,
     });
-    
+
     reply.cookie('access_token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
