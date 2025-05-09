@@ -49,6 +49,12 @@ export class CreateMusiDto {
   password: string;
 
   @ApiProperty({
+    description: 'birth date',
+    type: Date,
+  })
+  birthDate: Date;
+
+  @ApiProperty({
     description: "The Musi's roles",
     type: 'string',
     example: ['ROLE_MUSI', 'ROLE_ADMIN'],
