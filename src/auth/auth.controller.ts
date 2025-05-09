@@ -37,6 +37,19 @@ export class AuthController {
     return this.authService.login(body.email, body.password, reply);
   }
 
+  @Post('refresh-token/invalidate')
+  @ApiOperation({ summary: 'Logs out the user by invalidating refresh token' })
+  @ApiResponse({ status: 200, description: 'Refresh token invalidated' })
+  @ApiResponse({ status: 401, description: 'No refresh token provided' })
+  async logout(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
+    const refreshToken = req.cookies?.refresh_token;
+    if (!refreshToken) {
+      throw new UnauthorizedException('No refresh token found');
+    }
+
+    return this.authService.logout(refreshToken, reply);
+  }
+
   @Get('verify-email')
   @ApiOperation({ summary: 'Retrieves a verify email resource.' })
   @ApiResponse({ status: 200, description: 'Email verified with success.' })
