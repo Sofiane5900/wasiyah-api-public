@@ -9,6 +9,7 @@ import { FastifyReply } from 'fastify';
 import * as argon2 from 'argon2';
 import { RoleUser } from 'src/enum/Roles';
 import { MusiRepository } from '../musi/musi.repository';
+import { RefreshTokenRepository } from 'src/musi/refresh-token.repository';
 
 interface SafeMusi {
   id: string;
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private readonly musiRepository: MusiRepository,
     private readonly jwtService: JwtService,
+    private readonly refreshTokenRepository: RefreshTokenRepository,
   ) {}
 
   async validateUser(
