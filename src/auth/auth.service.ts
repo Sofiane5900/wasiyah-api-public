@@ -123,6 +123,7 @@ export class AuthService {
 
     await this.refreshTokenRepository.save({
       user: musi,
+      email: musi.email,
       token,
       expiresAt,
     });
