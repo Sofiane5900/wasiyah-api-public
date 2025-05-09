@@ -65,7 +65,20 @@ export class AuthService {
       roles: safeMusi.roles,
     });
 
+    const musi = await this.musiRepository.findOneBy({ email });
+    if (!musi) {
+      throw new NotFoundException('Musi not found.');
+    }
+    const refreshToken = await this.createRefreshToken(musi);
+
     reply.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'prod',
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    reply.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
       sameSite: 'strict',
