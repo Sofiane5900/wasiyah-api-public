@@ -88,6 +88,26 @@ export class AuthService {
     reply.send({ accessToken });
   }
 
+  async logout(refreshToken: string, reply: FastifyReply): Promise<void> {
+    await this.refreshTokenRepository.delete({ token: refreshToken });
+
+    reply.clearCookie('refresh-token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'prod',
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    reply.clearCookie('access_token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'prod',
+      sameSite: 'strict',
+      path: '/',
+    });
+
+    reply.send({ message: 'Logged out successfully' });
+  }
+
   async verifyEmail(token: string) {
     try {
       const payload = await this.jwtService.verifyAsync<{ email: string }>(
