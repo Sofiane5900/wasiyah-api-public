@@ -2,6 +2,7 @@
 
 ![NestJS](https://img.shields.io/badge/NestJS-10.3.0-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white) 
+![Fastify](https://img.shields.io/badge/Fastify-4.27.0-000000?style=for-the-badge&logo=fastify&logoColor=white)
 
 ## Structure du projet 
 
@@ -244,7 +245,7 @@
 - [ ] Prévoir un retour d'erreur explicite si la limite est atteinte
 
 
-## ⚪️ Validation du Décès – Gestion technique (version mise à jour)
+## ⚪️ Validation du Décès – Gestion technique 
 
 - [ ] Implémenter l’endpoint `POST /declaration-deces` :
   - [ ] Accessible uniquement par un Wakil désigné du Musi
@@ -296,7 +297,7 @@
   - [ ] Création d’un **nouveau compte vide**
   - [ ] Avertir que l’historique est définitivement perdu
 
-##  ⚪️ Notifications – Gestion technique (version mise à jour)
+##  ⚪️ Notifications – Gestion technique 
 
 - [ ] Implémenter un **service centralisé** de gestion des notifications
 - [ ] Gérer l’envoi des **emails critiques** :
@@ -320,3 +321,14 @@
   - [ ] Les données anonymisées ou non sensibles
 - [ ] Ajouter un champ "consentement explicite" au moment de l’inscription (avec case à cocher)
 - [ ] Implémenter un mécanisme de **purge automatique des logs système** après x  jours (cron backend)
+
+
+
+## 🟡 Realase V.0.1
+
+- [ ] Création d’un musi
+- [ ] Login
+- [ ] Logout
+- [ ] Refresh token
+- [ ] Reset password
+- [ ] RBAC
