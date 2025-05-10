@@ -1,5 +1,8 @@
 # Roadmap Wasiyah Api 
 
+![NestJS](https://img.shields.io/badge/NestJS-10.3.0-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white) 
+
 ## Structure du projet 
 
 ```
@@ -187,14 +190,14 @@
 
 ## État d'Avancement Global
 
-| 🟢 Terminé | ⚪️ Non commencé | 🟡 En cours | 🔵 Prêt à démarrer |
-| :--------- | :-------------- | :---------- | :----------------- |
+| 🟢 Terminé | ⚪️ Non commencé | 🟡 En cours |
+| :--------- | :-------------- | :---------- | 
 
 
 ## Version 0.x.x (Développement MVP)
 
 
-## 🟢 Sécurité des Données – Techniques à implémenter
+## ⚪️ Sécurité des Données – Techniques à implémenter
 
 - [ ] Implémenter les rôles : `MUSI`, `WAKIL`,
 - [ ] Contrôle d’accès via Guards / Interceptors selon rôle
@@ -205,7 +208,7 @@
   - [ ] Invalidation de son accès à toutes les données
 
 
-## 🟡 Authentification – Approfondissement
+## ⚪️ Authentification – Approfondissement
 
 - [ ] Vérification de connexion depuis un nouvel appareil :
   - [ ] Email ou validation 2FA obligatoire
