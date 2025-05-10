@@ -194,21 +194,9 @@
 ## Version 0.x.x (Développement MVP)
 
 
-## 🔏 Confidentialité & RGPD – Implémentation
+## 🟢 Sécurité des Données – Techniques à implémenter
 
-- [ ] Implémenter un endpoint `DELETE /me` pour permettre à un utilisateur de **supprimer définitivement son compte**
-- [ ] Implémenter un endpoint `GET /me/export` pour permettre à l’utilisateur de **télécharger ses données**
-- [ ] Implémenter un endpoint `PATCH /me` pour **éditer les données personnelles**
-- [ ] Séparer clairement dans la structure :
-  - [ ] Les données personnelles identifiables
-  - [ ] Les données anonymisées ou non sensibles
-- [ ] Ajouter un champ "consentement explicite" au moment de l’inscription (avec case à cocher)
-- [ ] Implémenter un mécanisme de **purge automatique des logs système** après x  jours (cron backend)
-
-
-## 🔐 Sécurité des Données – Techniques à implémenter
-
-- [ ] Implémenter les rôles : `MUSI`, `WAKIL`, `ADMIN`
+- [ ] Implémenter les rôles : `MUSI`, `WAKIL`,
 - [ ] Contrôle d’accès via Guards / Interceptors selon rôle
 - [ ] Déchiffrement conditionné post-mortem :
   - [ ] Vérification décès validé + délai écoulé + Wakil autorisé
@@ -217,7 +205,7 @@
   - [ ] Invalidation de son accès à toutes les données
 
 
-## 🔐 Authentification – Approfondissement
+## 🟡 Authentification – Approfondissement
 
 - [ ] Vérification de connexion depuis un nouvel appareil :
   - [ ] Email ou validation 2FA obligatoire
@@ -240,7 +228,7 @@
   - [ ] Ajouter avertissements sur l’irréversibilité
 
 
-## Messages posthumes – Gestion technique
+## ⚪️ Messages posthumes – Gestion technique
 
 - [ ] Implémenter le CRUD complet des messages posthumes
 - [ ] Ajout du champ texte (limite de 50 000 caractères)
@@ -253,7 +241,7 @@
 - [ ] Prévoir un retour d'erreur explicite si la limite est atteinte
 
 
-## ⚰️ Validation du Décès – Gestion technique (version mise à jour)
+## ⚪️ Validation du Décès – Gestion technique (version mise à jour)
 
 - [ ] Implémenter l’endpoint `POST /declaration-deces` :
   - [ ] Accessible uniquement par un Wakil désigné du Musi
@@ -305,7 +293,7 @@
   - [ ] Création d’un **nouveau compte vide**
   - [ ] Avertir que l’historique est définitivement perdu
 
-## 📱 Notifications – Gestion technique (version mise à jour)
+##  ⚪️ Notifications – Gestion technique (version mise à jour)
 
 - [ ] Implémenter un **service centralisé** de gestion des notifications
 - [ ] Gérer l’envoi des **emails critiques** :
@@ -318,3 +306,14 @@
   - [ ] Type de notification (email / push)
   - [ ] Statut de l’envoi (succès ou échec)
   - [ ] Date et destinataire
+
+##  ⚪️ Confidentialité & RGPD – Implémentation
+
+- [ ] Implémenter un endpoint `DELETE /me` pour permettre à un utilisateur de **supprimer définitivement son compte**
+- [ ] Implémenter un endpoint `GET /me/export` pour permettre à l’utilisateur de **télécharger ses données**
+- [ ] Implémenter un endpoint `PATCH /me` pour **éditer les données personnelles**
+- [ ] Séparer clairement dans la structure :
+  - [ ] Les données personnelles identifiables
+  - [ ] Les données anonymisées ou non sensibles
+- [ ] Ajouter un champ "consentement explicite" au moment de l’inscription (avec case à cocher)
+- [ ] Implémenter un mécanisme de **purge automatique des logs système** après x  jours (cron backend)
