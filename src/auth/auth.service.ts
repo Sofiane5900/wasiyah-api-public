@@ -156,8 +156,15 @@ export class AuthService {
       token: refreshToken,
     });
 
-    if (!storedToken || storedToken.expiresAt < new Date()) {
-      throw new UnauthorizedException('Invalid or expired refresh token');
+    //If the token is not found :
+    if (!storedToken) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    //If the token is expired :
+    if (storedToken.expiresAt < new Date()) {
+      await this.refreshTokenRepository.delete({ token: refreshToken });
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const musi = await this.musiRepository.findOneBy({
