@@ -44,7 +44,7 @@ export class AuthController {
   async logout(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
     const refreshToken = req.cookies?.refresh_token;
     if (!refreshToken) {
-      throw new UnauthorizedException('No refresh token found');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return this.authService.logout(refreshToken, reply);
@@ -68,7 +68,7 @@ export class AuthController {
     const refreshToken = req.cookies?.refresh_token;
 
     if (!refreshToken) {
-      throw new UnauthorizedException('No refresh token found');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     return this.authService.refreshAcessToken(refreshToken, reply);

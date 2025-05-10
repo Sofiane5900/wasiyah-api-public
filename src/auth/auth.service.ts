@@ -130,7 +130,7 @@ export class AuthService {
 
       return { message: 'Email verified with success!' };
     } catch {
-      throw new UnauthorizedException('Invalid or expired token');
+      throw new UnauthorizedException('Invalid credentials');
     }
   }
   Ò;
