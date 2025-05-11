@@ -1,12 +1,12 @@
 import { AuthService } from '../../src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { MusiRepository } from '../../src/musi/musi.repository';
-import { RefreshTokenRepository } from '../../src/musi/refresh-token.repository';
+import { RefreshTokenRepository } from '../../src/refresh-token/refresh-token.repository';
 import { UnauthorizedException } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 import { RoleUser } from '../../src/enum/Roles';
 import { Musi } from '../../src/musi/musi.entity';
-import { RefreshToken } from '../../src/musi/refresh-token.entity';
+import { RefreshToken } from '../../src/refresh-token/refresh-token.entity';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('AuthService', () => {

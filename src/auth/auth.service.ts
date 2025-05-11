@@ -9,7 +9,7 @@ import { FastifyReply } from 'fastify';
 import * as argon2 from 'argon2';
 import { RoleUser } from 'src/enum/Roles';
 import { MusiRepository } from '../musi/musi.repository';
-import { RefreshTokenRepository } from 'src/musi/refresh-token.repository';
+import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 import { Musi } from 'src/musi/musi.entity';
 import { randomBytes } from 'crypto';
 

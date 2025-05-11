@@ -8,8 +8,8 @@ import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 import { MailService } from 'src/mail/mail.service';
 import { UrlGeneratorModule } from '../common/url-generator/url-generator.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshToken } from 'src/musi/refresh-token.entity';
-import { RefreshTokenRepository } from 'src/musi/refresh-token.repository';
+import { RefreshToken } from 'src/refresh-token/refresh-token.entity';
+import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 
 @Module({
   imports: [
