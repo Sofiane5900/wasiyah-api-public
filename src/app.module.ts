@@ -22,6 +22,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RefreshTokenInterceptor } from './refresh-token/refresh-token.interceptor';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -66,11 +67,13 @@ import { RefreshTokenInterceptor } from './refresh-token/refresh-token.intercept
     SafeModule,
     TestamentModule,
     WakilModule,
+    RefreshTokenModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     UniqueEntityConstraint,
+    RefreshTokenMiddleware,
     { provide: APP_INTERCEPTOR, useClass: RefreshTokenInterceptor },
   ],
 })
