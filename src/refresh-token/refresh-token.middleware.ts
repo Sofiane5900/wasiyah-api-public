@@ -1,13 +1,11 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { FastifyRequest } from 'fastify';
-import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenRepository } from './refresh-token.repository';
 import { MusiRepository } from 'src/musi/musi.repository';
 
 @Injectable()
 export class RefreshTokenMiddleware implements NestMiddleware {
   constructor(
-    private readonly jwtService: JwtService,
     private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly musiRepository: MusiRepository,
   ) {}
