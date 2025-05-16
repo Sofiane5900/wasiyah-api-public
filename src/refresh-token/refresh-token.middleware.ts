@@ -13,8 +13,9 @@ export class RefreshTokenMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: FastifyRequest, res: any, next: () => void) {
-    const accessToken = req.cookies?.access_token;
-    const refreshToken = req.cookies?.refresh_token;
+    const cookies = req.cookies || {};
+    const accessToken = cookies.access_token;
+    const refreshToken = cookies.refresh_token;
 
     if (!refreshToken || accessToken) {
       return next();
