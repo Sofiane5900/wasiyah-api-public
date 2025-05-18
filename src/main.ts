@@ -24,7 +24,6 @@ async function bootstrap() {
     .setTitle('Wasiyah API')
     .setDescription('Wasiyah API documentation')
     .setVersion('1.0')
-    .addTag('users')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
