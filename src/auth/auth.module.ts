@@ -18,7 +18,7 @@ import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.reposito
       publicKey: jwtConstants.publicKey,
       signOptions: {
         algorithm: 'RS256',
-        expiresIn: '1h',
+        expiresIn: '1m',
       },
     }),
     forwardRef(() => MusiModule),
