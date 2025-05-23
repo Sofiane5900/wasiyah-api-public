@@ -34,7 +34,6 @@ async function bootstrap() {
   };
 
   SwaggerModule.setup('api', app, documentFactory, options);
-
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
     new ValidationPipe({
