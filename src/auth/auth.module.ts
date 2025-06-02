@@ -18,7 +18,7 @@ import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.reposito
       publicKey: jwtConstants.publicKey,
       signOptions: {
         algorithm: 'RS256',
-        expiresIn: '1m',
+        // expiresIn: '1m',
       },
     }),
     forwardRef(() => MusiModule),
@@ -27,6 +27,6 @@ import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.reposito
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard, MailService, RefreshTokenRepository],
-  exports: [JwtAuthGuard, JwtModule],
+  exports: [JwtAuthGuard, JwtModule, AuthService],
 })
 export class AuthModule {}

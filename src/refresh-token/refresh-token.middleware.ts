@@ -1,8 +1,9 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
 import { RefreshTokenRepository } from './refresh-token.repository';
 import { MusiRepository } from 'src/musi/musi.repository';
 import { JwtService } from '@nestjs/jwt';
+import { RequestWithRefresh } from './request-refresh.interface';
 
 interface CookieMap {
   [key: string]: string;
@@ -15,7 +16,7 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     private readonly jwtService: JwtService,
   ) {}
 
-  async use(req: FastifyRequest, res: any, next: () => void) {
+  async use(req: RequestWithRefresh, res: FastifyReply, next: () => void) {
     const cookieHeader = req.headers.cookie;
 
     if (!cookieHeader) {
@@ -32,9 +33,6 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     const accessToken = cookies.access_token;
     const refreshToken = cookies.refresh_token;
 
-    // console.log(accessToken, 'accessToken');
-    // console.log(refreshToken, 'refreshToken');
-
     if (!refreshToken) {
       return next();
     }
@@ -46,7 +44,7 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     if (accessToken) {
       isAccessTokenPresent = true;
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment*/
         const decodedToken = this.jwtService.decode(accessToken);
 
         if (
@@ -56,11 +54,10 @@ export class RefreshTokenMiddleware implements NestMiddleware {
         ) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           const now = new Date();
-          // console.log('expiredDate', expirationDate);
-          // console.log('now', now);
+          console.log('expiredDate', expirationDate);
+          console.log('now', now);
 
           isAccessTokenExpired = expirationDate <= now;
-          // console.log('Access token est expiré:', isAccessTokenExpired);
         } else {
           isAccessTokenExpired = true;
         }
@@ -91,15 +88,18 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     const musi = await this.musiRepository.findOneBy({
       email: storedToken.email,
     });
-    // console.log(musi, 'call find email musssi in middleware');
 
     if (!musi || !musi.isEmailVerified) {
       return next();
     }
 
-    (req as any).user = musi;
-    (req as any).needsAccessTokenRefresh = true;
-
-    next();
+    req.user = musi;
+    req.needsAccessTokenRefresh = true;
+    req.refreshToken = storedToken?.token;
+    console.log('User found:', (req as any).user);
+    console.log(
+      'needsAccessTokenRefresh:',
+      (req as any).needsAccessTokenRefresh,
+    );
   }
 }

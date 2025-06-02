@@ -19,12 +19,11 @@ async function bootstrap() {
     logger: process.env.NODE_ENV !== 'prod',
   });
 
-  // 🔥 Enregistrer fastify-cookie avant NestFactory
   await adapter.register(fastifyCookie);
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    // new FastifyAdapter({ logger: process.env.NODE_ENV !== 'prod' }),
+    adapter,
   );
 
   const config = new DocumentBuilder()

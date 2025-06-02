@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -20,8 +25,8 @@ import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { RefreshTokenInterceptor } from './refresh-token/refresh-token.interceptor';
+// import { APP_INTERCEPTOR } from '@nestjs/core';
+// import { RefreshTokenInterceptor } from './refresh-token/refresh-token.interceptor';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
@@ -74,11 +79,17 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
     AppService,
     UniqueEntityConstraint,
     RefreshTokenMiddleware,
-    { provide: APP_INTERCEPTOR, useClass: RefreshTokenInterceptor },
+    // { provide: APP_INTERCEPTOR, useClass: RefreshTokenInterceptor },
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RefreshTokenMiddleware).forRoutes('*');
+    consumer
+      .apply(RefreshTokenMiddleware)
+      .exclude({
+        path: 'api/v1/auth/refresh-token/invalidate',
+        method: RequestMethod.POST,
+      })
+      .forRoutes({ path: '/api/v1/*path', method: RequestMethod.ALL });
   }
 }

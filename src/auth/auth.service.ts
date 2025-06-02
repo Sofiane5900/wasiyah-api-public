@@ -59,11 +59,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const accessToken = this.jwtService.sign({
-      sub: safeMusi.id,
-      email: safeMusi.email,
-      roles: safeMusi.roles,
-    });
+    const accessToken = this.jwtService.sign(
+      {
+        sub: safeMusi.id,
+        email: safeMusi.email,
+        roles: safeMusi.roles,
+      },
+      {
+        expiresIn: '15m',
+      },
+    );
 
     const musi = await this.musiRepository.findOneBy({ email });
     if (!musi) {
@@ -76,6 +81,7 @@ export class AuthService {
       secure: process.env.NODE_ENV === 'prod',
       sameSite: 'strict',
       path: '/',
+      expires: new Date(Date.now() + 1000 * 60),
     });
 
     reply.cookie('refresh_token', refreshToken, {
@@ -83,6 +89,8 @@ export class AuthService {
       secure: process.env.NODE_ENV === 'prod',
       sameSite: 'strict',
       path: '/',
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      domain: undefined,
     });
 
     reply.send({ accessToken });
@@ -90,7 +98,7 @@ export class AuthService {
 
   async logout(refreshToken: string, reply: FastifyReply): Promise<void> {
     await this.refreshTokenRepository.delete({ token: refreshToken });
-
+    console.log(process.env.NODE_ENV, 'process.env.NODE_ENV');
     reply.clearCookie('refresh-token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
@@ -105,7 +113,9 @@ export class AuthService {
       path: '/',
     });
 
-    reply.send({ message: 'Logged out successfully' });
+    reply.send({
+      message: 'Logged out successfully',
+    });
   }
 
   async verifyEmail(token: string) {
@@ -133,12 +143,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
-  Ò;
 
   async createRefreshToken(musi: Musi): Promise<string> {
     const token = randomBytes(32).toString('hex');
-    // TODO : Create a utils fucntion for Date readability
-    // 604800000 ms = 7 days
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     await this.refreshTokenRepository.save({
@@ -151,17 +158,16 @@ export class AuthService {
     return token;
   }
 
-  async refreshAcessToken(refreshToken: string, reply: FastifyReply) {
+  async refreshAcessToken(refreshToken: string | undefined) {
     const storedToken = await this.refreshTokenRepository.findOneBy({
       token: refreshToken,
     });
+    console.log(storedToken, 'storedToken');
 
-    //If the token is not found :
     if (!storedToken) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    //If the token is expired :
     if (storedToken.expiresAt < new Date()) {
       await this.refreshTokenRepository.delete({ token: refreshToken });
       throw new UnauthorizedException('Invalid credentials');
@@ -180,13 +186,8 @@ export class AuthService {
       roles: musi.roles,
     });
 
-    reply.cookie('access_token', accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'prod',
-      sameSite: 'strict',
-      path: '/',
-    });
-
-    reply.send({ accessToken });
+    return {
+      accessToken,
+    };
   }
 }

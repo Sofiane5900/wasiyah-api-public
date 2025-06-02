@@ -8,6 +8,7 @@ import { MailService } from 'src/mail/mail.service';
 import { UrlGeneratorService } from '../common/url-generator/url-generator.service';
 import { MusiRepository } from './musi.repository';
 import { DataSource } from 'typeorm';
+import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Musi]), forwardRef(() => AuthModule)],
@@ -15,6 +16,14 @@ import { DataSource } from 'typeorm';
     MusiService,
     MailService,
     UrlGeneratorService,
+    {
+      provide: RefreshTokenRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new RefreshTokenRepository(dataSource);
+      },
+      inject: [DataSource],
+    },
+
     {
       provide: MusiRepository,
       useFactory: (dataSource: DataSource) => {
@@ -24,6 +33,6 @@ import { DataSource } from 'typeorm';
     },
   ],
   controllers: [MusiController],
-  exports: [MusiService, MusiRepository],
+  exports: [MusiService, MusiRepository, RefreshTokenRepository],
 })
 export class MusiModule {}

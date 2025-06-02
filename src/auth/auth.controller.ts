@@ -57,20 +57,4 @@ export class AuthController {
   async verifyEmail(@Query('token') token: string) {
     return this.authService.verifyEmail(token);
   }
-
-  @Get('refresh-token')
-  @ApiOperation({
-    summary: 'Refreshes access token using refresh token cookie',
-  })
-  @ApiResponse({ status: 200, description: 'Access token refreshed' })
-  @ApiResponse({ status: 401, description: 'Invalid or expired refresh token' })
-  async refreshToken(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
-    const refreshToken = req.cookies?.refresh_token;
-
-    if (!refreshToken) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    return this.authService.refreshAcessToken(refreshToken, reply);
-  }
 }

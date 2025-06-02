@@ -37,7 +37,7 @@ export class MusiController {
 
   // Retrieve all musis with search
   @Get()
-  @Roles('ROLE_ADMIN')
+  @Roles('ROLE_ADMIN', 'ROLE_MUSI')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(Musi, true)
   async findAll(): Promise<Musi[]> {
