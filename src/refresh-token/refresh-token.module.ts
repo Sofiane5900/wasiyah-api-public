@@ -1,4 +1,3 @@
-// src/refresh-token/refresh-token.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshTokenRepository } from './refresh-token.repository';

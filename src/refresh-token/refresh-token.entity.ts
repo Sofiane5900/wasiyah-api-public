@@ -19,7 +19,6 @@ export class RefreshToken {
     description: 'e-mail of the musi',
     type: String,
   })
-  // ? Link the Musi entity instead of the email for a proper relation
   @Column({ type: String })
   email: string;
 

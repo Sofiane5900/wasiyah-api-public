@@ -37,7 +37,7 @@ export class RefreshTokenMiddleware implements NestMiddleware {
       return next();
     }
 
-    // Vérifie si le access token est expiré
+    // verify if token is expired
     let isAccessTokenExpired = false;
     let isAccessTokenPresent = false;
 
@@ -54,8 +54,6 @@ export class RefreshTokenMiddleware implements NestMiddleware {
         ) {
           const expirationDate = new Date(decodedToken.exp * 1000);
           const now = new Date();
-          console.log('expiredDate', expirationDate);
-          console.log('now', now);
 
           isAccessTokenExpired = expirationDate <= now;
         } else {

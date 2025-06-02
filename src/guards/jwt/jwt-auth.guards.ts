@@ -32,9 +32,6 @@ export class JwtAuthGuard implements CanActivate {
     const refreshTokenId = request.cookies?.refresh_token;
     const accessToken = request.cookies?.access_token;
 
-    console.log('Access token:', accessToken);
-    console.log('Refresh token ID:', refreshTokenId);
-
     try {
       // Case 1: No access token, try with the refresh token
       if (!accessToken) {
@@ -81,8 +78,7 @@ export class JwtAuthGuard implements CanActivate {
         );
       }
     } catch (error) {
-      console.error('Error in JWT guard:', error);
-      throw new UnauthorizedException('Authentication error');
+      throw new UnauthorizedException('Authentication error', error.message);
     }
 
     return false;
@@ -108,8 +104,6 @@ export class JwtAuthGuard implements CanActivate {
         console.log('Refresh token not found in database');
         throw new UnauthorizedException('Invalid refresh token');
       }
-
-      console.log('Refresh token found:', refreshTokenData);
 
       const newAccessToken = this.jwtService.sign(
         {
@@ -138,7 +132,6 @@ export class JwtAuthGuard implements CanActivate {
         roles: RoleUser.ROLE_MUSI,
       } as Musi;
 
-      console.log('New access token generated from refresh token');
       return true;
     } catch (err) {
       throw new UnauthorizedException(
