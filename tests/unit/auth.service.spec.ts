@@ -108,112 +108,388 @@ describe('AuthService', () => {
     });
   });
 
-  // describe('login', () => {
-  //   it("devrait connecter l'utilisateur avec succès", async () => {
-  //     musiRepository.findOneBy = vi.fn().mockResolvedValue(mockMusi);
-  //     refreshTokenRepository.save = vi.fn().mockResolvedValue(mockRefreshToken);
+  describe('login', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'test';
+    });
 
-  //     await service.login('test@example.com', 'password', mockReply);
+    it("devrait connecter l'utilisateur avec succès", async () => {
+      // Mock validateUser
+      const safeMusi = {
+        id: '1',
+        email: 'test@example.com',
+        roles: RoleUser.ROLE_MUSI,
+        isEmailVerified: true,
+      };
+      vi.spyOn(service, 'validateUser').mockResolvedValue(safeMusi);
 
-  //     const cookieSpy = vi.spyOn(mockReply, 'cookie');
-  //     const sendSpy = vi.spyOn(mockReply, 'send');
-  //     expect(cookieSpy).toHaveBeenCalledTimes(2);
-  //     expect(sendSpy).toHaveBeenCalledWith({
-  //       accessToken: 'new-access-token',
-  //     });
-  //   });
+      // Mock JWT sign
+      vi.spyOn(jwtService, 'sign').mockReturnValue('new-access-token');
 
-  //   it('devrait lever une exception si les identifiants sont invalides', async () => {
-  //     musiRepository.findOneBy = vi.fn().mockResolvedValue(null);
+      // Mock findOneBy
+      const musi = { ...mockMusi, id: '1' } as Musi;
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
 
-  //     await expect(
-  //       service.login('test@example.com', 'password', mockReply),
-  //     ).rejects.toThrow(UnauthorizedException);
-  //   });
+      // Mock createRefreshToken
+      vi.spyOn(service, 'createRefreshToken').mockResolvedValue(
+        'new-refresh-token',
+      );
 
-  //   it("devrait lever une exception si l'email n'est pas vérifié", async () => {
-  //     musiRepository.findOneBy = vi
-  //       .fn()
-  //       .mockResolvedValue({ ...mockMusi, isEmailVerified: false });
+      // Mock reply methods
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
 
-  //     await expect(
-  //       service.login('test@example.com', 'password', mockReply),
-  //     ).rejects.toThrow(UnauthorizedException);
-  //   });
-  // });
+      await service.login('test@example.com', 'password', mockReply);
 
-  // describe('logout', () => {
-  //   it("devrait déconnecter l'utilisateur avec succès", async () => {
-  //     await service.logout('valid-refresh-token', mockReply);
+      // Vérifier que validateUser a été appelé
+      expect(service.validateUser).toHaveBeenCalledWith(
+        'test@example.com',
+        'password',
+      );
 
-  //     const deleteSpy = vi.spyOn(refreshTokenRepository, 'delete');
-  //     const clearCookieSpy = vi.spyOn(mockReply, 'clearCookie');
-  //     const sendSpy = vi.spyOn(mockReply, 'send');
+      // Vérifier que JWT sign a été appelé avec les bons paramètres
+      expect(jwtService.sign).toHaveBeenCalledWith(
+        {
+          sub: safeMusi.id,
+          email: safeMusi.email,
+          roles: safeMusi.roles,
+        },
+        {
+          expiresIn: '15m',
+        },
+      );
 
-  //     expect(deleteSpy).toHaveBeenCalledWith({
-  //       token: 'valid-refresh-token',
-  //     });
-  //     expect(clearCookieSpy).toHaveBeenCalledTimes(2);
-  //     expect(sendSpy).toHaveBeenCalledWith({
-  //       message: 'Logged out successfully',
-  //     });
-  //   });
-  // });
+      // Vérifier que findOneBy a été appelé
+      expect(musiRepository.findOneBy).toHaveBeenCalledWith({
+        email: 'test@example.com',
+      });
 
-  // describe('verifyEmail', () => {
-  //   it("devrait vérifier l'email avec succès", async () => {
-  //     const token = 'valid-token';
-  //     const payload = { email: 'test@example.com' };
+      // Vérifier que createRefreshToken a été appelé
+      expect(service.createRefreshToken).toHaveBeenCalledWith(musi);
 
-  //     jwtService.verifyAsync = vi.fn().mockResolvedValue(payload);
-  //     musiRepository.findOneBy = vi.fn().mockResolvedValue(mockMusi);
-  //     musiRepository.update = vi
-  //       .fn()
-  //       .mockResolvedValue({ ...mockMusi, isEmailVerified: true });
+      // Vérifier les cookies
+      expect(cookieSpy).toHaveBeenCalledTimes(2);
+      expect(cookieSpy).toHaveBeenCalledWith(
+        'access_token',
+        'new-access-token',
+        {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'strict',
+          path: '/',
+          expires: expect.any(Date) as Date,
+        },
+      );
+      expect(cookieSpy).toHaveBeenCalledWith(
+        'refresh_token',
+        'new-refresh-token',
+        {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'strict',
+          path: '/',
+          expires: expect.any(Date) as Date,
+          domain: undefined,
+        },
+      );
 
-  //     const result = await service.verifyEmail(token);
+      // Vérifier la réponse
+      expect(sendSpy).toHaveBeenCalledWith({
+        accessToken: 'new-access-token',
+      });
+    });
 
-  //     expect(result).toEqual({ message: 'Email verified with success!' });
-  //     const updateSpy = vi.spyOn(musiRepository, 'update');
-  //     expect(updateSpy).toHaveBeenCalled();
-  //   });
+    it('devrait lever une exception si les identifiants sont invalides', async () => {
+      vi.spyOn(service, 'validateUser').mockResolvedValue(null);
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
 
-  //   it("devrait lever une exception si l'utilisateur n'existe pas", async () => {
-  //     jwtService.verifyAsync = vi
-  //       .fn()
-  //       .mockResolvedValue({ email: 'test@example.com' });
-  //     musiRepository.findOneBy = vi.fn().mockResolvedValue(null);
+      await expect(
+        service.login('test@example.com', 'wrong-password', mockReply),
+      ).rejects.toThrow(UnauthorizedException);
 
-  //     await expect(service.verifyEmail('valid-token')).rejects.toThrow(
-  //       NotFoundException,
-  //     );
-  //   });
+      expect(cookieSpy).not.toHaveBeenCalled();
+      expect(sendSpy).not.toHaveBeenCalled();
+    });
 
-  //   it("devrait lever une exception si l'email est déjà vérifié", async () => {
-  //     jwtService.verifyAsync = vi
-  //       .fn()
-  //       .mockResolvedValue({ email: 'test@example.com' });
-  //     musiRepository.findOneBy = vi
-  //       .fn()
-  //       .mockResolvedValue({ ...mockMusi, isEmailVerified: true });
+    it("devrait lever une exception si l'email n'est pas vérifié", async () => {
+      const safeMusi = {
+        id: '1',
+        email: 'test@example.com',
+        roles: RoleUser.ROLE_MUSI,
+        isEmailVerified: false,
+      };
+      vi.spyOn(service, 'validateUser').mockResolvedValue(safeMusi);
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
 
-  //     await expect(service.verifyEmail('valid-token')).rejects.toThrow(
-  //       ConflictException,
-  //     );
-  //   });
-  // });
+      await expect(
+        service.login('test@example.com', 'password', mockReply),
+      ).rejects.toThrow(UnauthorizedException);
 
-  // describe('createRefreshToken', () => {
-  //   it('devrait créer un nouveau refresh token', async () => {
-  //     refreshTokenRepository.save = vi.fn().mockResolvedValue(mockRefreshToken);
+      expect(cookieSpy).not.toHaveBeenCalled();
+      expect(sendSpy).not.toHaveBeenCalled();
+    });
 
-  //     const result = await service.createRefreshToken(mockMusi as Musi);
+    it('devrait lever une exception si le Musi est introuvable après validation', async () => {
+      const safeMusi = {
+        id: '1',
+        email: 'test@example.com',
+        roles: RoleUser.ROLE_MUSI,
+        isEmailVerified: true,
+      };
+      vi.spyOn(service, 'validateUser').mockResolvedValue(safeMusi);
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(null);
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
 
-  //     expect(result).toBeDefined();
-  //     const saveSpy = vi.spyOn(refreshTokenRepository, 'save');
-  //     expect(saveSpy).toHaveBeenCalled();
-  //   });
-  // });
+      await expect(
+        service.login('test@example.com', 'password', mockReply),
+      ).rejects.toThrow(NotFoundException);
+
+      expect(cookieSpy).not.toHaveBeenCalled();
+      expect(sendSpy).not.toHaveBeenCalled();
+    });
+
+    it('devrait configurer les cookies en mode sécurisé en production', async () => {
+      process.env.NODE_ENV = 'prod';
+      const safeMusi = {
+        id: '1',
+        email: 'test@example.com',
+        roles: RoleUser.ROLE_MUSI,
+        isEmailVerified: true,
+      };
+      vi.spyOn(service, 'validateUser').mockResolvedValue(safeMusi);
+      vi.spyOn(jwtService, 'sign').mockReturnValue('new-access-token');
+      const musi = { ...mockMusi, id: '1' } as Musi;
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
+      vi.spyOn(service, 'createRefreshToken').mockResolvedValue(
+        'new-refresh-token',
+      );
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+
+      await service.login('test@example.com', 'password', mockReply);
+
+      expect(cookieSpy).toHaveBeenCalledWith(
+        'access_token',
+        'new-access-token',
+        {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+          path: '/',
+          expires: expect.any(Date) as Date,
+        },
+      );
+      expect(cookieSpy).toHaveBeenCalledWith(
+        'refresh_token',
+        'new-refresh-token',
+        {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+          path: '/',
+          expires: expect.any(Date) as Date,
+          domain: undefined,
+        },
+      );
+    });
+  });
+
+  describe('logout', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'test';
+    });
+
+    it("devrait déconnecter l'utilisateur avec succès", async () => {
+      // Mock delete
+      const deleteSpy = vi.spyOn(refreshTokenRepository, 'delete');
+
+      // Mock reply methods
+      const clearCookieSpy = vi.spyOn(mockReply, 'clearCookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
+
+      await service.logout('valid-refresh-token', mockReply);
+
+      // Vérifier que le refresh token a été supprimé
+      expect(deleteSpy).toHaveBeenCalledWith({
+        token: 'valid-refresh-token',
+      });
+
+      // Vérifier que les cookies ont été supprimés
+      expect(clearCookieSpy).toHaveBeenCalledTimes(2);
+      expect(clearCookieSpy).toHaveBeenCalledWith('refresh-token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict',
+        path: '/',
+      });
+      expect(clearCookieSpy).toHaveBeenCalledWith('access_token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict',
+        path: '/',
+      });
+
+      // Vérifier la réponse
+      expect(sendSpy).toHaveBeenCalledWith({
+        message: 'Logged out successfully',
+      });
+    });
+  });
+
+  describe('verifyEmail', () => {
+    beforeEach(() => {
+      // Reset des mocks avant chaque test
+      vi.clearAllMocks();
+    });
+
+    it("devrait vérifier l'email avec succès", async () => {
+      const token = 'valid-token';
+      const payload = { email: 'test@example.com' };
+
+      // Mock du JWT service
+      jwtService.verifyAsync = vi.fn().mockResolvedValue(payload);
+
+      // Mock repository - return user with email not verify
+      musiRepository.findOneBy = vi.fn().mockResolvedValue({
+        ...mockMusi,
+        email: payload.email,
+        isEmailVerified: false,
+      });
+
+      // Mock  méthod update
+      musiRepository.update = vi.fn().mockResolvedValue(undefined);
+
+      const result = await service.verifyEmail(token);
+
+      // Vérifications
+      expect(result).toEqual({ message: 'Email verified with success!' });
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith(token);
+      expect(musiRepository.findOneBy).toHaveBeenCalledWith({
+        email: payload.email,
+      });
+      expect(musiRepository.update).toHaveBeenCalledWith(mockMusi.id, {
+        ...mockMusi,
+        email: payload.email,
+        isEmailVerified: true,
+      });
+    });
+
+    it("devrait lever une UnauthorizedException si l'utilisateur n'existe pas", async () => {
+      const token = 'valid-token';
+      const payload = { email: 'test@example.com' };
+
+      jwtService.verifyAsync = vi.fn().mockResolvedValue(payload);
+      musiRepository.findOneBy = vi.fn().mockResolvedValue(null);
+
+      await expect(service.verifyEmail(token)).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith(token);
+      expect(musiRepository.findOneBy).toHaveBeenCalledWith({
+        email: payload.email,
+      });
+      expect(musiRepository.update).not.toHaveBeenCalled();
+    });
+
+    it("devrait lever une UnauthorizedException si l'email est déjà vérifié", async () => {
+      const token = 'valid-token';
+      const payload = { email: 'test@example.com' };
+
+      jwtService.verifyAsync = vi.fn().mockResolvedValue(payload);
+      musiRepository.findOneBy = vi.fn().mockResolvedValue({
+        ...mockMusi,
+        email: payload.email,
+        isEmailVerified: true,
+      });
+
+      await expect(service.verifyEmail(token)).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith(token);
+      expect(musiRepository.findOneBy).toHaveBeenCalledWith({
+        email: payload.email,
+      });
+      expect(musiRepository.update).not.toHaveBeenCalled();
+    });
+
+    it('devrait lever une UnauthorizedException si le token est invalide', async () => {
+      const token = 'invalid-token';
+
+      jwtService.verifyAsync = vi
+        .fn()
+        .mockRejectedValue(new Error('Invalid token'));
+
+      await expect(service.verifyEmail(token)).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith(token);
+      expect(musiRepository.findOneBy).not.toHaveBeenCalled();
+      expect(musiRepository.update).not.toHaveBeenCalled();
+    });
+
+    it('devrait lever une UnauthorizedException pour toute autre erreur', async () => {
+      const token = 'valid-token';
+      const payload = { email: 'test@example.com' };
+
+      jwtService.verifyAsync = vi.fn().mockResolvedValue(payload);
+
+      musiRepository.findOneBy = vi
+        .fn()
+        .mockRejectedValue(new Error('Database error'));
+
+      await expect(service.verifyEmail(token)).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(jwtService.verifyAsync).toHaveBeenCalledWith(token);
+      expect(musiRepository.findOneBy).toHaveBeenCalledWith({
+        email: payload.email,
+      });
+      expect(musiRepository.update).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('createRefreshToken', () => {
+    it('devrait créer un nouveau refresh token', async () => {
+      const musi = mockMusi as Musi;
+
+      const saveSpy = vi.spyOn(refreshTokenRepository, 'save');
+      saveSpy.mockResolvedValue(mockRefreshToken);
+
+      const result = await service.createRefreshToken(musi);
+
+      expect(result).toBeDefined();
+      expect(typeof result).toBe('string');
+      expect(result).toHaveLength(64);
+
+      // Vérifier l'appel avec les propriétés attendues
+      expect(saveSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user: musi,
+          email: musi.email,
+          token: result,
+          expiresAt: expect.any(Date),
+        }),
+      );
+    });
+
+    it('devrait générer un token unique', async () => {
+      const musi = mockMusi as Musi;
+      const tokens = new Set<string>();
+
+      for (let i = 0; i < 10; i++) {
+        const token = await service.createRefreshToken(musi);
+        tokens.add(token);
+      }
+
+      expect(tokens.size).toBe(10);
+    });
+  });
 
   describe('refreshAcessToken', () => {
     it("devrait rafraîchir le token d'accès avec succès", async () => {
