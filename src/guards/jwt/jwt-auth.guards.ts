@@ -62,7 +62,6 @@ export class JwtAuthGuard implements CanActivate {
             roles: payload.roles,
           } as Musi;
 
-          console.log('New access token generated for authenticated user');
           return true;
         }
       } catch (jwtError) {
@@ -90,7 +89,6 @@ export class JwtAuthGuard implements CanActivate {
     reply: FastifyReply,
   ): Promise<boolean> {
     if (!refreshTokenId) {
-      console.log('No refresh token available');
       throw new UnauthorizedException('No authentication token provided');
     }
 
@@ -101,7 +99,6 @@ export class JwtAuthGuard implements CanActivate {
       });
 
       if (!refreshTokenData) {
-        console.log('Refresh token not found in database');
         throw new UnauthorizedException('Invalid refresh token');
       }
 
