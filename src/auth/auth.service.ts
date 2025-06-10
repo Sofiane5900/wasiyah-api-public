@@ -98,7 +98,7 @@ export class AuthService {
 
   async logout(refreshToken: string, reply: FastifyReply): Promise<void> {
     await this.refreshTokenRepository.delete({ token: refreshToken });
-    console.log(process.env.NODE_ENV, 'process.env.NODE_ENV');
+
     reply.clearCookie('refresh-token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'prod',
@@ -162,7 +162,6 @@ export class AuthService {
     const storedToken = await this.refreshTokenRepository.findOneBy({
       token: refreshToken,
     });
-    console.log(storedToken, 'storedToken');
 
     if (!storedToken) {
       throw new UnauthorizedException('Invalid credentials');

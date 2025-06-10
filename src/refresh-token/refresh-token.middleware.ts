@@ -94,10 +94,5 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     req.user = musi;
     req.needsAccessTokenRefresh = true;
     req.refreshToken = storedToken?.token;
-    console.log('User found:', (req as any).user);
-    console.log(
-      'needsAccessTokenRefresh:',
-      (req as any).needsAccessTokenRefresh,
-    );
   }
 }
