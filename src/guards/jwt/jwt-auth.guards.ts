@@ -22,7 +22,6 @@ interface JwtPayload {
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly authService: AuthService,
     private readonly refresh: RefreshTokenRepository,
   ) {}
 
