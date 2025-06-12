@@ -8,7 +8,6 @@ import { JwtService } from '@nestjs/jwt';
 import { FastifyRequest } from 'fastify';
 import { Musi } from '../../musi/musi.entity';
 import { RoleUser } from 'src/enum/Roles';
-import { AuthService } from '../../auth/auth.service';
 import { FastifyReply } from 'fastify';
 import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 

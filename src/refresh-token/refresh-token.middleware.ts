@@ -30,13 +30,18 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     const { access_token: accessToken, refresh_token: refreshToken } = cookies;
 
     if (!refreshToken) {
+      this.clearAuthCookies(res);
       throw new UnauthorizedException('Refresh token is missing');
     }
 
     const { isPresent, isExpired } = this.validateAccessToken(accessToken);
 
-    // Si le token d'accès est présent et valide, continuer
     if (isPresent && !isExpired) {
+      const isValidRefreshToken = await this.validateRefreshToken(refreshToken);
+      if (!isValidRefreshToken) {
+        this.clearAuthCookies(res);
+        throw new UnauthorizedException('Refresh token is invalid or expired');
+      }
       return next();
     }
 
@@ -80,6 +85,7 @@ export class RefreshTokenMiddleware implements NestMiddleware {
     }
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const decodedToken = this.jwtService.decode(accessToken);
 
       if (!this.isValidTokenPayload(decodedToken)) {
@@ -97,6 +103,7 @@ export class RefreshTokenMiddleware implements NestMiddleware {
   }
 
   private isValidTokenPayload(token: any): token is { exp: number } {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return token && typeof token === 'object' && typeof token.exp === 'number';
   }
 
