@@ -26,7 +26,7 @@ export class MusiService {
     return plainToClass(MusiResponseDto, musi);
   }
 
-  // Mettre à jour un utilisateur
+  // Update musi
   async update(id: string, updateMusiDto: UpdateMusiDto): Promise<Musi> {
     await this.musiRepository.update(id, updateMusiDto);
     const updatedMusi = await this.musiRepository.findOne({
