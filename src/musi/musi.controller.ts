@@ -40,8 +40,8 @@ export class MusiController {
   @Roles('ROLE_ADMIN', 'ROLE_MUSI')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(Musi, true)
-  async findAll(): Promise<Musi[]> {
-    return this.musiRepository.findAll();
+  async findAll(): Promise<MusiResponseDto[]> {
+    return await this.musiService.findAll();
   }
 
   // Retrieve a musi by ID
@@ -56,8 +56,8 @@ export class MusiController {
     description: 'get a musi by id',
     example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
   })
-  async findOne(@Param('id') id: string): Promise<Musi | null> {
-    return await this.musiRepository.findOneBy({ id });
+  async findOne(@Param('id') id: string): Promise<MusiResponseDto | null> {
+    return await this.musiService.findOneById(id);
   }
 
   // Create a musi

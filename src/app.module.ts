@@ -25,8 +25,6 @@ import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
-// import { APP_INTERCEPTOR } from '@nestjs/core';
-// import { RefreshTokenInterceptor } from './refresh-token/refresh-token.interceptor';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
@@ -75,12 +73,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
     RefreshTokenModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    UniqueEntityConstraint,
-    RefreshTokenMiddleware,
-    // { provide: APP_INTERCEPTOR, useClass: RefreshTokenInterceptor },
-  ],
+  providers: [AppService, UniqueEntityConstraint, RefreshTokenMiddleware],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
