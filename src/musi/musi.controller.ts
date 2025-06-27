@@ -12,7 +12,7 @@ import { MusiService } from './musi.service';
 import { CreateMusiDto } from './dto/create-musi.dto';
 import { UpdateMusiDto } from './dto/update-musi.dto';
 import { Musi } from './musi.entity';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import {
   ApiDeleteRessource,
   ApiGetResource,
@@ -45,17 +45,8 @@ export class MusiController {
   }
 
   // Retrieve a musi by ID
-  @ApiOperation({
-    summary: `Retrieves musis by id.`,
-    description: `Retrieves a login resource.`,
-  })
   @Get(':id')
-  @ApiParam({
-    name: 'id',
-    type: String,
-    description: 'get a musi by id',
-    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
-  })
+  @ApiGetResource(MusiResponseDto)
   async findOne(@Param('id') id: string): Promise<MusiResponseDto | null> {
     return await this.musiService.findOneById(id);
   }
