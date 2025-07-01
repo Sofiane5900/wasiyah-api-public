@@ -68,7 +68,7 @@ const ApiOptionParam = (entity: EntityClass, collection: boolean) => {
       ApiParam({
         name: 'id',
         description: `${entity.name} identifier`,
-        type: Number,
+        type: String,
       }),
     );
   } else {

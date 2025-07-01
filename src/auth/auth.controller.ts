@@ -1,6 +1,15 @@
-import { Controller, Post, Body, Res, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  Get,
+  Query,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
@@ -26,6 +35,19 @@ export class AuthController {
   })
   async login(@Body() body: LoginDto, @Res() reply: FastifyReply) {
     return this.authService.login(body.email, body.password, reply);
+  }
+
+  @Post('refresh-token/invalidate')
+  @ApiOperation({ summary: 'Logs out the user by invalidating refresh token' })
+  @ApiResponse({ status: 200, description: 'Refresh token invalidated' })
+  @ApiResponse({ status: 401, description: 'No refresh token provided' })
+  async logout(@Req() req: FastifyRequest, @Res() reply: FastifyReply) {
+    const refreshToken = req.cookies?.refresh_token;
+    if (!refreshToken) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return this.authService.logout(refreshToken, reply);
   }
 
   @Get('verify-email')

@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -19,6 +24,8 @@ import { TestamentModule } from './testament/testament.module';
 import { WakilModule } from './wakil/wakil.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -63,8 +70,19 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     SafeModule,
     TestamentModule,
     WakilModule,
+    RefreshTokenModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UniqueEntityConstraint],
+  providers: [AppService, UniqueEntityConstraint, RefreshTokenMiddleware],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RefreshTokenMiddleware)
+      .exclude({
+        path: 'api/v1/auth/refresh-token/invalidate',
+        method: RequestMethod.POST,
+      })
+      .forRoutes({ path: '/api/v1/*path', method: RequestMethod.ALL });
+  }
+}

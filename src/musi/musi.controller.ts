@@ -12,7 +12,7 @@ import { MusiService } from './musi.service';
 import { CreateMusiDto } from './dto/create-musi.dto';
 import { UpdateMusiDto } from './dto/update-musi.dto';
 import { Musi } from './musi.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import {
   ApiDeleteRessource,
   ApiGetResource,
@@ -37,18 +37,18 @@ export class MusiController {
 
   // Retrieve all musis with search
   @Get()
-  @Roles('ROLE_ADMIN')
+  @Roles('ROLE_ADMIN', 'ROLE_MUSI')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(Musi, true)
-  async findAll(): Promise<Musi[]> {
-    return this.musiRepository.findAll();
+  async findAll(): Promise<MusiResponseDto[]> {
+    return await this.musiService.findAll();
   }
 
   // Retrieve a musi by ID
   @Get(':id')
-  @ApiGetResource(Musi)
+  @ApiGetResource(MusiResponseDto)
   async findOne(@Param('id') id: string): Promise<MusiResponseDto | null> {
-    return await this.musiRepository.findOneBy({ id });
+    return await this.musiService.findOneById(id);
   }
 
   // Create a musi
@@ -70,9 +70,15 @@ export class MusiController {
     return this.musiService.update(id, updateMusiDto);
   }
 
-  // Delete a user
+  // Delete a musi
   @Delete(':id')
   @ApiDeleteRessource(Musi)
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'delete a musi by id',
+    example: 'd5b3a4c9-72f8-4abf-b98e-d7e5c9bfc330',
+  })
   async remove(@Param('id') id: string): Promise<void> {
     return this.musiService.remove(id);
   }

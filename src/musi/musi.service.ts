@@ -26,7 +26,7 @@ export class MusiService {
     return plainToClass(MusiResponseDto, musi);
   }
 
-  // Mettre à jour un utilisateur
+  // Update musi
   async update(id: string, updateMusiDto: UpdateMusiDto): Promise<Musi> {
     await this.musiRepository.update(id, updateMusiDto);
     const updatedMusi = await this.musiRepository.findOne({
@@ -51,5 +51,23 @@ export class MusiService {
     }
 
     await this.musiRepository.delete(id);
+  }
+
+  async findOneById(id: string): Promise<MusiResponseDto | null> {
+    const musi = await this.musiRepository.findOne({
+      where: { id },
+    });
+    console.log('musi', musi);
+
+    if (!musi) {
+      throw new NotFoundException();
+    }
+
+    return plainToClass(MusiResponseDto, musi);
+  }
+
+  async findAll(): Promise<MusiResponseDto[]> {
+    const musis = await this.musiRepository.findAll();
+    return musis.map((musi) => plainToClass(MusiResponseDto, musi));
   }
 }

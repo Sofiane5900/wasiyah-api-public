@@ -7,7 +7,8 @@
     "overrides": {
       "html-minifier": "npm:html-minifier-terser@7.2.0",
       "fastify": "^5.3.2",
-      "vite": "^6.3.4"
+      "vite": "^6.3.4",
+      "brace-expansion": "^2.0.2"
     }
   },
   "scripts": {
@@ -57,8 +58,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "swagger-ui-express": "^5.0.1",
-    "typeorm": "^0.3.22",
-    "typeorm-naming-strategies": "^4.1.0"
+    "typeorm": "^0.3.22"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -84,6 +84,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "typeorm-naming-strategies": "^4.1.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0",
     "vitest": "^3.1.2"
