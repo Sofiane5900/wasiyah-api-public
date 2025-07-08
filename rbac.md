@@ -1,8 +1,8 @@
-# 🔐 Système de contrôle d'accès basé sur les rôles (RBAC) - Wasiyah
+# 🔐 Role-based access control system (RBAC) - Wasiyah
 
 ## 📋 Introduction
 
-Ce document définit le système de contrôle d'accès basé sur les rôles (RBAC) pour l'application Wasiyah. Il spécifie les rôles utilisateur, leurs permissions d'accès aux pages et fonctionnalités, permettant aux administrateurs de contrôler précisément qui peut accéder à quoi.
+This document defines the role-based access control (RBAC) system for the Wasiyah application. It specifies user roles and their access permissions to pages and functionalities, enabling administrators to control precisely who can access what.
 
 **Objectif principal** : Permettre aux administrateurs d'attribuer des rôles aux utilisateurs et de contrôler leurs accès aux pages selon leur rôle, garantissant que chaque utilisateur n'ait accès qu'aux fonctionnalités et données correspondant à son statut.
 
