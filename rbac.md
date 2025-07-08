@@ -151,26 +151,26 @@ This document defines the role-based access control (RBAC) system for the Wasiya
 ### Guards NestJS
 
 ```typescript
-// Route protégée par rôle
+// Endpoint protected by role
 @Roles('ROLE_ADMIN')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Get('/admin/users')
 async getAllUsers() { ... }
 
-// Route accessible aux Musis
+// Endpoint accessible to Musis
 @Roles('ROLE_MUSI')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Get('/testament')
 async getTestament() { ... }
 
-// Route accessible aux Wakils
+// Endpoint accessible to Wakils
 @Roles('ROLE_WAKIL')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Get('/my-mandates')
 async getMyMandates() { ... }
 
-// Route accessible aux utilisateurs ayant PLUSIEURS rôles
-@Roles('ROLE_MUSI', 'ROLE_WAKIL') // OU logique
+// Endpoint accessible to both Musis and Wakils
+@Roles('ROLE_MUSI', 'ROLE_WAKIL') // OR logic
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Get('/dashboard')
 async getDashboard() { ... }
