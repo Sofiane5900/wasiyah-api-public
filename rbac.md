@@ -4,115 +4,115 @@
 
 This document defines the role-based access control (RBAC) system for the Wasiyah application. It specifies user roles and their access permissions to pages and functionalities, enabling administrators to control precisely who can access what.
 
-**Objectif principal** : Permettre aux administrateurs d'attribuer des rôles aux utilisateurs et de contrôler leurs accès aux pages selon leur rôle, garantissant que chaque utilisateur n'ait accès qu'aux fonctionnalités et données correspondant à son statut.
+**Main objective**: To enable administrators to assign roles to users and control their access to pages according to their role, ensuring that each user only has access to the functions and data corresponding to their status.
 
-## 👤 Définition des rôles
+## 👤 Roles definition
 
-### Rôles principaux
+### Main roles
 
-| Rôle | Description | Attribution |
-|------|-------------|-------------|
-| **ROLE_ADMIN** | Administrateur système avec tous les droits | Attribution manuelle par super-admin |
-| **ROLE_MUSI** | Utilisateur principal (testateur) | Attribution automatique lors de l'inscription |
-| **ROLE_WAKIL** | Mandataire désigné par un Musi | Attribution par invitation d'un Musi |
+| Role | Description | Assignment |
+|------|-------------|------------|
+| **ROLE_ADMIN** | System administrator with all rights | Manual assignment by super-admin |
+| **ROLE_MUSI** | Main user (testator) | Automatic assignment upon registration |
+| **ROLE_WAKIL** | Representative designated by a Musi | Assignment by Musi invitation |
 
-**Note importante** : Un utilisateur peut cumuler plusieurs rôles. Par exemple, un Musi peut également devenir Wakil pour d'autres utilisateurs, et inversement.
+**Important note**: A user can have multiple roles. For example, a Musi can also become a Wakil for other users, and vice versa.
 
-### États des utilisateurs
+### User States
 
-| État | Description | Impact |
-|------|-------------|--------|
-| **PENDING** | Compte créé, email non vérifié | Accès limité (vérification uniquement) |
-| **ACTIVE** | Email vérifié, compte fonctionnel | Accès complet selon le rôle |
-| **INACTIVE** | Compte désactivé | Aucun accès |
+| State | Description | Impact |
+|-------|-------------|---------|
+| **PENDING** | Account created, email not verified | Limited access (verification only) |
+| **ACTIVE** | Email verified, functional account | Full access according to role |
+| **INACTIVE** | Account disabled | No access |
 
-## 🌐 Contrôle d'accès aux pages
+## 🌐 Page Access Control
 
-### Pages publiques (Anonyme)
+### Public Pages (Anonymous)
 
-| Page | Route | Description | Accès |
-|------|-------|-------------|-------|
-| **Accueil** | `/` | Page d'accueil publique | 🌍 Tous |
-| **Inscription** | `/register` | Créer un nouveau compte | 🌍 Tous |
-| **Connexion** | `/login` | Se connecter au système | 🌍 Tous |
-| **Vérification email** | `/verify-email` | Confirmer son adresse email | 🌍 Tous |
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Home** | `/` | Public homepage | 🌍 All |
+| **Register** | `/register` | Create a new account | 🌍 All |
+| **Login** | `/login` | Log into the system | 🌍 All |
+| **Email verification** | `/verify-email` | Confirm email address | 🌍 All |
 
-### Pages Musi (ROLE_MUSI)
+### Musi Pages (ROLE_MUSI)
 
-| Page | Route | Description | Accès |
-|------|-------|-------------|-------|
-| **Dashboard Musi** | `/dashboard` | Tableau de bord principal | ✅ ROLE_MUSI |
-| **Testament** | `/testament` | Gestion du testament | ✅ ROLE_MUSI |
-| **Coffre-fort** | `/safes` | Gestion des coffres-forts | ✅ ROLE_MUSI |
-| **Mes Wakils** | `/wakils` | Gestion des mandataires | ✅ ROLE_MUSI |
-| **Actifs** | `/assets` | Gestion des biens et actifs | ✅ ROLE_MUSI |
-| **Messages posthumes** | `/posthumous-messages` | Messages après décès | ✅ ROLE_MUSI |
-| **Mon profil** | `/profile` | Informations personnelles | ✅ ROLE_MUSI |
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Musi Dashboard** | `/dashboard` | Main dashboard | ✅ ROLE_MUSI |
+| **Testament** | `/testament` | Testament management | ✅ ROLE_MUSI |
+| **Safe** | `/safes` | Safe management | ✅ ROLE_MUSI |
+| **My Wakils** | `/wakils` | Representative management | ✅ ROLE_MUSI |
+| **Assets** | `/assets` | Asset management | ✅ ROLE_MUSI |
+| **Posthumous messages** | `/posthumous-messages` | Messages after death | ✅ ROLE_MUSI |
+| **My profile** | `/profile` | Personal information | ✅ ROLE_MUSI |
 
-### Pages Wakil (ROLE_WAKIL)
+### Wakil Pages (ROLE_WAKIL)
 
-| Page | Route | Description | Accès |
-|------|-------|-------------|-------|
-| **Dashboard Wakil** | `/wakil-dashboard` | Tableau de bord mandataire | ✅ ROLE_WAKIL |
-| **Mes mandats** | `/my-mandates` | Liste des Musis dont je suis Wakil | ✅ ROLE_WAKIL |
-| **Documents assignés** | `/assigned-documents` | Documents partagés avec moi | ✅ ROLE_WAKIL |
-| **Déclarations de décès** | `/death-declarations` | Déclarer/confirmer un décès | ✅ ROLE_WAKIL |
-| **Mon profil Wakil** | `/wakil-profile` | Mes informations de mandataire | ✅ ROLE_WAKIL |
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Wakil Dashboard** | `/wakil-dashboard` | Representative dashboard | ✅ ROLE_WAKIL |
+| **My mandates** | `/my-mandates` | List of Musis I am Wakil for | ✅ ROLE_WAKIL |
+| **Assigned documents** | `/assigned-documents` | Documents shared with me | ✅ ROLE_WAKIL |
+| **Death declarations** | `/death-declarations` | Declare/confirm death | ✅ ROLE_WAKIL |
+| **My Wakil profile** | `/wakil-profile` | My representative information | ✅ ROLE_WAKIL |
 
-### Pages Admin (ROLE_ADMIN)
+### Admin Pages (ROLE_ADMIN)
 
-| Page | Route | Description | Accès |
-|------|-------|-------------|-------|
-| **Dashboard Admin** | `/admin` | Panneau d'administration | ✅ ROLE_ADMIN |
-| **Gestion utilisateurs** | `/admin/users` | Liste et gestion des comptes | ✅ ROLE_ADMIN |
-| **Attribution des rôles** | `/admin/roles` | Modifier les rôles utilisateurs | ✅ ROLE_ADMIN |
-| **Monitoring système** | `/admin/monitoring` | Surveillance de l'application | ✅ ROLE_ADMIN |
-| **Logs d'audit** | `/admin/audit` | Historique des actions | ✅ ROLE_ADMIN |
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Admin Dashboard** | `/admin` | Administration panel | ✅ ROLE_ADMIN |
+| **User management** | `/admin/users` | Account list and management | ✅ ROLE_ADMIN |
+| **Role assignment** | `/admin/roles` | Modify user roles | ✅ ROLE_ADMIN |
+| **System monitoring** | `/admin/monitoring` | Application monitoring | ✅ ROLE_ADMIN |
+| **Audit logs** | `/admin/audit` | Action history | ✅ ROLE_ADMIN |
 
-## ⚙️ Contrôle d'accès aux fonctionnalités
+## ⚙️ Feature Access Control
 
-### Fonctionnalités par rôle
+### Features by Role
 
 #### ROLE_MUSI
-| Fonctionnalité | Permission | Description |
-|----------------|------------|-------------|
-| **Créer testament** | ✅ | Rédiger ses dernières volontés |
-| **Gérer coffres-forts** | ✅ | Créer/modifier/supprimer ses coffres |
-| **Inviter Wakils** | ✅ | Désigner des mandataires |
-| **Gérer actifs** | ✅ | Ajouter/modifier ses biens |
-| **Messages posthumes** | ✅ | Créer des messages pour après sa mort |
-| **Voir son profil** | ✅ | Consulter ses informations |
-| **Modifier son profil** | ✅ | Mettre à jour ses données |
-| **Supprimer son compte** | ✅ | Fermer définitivement son compte |
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **Create testament** | ✅ | Write last will and testament |
+| **Manage safes** | ✅ | Create/modify/delete safes |
+| **Invite Wakils** | ✅ | Designate representatives |
+| **Manage assets** | ✅ | Add/modify assets |
+| **Posthumous messages** | ✅ | Create messages for after death |
+| **View profile** | ✅ | View personal information |
+| **Edit profile** | ✅ | Update personal data |
+| **Delete account** | ✅ | Permanently close account |
 
 #### ROLE_WAKIL
-| Fonctionnalité | Permission | Description |
-|----------------|------------|-------------|
-| **Accepter mandat** | ✅ | Confirmer un rôle de Wakil |
-| **Voir mandats assignés** | ✅ | Liste des Musis dont je suis Wakil |
-| **Accéder documents partagés** | ✅ | Consulter les documents assignés |
-| **Déclarer décès** | ✅ | Signaler le décès d'un Musi |
-| **Confirmer décès** | ✅ | Valider une déclaration de décès |
-| **Contester décès** | ✅ | Contester une fausse déclaration |
-| **Voir profil Wakil** | ✅ | Consulter ses informations de mandataire |
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **Accept mandate** | ✅ | Confirm Wakil role |
+| **View assigned mandates** | ✅ | List of Musis I am Wakil for |
+| **Access shared documents** | ✅ | View assigned documents |
+| **Declare death** | ✅ | Report a Musi's death |
+| **Confirm death** | ✅ | Validate death declaration |
+| **Contest death** | ✅ | Contest false declaration |
+| **View Wakil profile** | ✅ | View representative information |
 
 #### ROLE_ADMIN
-| Fonctionnalité | Permission | Description |
-|----------------|------------|-------------|
-| **Voir tous les utilisateurs** | ✅ | Liste complète des comptes |
-| **Modifier rôles utilisateurs** | ✅ | Attribuer/révoquer des rôles |
-| **Suspendre comptes** | ✅ | Désactiver des utilisateurs |
-| **Accéder logs système** | ✅ | Consulter l'historique d'activité |
-| **Gérer configuration** | ✅ | Paramètres système |
-| **Support utilisateurs** | ✅ | Assistance technique |
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **View all users** | ✅ | Complete account list |
+| **Modify user roles** | ✅ | Assign/revoke roles |
+| **Suspend accounts** | ✅ | Disable users |
+| **Access system logs** | ✅ | View activity history |
+| **Manage configuration** | ✅ | System settings |
+| **User support** | ✅ | Technical assistance |
 
-## 🔐 Matrice de permissions détaillée
+## 🔐 Detailed Permission Matrix
 
-### Accès aux pages
+### Page Access
 
-| Page/Route | Anonyme | ROLE_MUSI | ROLE_WAKIL | ROLE_ADMIN |
-|------------|---------|-----------|------------|------------|
-| `/` (Accueil) | ✅ | ✅ | ✅ | ✅ |
+| Page/Route | Anonymous | ROLE_MUSI | ROLE_WAKIL | ROLE_ADMIN |
+|------------|-----------|-----------|------------|------------|
+| `/` (Home) | ✅ | ✅ | ✅ | ✅ |
 | `/register` | ✅ | ❌ | ❌ | ❌ |
 | `/login` | ✅ | ❌ | ❌ | ❌ |
 | `/verify-email` | ❌| ✅ | ✅ | ✅ |
@@ -130,21 +130,21 @@ This document defines the role-based access control (RBAC) system for the Wasiya
 | `/wakil-profile` | ❌ | ❌ | ✅ | ❌ |
 | `/admin/*` | ❌ | ❌ | ❌ | ✅ |
 
-### Actions CRUD
+### CRUD Actions
 
 | Action | ROLE_MUSI | ROLE_WAKIL | ROLE_ADMIN |
 |--------|-----------|------------|------------|
-| **Créer testament** | ✅ | ❌ | ❌ |
-| **Modifier testament** | ✅ | ❌ | ❌ |
-| **Voir testament** | ✅ | ✅* | ✅ |
-| **Créer coffre-fort** | ✅ | ❌ | ❌ |
-| **Voir coffre-fort** | ✅ | ✅* | ✅ |
-| **Inviter Wakil** | ✅ | ❌ | ❌ |
-| **Accepter mandat Wakil** | ❌ | ✅ | ❌ |
-| **Voir tous les utilisateurs** | ❌ | ❌ | ✅ |
-| **Modifier rôles** | ❌ | ❌ | ✅ |
+| **Create testament** | ✅ | ❌ | ❌ |
+| **Modify testament** | ✅ | ❌ | ❌ |
+| **View testament** | ✅ | ✅* | ✅ |
+| **Create safe** | ✅ | ❌ | ❌ |
+| **View safe** | ✅ | ✅* | ✅ |
+| **Invite Wakil** | ✅ | ❌ | ❌ |
+| **Accept Wakil mandate** | ❌ | ✅ | ❌ |
+| **View all users** | ❌ | ❌ | ✅ |
+| **Modify roles** | ❌ | ❌ | ✅ |
 
-*\* Uniquement si assigné par le Musi*
+*\* Only if assigned by the Musi*
 
 ## 🛡️ Implémentation technique
 
@@ -194,7 +194,7 @@ interface UserWithRoles {
 }
 ```
 
-### Configuration base de données
+### Database Configuration
 
 ```sql
 CREATE TYPE "musi_roles_enum" AS ENUM(
@@ -206,12 +206,12 @@ CREATE TYPE "musi_roles_enum" AS ENUM(
 CREATE TABLE "musi" (
   "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   "email" varchar UNIQUE NOT NULL,
-  "roles" musi_roles_enum[] DEFAULT ARRAY['ROLE_MUSI'], -- Array pour multi-rôles
+  "roles" musi_roles_enum[] DEFAULT ARRAY['ROLE_MUSI'], -- Array for multi-roles
   "status" musi_status_enum DEFAULT 'pending',
-  -- autres champs...
+  -- other fields...
 );
 
--- Table de liaison pour les rôles multiples (alternative)
+-- Junction table for multiple roles (alternative)
 CREATE TABLE "user_roles" (
   "user_id" uuid REFERENCES "musi"("id"),
   "role" musi_roles_enum,
@@ -219,18 +219,18 @@ CREATE TABLE "user_roles" (
 );
 ```
 
-## 🎯 Attribution des rôles
+## 🎯 Role Assignment
 
-### Processus d'attribution
+### Assignment Process
 
-1. **ROLE_MUSI** : Attribution automatique lors de l'inscription
-2. **ROLE_WAKIL** : Attribution après acceptation d'une invitation
-3. **ROLE_ADMIN** : Attribution manuelle par un administrateur existant
+1. **ROLE_MUSI**: Automatic assignment upon registration
+2. **ROLE_WAKIL**: Assignment after accepting an invitation
+3. **ROLE_ADMIN**: Manual assignment by an existing administrator
 
-### Workflow d'attribution admin
+### Admin Assignment Workflow
 
 ```typescript
-// Endpoint pour attribuer un rôle (ROLE_ADMIN uniquement)
+// Endpoint to assign a role (ROLE_ADMIN only)
 @Roles('ROLE_ADMIN')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Patch('/admin/users/:id/role')
@@ -242,51 +242,51 @@ async assignRole(
 }
 ```
 
-## 📊 Règles de gestion
+## 📊 Management Rules
 
-### RG1 - Attribution des rôles
-- Un utilisateur peut cumuler plusieurs rôles (ex: ROLE_MUSI + ROLE_WAKIL)
-- Un Wakil peut également être Musi et inversement
-- Seuls les ROLE_ADMIN peuvent modifier les rôles des autres utilisateurs
-- L'auto-attribution de rôles est interdite
+### MR1 - Role Assignment
+- A user can have multiple roles (e.g., ROLE_MUSI + ROLE_WAKIL)
+- A Wakil can also be a Musi and vice versa
+- Only ROLE_ADMIN can modify other users' roles
+- Self-assignment of roles is forbidden
 
-### RG2 - Accès aux pages
-- L'accès aux pages est déterminé par le rôle principal de l'utilisateur
-- Les utilisateurs PENDING n'ont accès qu'aux pages de vérification
-- Les utilisateurs INACTIVE n'ont aucun accès
+### MR2 - Page Access
+- Page access is determined by the user's main role
+- PENDING users only have access to verification pages
+- INACTIVE users have no access
 
-### RG3 - Hiérarchie des rôles
+### MR3 - Role Hierarchy
 - ROLE_ADMIN > ROLE_MUSI = ROLE_WAKIL
-- Les administrateurs ont accès à toutes les fonctionnalités de lecture
-- Les Musis et Wakils ont des domaines d'action séparés et complémentaires
+- Administrators have access to all read functionalities
+- Musis and Wakils have separate and complementary domains of action
 
-## 🔄 Gestion des multi-rôles
+## 🔄 Multi-role Management
 
-### Cas d'usage typiques
+### Typical Use Cases
 
-1. **Musi qui devient Wakil** : Un utilisateur crée son testament (ROLE_MUSI) puis accepte d'être mandataire pour un ami (+ ROLE_WAKIL)
+1. **Musi becoming Wakil**: A user creates their testament (ROLE_MUSI) then accepts to be a representative for a friend (+ ROLE_WAKIL)
 
-2. **Wakil qui devient Musi** : Un mandataire décide de créer son propre testament (+ ROLE_MUSI)
+2. **Wakil becoming Musi**: A representative decides to create their own testament (+ ROLE_MUSI)
 
-3. **Interface unifiée** : L'utilisateur voit un dashboard combiné avec accès aux deux types de fonctionnalités
+3. **Unified Interface**: The user sees a combined dashboard with access to both types of functionalities
 
-### Logique d'accès
+### Access Logic
 
-- Si l'utilisateur a `ROLE_MUSI` → Accès aux pages Musi
-- Si l'utilisateur a `ROLE_WAKIL` → Accès aux pages Wakil  
-- Si l'utilisateur a les deux → Accès aux deux types de pages
-- Navigation contextuelle selon le rôle actif
+- If user has `ROLE_MUSI` → Access to Musi pages
+- If user has `ROLE_WAKIL` → Access to Wakil pages
+- If user has both → Access to both types of pages
+- Contextual navigation based on active role
 
-## 📝 Notes d'implémentation
+## 📝 Implementation Notes
 
-Ce RBAC est conçu pour être :
-- **Extensible** : Facile d'ajouter de nouveaux rôles
-- **Granulaire** : Contrôle fin des accès par page et fonctionnalité
-- **Sécurisé** : Double vérification (JWT + Rôles)
-- **Administrable** : Interface admin pour gérer les permissions
-- **Flexible** : Support des multi-rôles pour les cas d'usage complexes
+This RBAC is designed to be:
+- **Extensible**: Easy to add new roles
+- **Granular**: Fine-grained access control by page and functionality
+- **Secure**: Double verification (JWT + Roles)
+- **Manageable**: Admin interface to manage permissions
+- **Flexible**: Support for multi-roles for complex use cases
 
 ---
 
-**Version** : v1.0 - Spécification pour implémentation
-**Dernière mise à jour** : Janvier 2025 
+**Version**: v1.1 - English translation
+**Last update**: July 2025 
