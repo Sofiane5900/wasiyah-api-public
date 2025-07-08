@@ -146,7 +146,7 @@ This document defines the role-based access control (RBAC) system for the Wasiya
 
 *\* Only if assigned by the Musi*
 
-## 🛡️ Implémentation technique
+## 🛡️ Technical implementation
 
 ### Guards NestJS
 
@@ -176,7 +176,7 @@ async getMyMandates() { ... }
 async getDashboard() { ... }
 ```
 
-### Enum des rôles
+### Enum roles
 
 ```typescript
 export enum RoleUser {
@@ -185,11 +185,11 @@ export enum RoleUser {
   ROLE_WAKIL = 'ROLE_WAKIL'
 }
 
-// Interface pour utilisateur avec multi-rôles
+// Interface for user with roles
 interface UserWithRoles {
   id: string;
   email: string;
-  roles: RoleUser[]; // Array de rôles
+  roles: RoleUser[]; // Array of roles
   hasRole(role: RoleUser): boolean;
 }
 ```
