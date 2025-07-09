@@ -124,7 +124,7 @@ export class JwtAuthGuard implements CanActivate {
       request.user = {
         id: String(refreshTokenData.id),
         email: refreshTokenData.email,
-        roles: RoleUser.ROLE_MUSI,
+        roles: [RoleUser.ROLE_MUSI],
       } as Musi;
 
       return true;
