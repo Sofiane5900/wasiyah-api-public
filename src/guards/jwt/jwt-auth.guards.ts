@@ -57,7 +57,9 @@ export class JwtAuthGuard implements CanActivate {
           request.user = {
             id: String(payload.sub),
             email: payload.email,
-            roles: payload.roles,
+            roles: Array.isArray(payload.roles)
+              ? payload.roles
+              : [payload.roles], // Ensure roles is always an array
           } as Musi;
 
           return true;
