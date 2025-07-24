@@ -26,6 +26,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
     TestamentModule,
     WakilModule,
     RefreshTokenModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [AppService, UniqueEntityConstraint, RefreshTokenMiddleware],
