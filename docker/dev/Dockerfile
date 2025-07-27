@@ -35,7 +35,7 @@ RUN if [ -d ".pnpm-store" ]; then rm -rf .pnpm-store; fi
 
 RUN pnpm config set store-dir ${WORKDIR}/.pnpm-store
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 RUN pnpm build
 
