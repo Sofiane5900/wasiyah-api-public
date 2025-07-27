@@ -57,7 +57,8 @@ export class CreateMusiDto {
   @ApiProperty({
     description: "The Musi's roles",
     type: 'string',
+    isArray: true,
     example: ['ROLE_MUSI', 'ROLE_ADMIN'],
   })
-  roles: RoleUser;
+  roles: RoleUser[];
 }

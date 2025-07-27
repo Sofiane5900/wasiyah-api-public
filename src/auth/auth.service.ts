@@ -16,7 +16,7 @@ import { randomBytes } from 'crypto';
 interface SafeMusi {
   id: string;
   email: string;
-  roles: RoleUser;
+  roles: RoleUser[];
   isEmailVerified: boolean;
 }
 
@@ -42,7 +42,7 @@ export class AuthService {
     return {
       id,
       email: musiEmail,
-      roles,
+      roles: roles,
       isEmailVerified: musi.isEmailVerified,
     };
   }
