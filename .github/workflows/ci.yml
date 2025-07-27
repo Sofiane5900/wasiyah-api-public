@@ -44,7 +44,7 @@ jobs:
           chmod 600 jwt/private.pem
 
       - name: Build Dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Check vulnerabilities
         run: pnpm audit

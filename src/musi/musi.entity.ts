@@ -1,4 +1,10 @@
-import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Appoint } from '../appoint/appoint.entity';
 import { Loan } from '../loan/loan.entity';
@@ -57,7 +63,7 @@ export class Musi {
     description: 'creation date',
     type: Date,
   })
-  @Column({ type: Date })
+  @CreateDateColumn({ type: Date })
   creationDate: Date;
 
   @ApiProperty({
@@ -97,8 +103,13 @@ export class Musi {
     type: [String],
     example: ['ROLE_USER', 'ROLE_ADMIN'],
   })
-  @Column({ type: 'enum', enum: RoleUser, default: RoleUser.ROLE_MUSI })
-  roles: RoleUser;
+  @Column({
+    type: 'enum',
+    enum: RoleUser,
+    array: true,
+    default: [RoleUser.ROLE_MUSI],
+  })
+  roles: RoleUser[];
 
   @OneToMany(() => PosthumousMessage, 'user')
   posthumousMessages: PosthumousMessage[];

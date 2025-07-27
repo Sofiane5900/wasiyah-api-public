@@ -7,6 +7,9 @@ import { MusiModule } from '../musi/musi.module';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 import { MailService } from 'src/mail/mail.service';
 import { UrlGeneratorModule } from '../common/url-generator/url-generator.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RefreshToken } from 'src/refresh-token/refresh-token.entity';
+import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 
 @Module({
   imports: [
@@ -15,14 +18,14 @@ import { UrlGeneratorModule } from '../common/url-generator/url-generator.module
       publicKey: jwtConstants.publicKey,
       signOptions: {
         algorithm: 'RS256',
-        expiresIn: '1h',
       },
     }),
     forwardRef(() => MusiModule),
     UrlGeneratorModule,
+    TypeOrmModule.forFeature([RefreshToken]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard, MailService],
-  exports: [JwtAuthGuard, JwtModule],
+  providers: [AuthService, JwtAuthGuard, MailService, RefreshTokenRepository],
+  exports: [JwtAuthGuard, JwtModule, AuthService],
 })
 export class AuthModule {}

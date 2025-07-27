@@ -12,7 +12,7 @@ import { plainToClass } from 'class-transformer';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { RoleUser } from 'src/enum/Roles';
 import { StatusUser } from 'src/enum/User';
-import {MusiRepository} from "../../src/musi/musi.repository";
+import { MusiRepository } from '../../src/musi/musi.repository';
 
 // Mockers pour argon2
 vi.mock('argon2', () => ({
@@ -114,6 +114,7 @@ describe('MusiService', () => {
         lastName: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
+        birthDate: new Date('2000-01-01'),
         roles: RoleUser.ROLE_MUSI,
       };
 

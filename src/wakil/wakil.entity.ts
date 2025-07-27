@@ -1,7 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Appoint } from '../appoint/appoint.entity';
 import { Declare } from '../declare/declare.entity';
+import { Musi } from '../musi/musi.entity';
 
 @Entity()
 export class Wakil {
@@ -14,25 +22,12 @@ export class Wakil {
   id: string;
 
   @ApiProperty({
-    description: 'Last name of the wakil',
-    type: String,
+    description: 'User account for this wakil',
+    type: () => Musi,
   })
-  @Column({ type: String, length: 50 })
-  lastName: string;
-
-  @ApiProperty({
-    description: 'First name of the wakil',
-    type: String,
-  })
-  @Column({ type: String, length: 50 })
-  firstName: string;
-
-  @ApiProperty({
-    description: 'Email address of the wakil',
-    type: String,
-  })
-  @Column({ type: String, length: 50 })
-  email: string;
+  @OneToOne(() => Musi)
+  @JoinColumn()
+  user: Musi;
 
   @ApiProperty({
     description: 'Trust score of the wakil',

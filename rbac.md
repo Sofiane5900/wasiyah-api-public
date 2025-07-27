@@ -1,285 +1,292 @@
-# 🔐 Système de contrôle d'accès basé sur les rôles (RBAC) - Wasiyah
+# 🔐 Role-based access control system (RBAC) - Wasiyah
 
 ## 📋 Introduction
 
-Ce document définit le système de contrôle d'accès basé sur les rôles (RBAC) pour l'application Wasiyah. Il spécifie les différents rôles utilisateur, les permissions associées et la matrice d'autorisation qui détermine quelles actions chaque rôle peut effectuer.
+This document defines the role-based access control (RBAC) system for the Wasiyah application. It specifies user roles and their access permissions to pages and functionalities, enabling administrators to control precisely who can access what.
 
-Le modèle RBAC de Wasiyah est conçu pour :
+**Main objective**: To enable administrators to assign roles to users and control their access to pages according to their role, ensuring that each user only has access to the functions and data corresponding to their status.
 
-1. Protéger les données sensibles des utilisateurs
-2. Respecter l'architecture de chiffrement E2EE
-3. Implémenter le principe du moindre privilège
-4. Assurer une séparation claire des responsabilités
-5. Permettre une transition des droits sécurisée après le décès
+## 👤 Roles definition
 
-## 👤 Définition des rôles
+### Main roles
 
-### Rôles principaux
+| Role | Description | Assignment |
+|------|-------------|------------|
+| **ROLE_ADMIN** | System administrator with all rights | Manual assignment by super-admin |
+| **ROLE_MUSI** | Main user (testator) | Automatic assignment upon registration |
+| **ROLE_WAKIL** | Representative designated by a Musi | Assignment by Musi invitation |
 
-| Rôle | Description | Conditions d'attribution |
-|------|-------------|--------------------------|
-| **Anonyme** | Utilisateur non authentifié | Aucune |
-| **Musi** | Propriétaire principal du compte et des données (testateur) | S'inscrire et créer un compte |
-| **Wakil principal** | Mandataire désigné avec droits étendus | Être désigné explicitement par le Musi comme administrateur de confiance |
-| **Wakil standard** | Mandataire avec accès partiel aux données | Être désigné par le Musi avec des droits standard |
-| **Wakil limité** | Mandataire avec accès en lecture seule | Être désigné par le Musi avec des droits limités |
-| **Bénéficiaire** | Personne destinée à recevoir des actifs ou messages | Être désigné par le Musi comme bénéficiaire |
+**Important note**: A user can have multiple roles. For example, a Musi can also become a Wakil for other users, and vice versa.
 
-### États des rôles Wakil
+### User States
 
-Les rôles Wakil peuvent être dans différents états qui affectent leurs permissions :
+| State | Description | Impact |
+|-------|-------------|---------|
+| **PENDING** | Account created, email not verified | Limited access (verification only) |
+| **ACTIVE** | Email verified, functional account | Full access according to role |
+| **INACTIVE** | Account disabled | No access |
 
-| État | Description |
-|------|-------------|
-| **En attente** | Invitation envoyée, non confirmée |
-| **Actif** | Invitation acceptée, Musi vivant |
-| **Post-mortem** | Après confirmation du décès du Musi |
-| **Révoqué** | Droits retirés par le Musi |
+## 🌐 Page Access Control
 
-## 🔑 Définition des permissions
+### Public Pages (Anonymous)
 
-### Gestion du compte
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Home** | `/` | Public homepage | 🌍 All |
+| **Register** | `/register` | Create a new account | 🌍 All |
+| **Login** | `/login` | Log into the system | 🌍 All |
+| **Email verification** | `/verify-email` | Confirm email address | 🌍 All |
 
-| Permission | Description |
-|------------|-------------|
-| `COMPTE_VOIR` | Voir les informations du profil |
-| `COMPTE_MODIFIER` | Modifier les informations du profil |
-| `COMPTE_SUPPRIMER` | Supprimer le compte |
-| `COMPTE_EXPORTER` | Exporter toutes les données du compte |
+### Musi Pages (ROLE_MUSI)
 
-### Gestion des Wakils
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Musi Dashboard** | `/dashboard` | Main dashboard | ✅ ROLE_MUSI |
+| **Testament** | `/testament` | Testament management | ✅ ROLE_MUSI |
+| **Safe** | `/safes` | Safe management | ✅ ROLE_MUSI |
+| **My Wakils** | `/wakils` | Representative management | ✅ ROLE_MUSI |
+| **Assets** | `/assets` | Asset management | ✅ ROLE_MUSI |
+| **Posthumous messages** | `/posthumous-messages` | Messages after death | ✅ ROLE_MUSI |
+| **My profile** | `/profile` | Personal information | ✅ ROLE_MUSI |
 
-| Permission | Description |
-|------------|-------------|
-| `WAKIL_AJOUTER` | Ajouter un nouveau Wakil |
-| `WAKIL_VOIR` | Voir la liste des Wakils |
-| `WAKIL_MODIFIER` | Modifier les droits d'un Wakil |
-| `WAKIL_SUPPRIMER` | Révoquer un Wakil |
-| `WAKIL_ACCEPTER` | Accepter une invitation de devenir Wakil |
-| `WAKIL_ASSIGNER_COFFRE` | Attribuer un coffre-fort spécifique à un Wakil |
+### Wakil Pages (ROLE_WAKIL)
 
-### Gestion des actifs
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Wakil Dashboard** | `/wakil-dashboard` | Representative dashboard | ✅ ROLE_WAKIL |
+| **My mandates** | `/my-mandates` | List of Musis I am Wakil for | ✅ ROLE_WAKIL |
+| **Assigned documents** | `/assigned-documents` | Documents shared with me | ✅ ROLE_WAKIL |
+| **Death declarations** | `/death-declarations` | Declare/confirm death | ✅ ROLE_WAKIL |
+| **My Wakil profile** | `/wakil-profile` | My representative information | ✅ ROLE_WAKIL |
 
-| Permission | Description |
-|------------|-------------|
-| `ACTIF_AJOUTER` | Ajouter un actif |
-| `ACTIF_VOIR` | Voir les actifs |
-| `ACTIF_MODIFIER` | Modifier un actif |
-| `ACTIF_SUPPRIMER` | Supprimer un actif |
-| `ACTIF_ASSIGNER` | Attribuer un actif à un bénéficiaire |
+### Admin Pages (ROLE_ADMIN)
 
-### Gestion des documents
+| Page | Route | Description | Access |
+|------|-------|-------------|--------|
+| **Admin Dashboard** | `/admin` | Administration panel | ✅ ROLE_ADMIN |
+| **User management** | `/admin/users` | Account list and management | ✅ ROLE_ADMIN |
+| **Role assignment** | `/admin/roles` | Modify user roles | ✅ ROLE_ADMIN |
+| **System monitoring** | `/admin/monitoring` | Application monitoring | ✅ ROLE_ADMIN |
+| **Audit logs** | `/admin/audit` | Action history | ✅ ROLE_ADMIN |
 
-| Permission | Description |
-|------------|-------------|
-| `DOC_AJOUTER` | Ajouter un document |
-| `DOC_VOIR` | Voir un document |
-| `DOC_MODIFIER` | Modifier un document |
-| `DOC_SUPPRIMER` | Supprimer un document |
-| `DOC_PARTAGER` | Partager un document |
-| `DOC_CATEGORIE_VOIR` | Voir une catégorie de documents (coffre) |
+## ⚙️ Feature Access Control
 
-### Gestion du décès
+### Features by Role
 
-| Permission | Description |
-|------------|-------------|
-| `DECES_DECLARER` | Déclarer le décès |
-| `DECES_CONFIRMER` | Confirmer une déclaration de décès |
-| `DECES_CONTESTER` | Contester une déclaration de décès |
-| `DECES_VALIDER` | Valider définitivement un décès |
+#### ROLE_MUSI
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **Create testament** | ✅ | Write last will and testament |
+| **Manage safes** | ✅ | Create/modify/delete safes |
+| **Invite Wakils** | ✅ | Designate representatives |
+| **Manage assets** | ✅ | Add/modify assets |
+| **Posthumous messages** | ✅ | Create messages for after death |
+| **View profile** | ✅ | View personal information |
+| **Edit profile** | ✅ | Update personal data |
+| **Delete account** | ✅ | Permanently close account |
 
-### Fonctionnalités spéciales
+#### ROLE_WAKIL
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **Accept mandate** | ✅ | Confirm Wakil role |
+| **View assigned mandates** | ✅ | List of Musis I am Wakil for |
+| **Access shared documents** | ✅ | View assigned documents |
+| **Declare death** | ✅ | Report a Musi's death |
+| **Confirm death** | ✅ | Validate death declaration |
+| **Contest death** | ✅ | Contest false declaration |
+| **View Wakil profile** | ✅ | View representative information |
 
-| Permission | Description |
-|------------|-------------|
-| `MESSAGE_POSTHUME_VOIR` | Voir les messages posthumes |
-| `MESSAGE_POSTHUME_AJOUTER` | Créer des messages posthumes |
-| `RECUPERATION_COMPTE_INITIER` | Initier une récupération de compte |
-| `RECUPERATION_COMPTE_APPROUVER` | Approuver une récupération de compte |
+#### ROLE_ADMIN
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **View all users** | ✅ | Complete account list |
+| **Modify user roles** | ✅ | Assign/revoke roles |
+| **Suspend accounts** | ✅ | Disable users |
+| **Access system logs** | ✅ | View activity history |
+| **Manage configuration** | ✅ | System settings |
+| **User support** | ✅ | Technical assistance |
 
-## 📊 Matrice des permissions par rôle
+## 🔐 Detailed Permission Matrix
 
-| Permission | Anonyme | Musi | Wakil principal (actif) | Wakil principal (post-mortem) | Wakil standard (actif) | Wakil standard (post-mortem) | Wakil limité (post-mortem) | Bénéficiaire (post-mortem) |
-|------------|---------|------|-------------------------|-------------------------------|------------------------|-----------------------------|----------------------------|----------------------------|
-| `COMPTE_VOIR` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `COMPTE_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `COMPTE_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `COMPTE_EXPORTER` | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_VOIR` | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| `WAKIL_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_ACCEPTER` | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `WAKIL_ASSIGNER_COFFRE` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACTIF_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACTIF_VOIR` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ✅ | ✅* |
-| `ACTIF_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACTIF_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `ACTIF_ASSIGNER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
-| `DOC_MODIFIER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_SUPPRIMER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `DOC_PARTAGER` | ❌ | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
-| `DOC_CATEGORIE_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
-| `DECES_DECLARER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| `DECES_CONFIRMER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| `DECES_CONTESTER` | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| `DECES_VALIDER` | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `MESSAGE_POSTHUME_VOIR` | ❌ | ✅ | ❌ | ✅** | ❌ | ✅** | ✅** | ✅*** |
-| `MESSAGE_POSTHUME_AJOUTER` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| `RECUPERATION_COMPTE_INITIER` | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| `RECUPERATION_COMPTE_APPROUVER` | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+### Page Access
 
-\* Les bénéficiaires ne peuvent voir que les actifs qui leur sont attribués.
-\** Les Wakils ne peuvent voir que les documents des coffres auxquels ils ont accès.
-\*** Les bénéficiaires ne peuvent voir que les documents qui leur sont destinés.
+| Page/Route | Anonymous | ROLE_MUSI | ROLE_WAKIL | ROLE_ADMIN |
+|------------|-----------|-----------|------------|------------|
+| `/` (Home) | ✅ | ✅ | ✅ | ✅ |
+| `/register` | ✅ | ❌ | ❌ | ❌ |
+| `/login` | ✅ | ❌ | ❌ | ❌ |
+| `/verify-email` | ❌| ✅ | ✅ | ✅ |
+| `/dashboard` | ❌ | ✅ | ❌ | ❌ |
+| `/testament` | ❌ | ✅ | ❌ | ❌ |
+| `/safes` | ❌ | ✅ | ❌ | ❌ |
+| `/wakils` | ❌ | ✅ | ❌ | ❌ |
+| `/assets` | ❌ | ✅ | ❌ | ❌ |
+| `/posthumous-messages` | ❌ | ✅ | ❌ | ❌ |
+| `/profile` | ❌ | ✅ | ❌ | ❌ |
+| `/wakil-dashboard` | ❌ | ✅ | ✅ | ❌ |
+| `/my-mandates` | ❌ | ❌ | ✅ | ❌ |
+| `/assigned-documents` | ❌ | ❌ | ✅ | ❌ |
+| `/death-declarations` | ❌ | ❌ | ✅ | ❌ |
+| `/wakil-profile` | ❌ | ❌ | ✅ | ❌ |
+| `/admin/*` | ❌ | ❌ | ❌ | ✅ |
 
-## 🔄 Transitions d'états et de droits
+### CRUD Actions
 
-### Activation des droits post-mortem
+| Action | ROLE_MUSI | ROLE_WAKIL | ROLE_ADMIN |
+|--------|-----------|------------|------------|
+| **Create testament** | ✅ | ❌ | ❌ |
+| **Modify testament** | ✅ | ❌ | ❌ |
+| **View testament** | ✅ | ✅* | ✅ |
+| **Create safe** | ✅ | ❌ | ❌ |
+| **View safe** | ✅ | ✅* | ✅ |
+| **Invite Wakil** | ✅ | ❌ | ❌ |
+| **Accept Wakil mandate** | ❌ | ✅ | ❌ |
+| **View all users** | ❌ | ❌ | ✅ |
+| **Modify roles** | ❌ | ❌ | ✅ |
 
-```
-┌───────────────────────────┐     ┌───────────────────────────┐     ┌───────────────────────────┐
-│       ÉTAT INITIAL        │     │  PÉRIODE DE CONTESTATION  │     │        ÉTAT FINAL         │
-│       (Musi vivant)       │     │        (30 jours)         │     │     (Décès confirmé)      │
-├───────────────────────────┤     ├───────────────────────────┤     ├───────────────────────────┤
-│                           │     │                           │     │                           │
-│        ┌─────────┐        │     │        ┌─────────┐        │     │        ┌─────────┐        │
-│        │  Musi   │        │     │        │  Musi   │        │     │        │  Musi   │        │
-│        └────┬────┘        │     │        └────┬────┘        │     │        └────┬────┘        │
-│             │             │     │             │             │     │             │             │
-│        ACCÈS TOTAL        │     │          INACTIF          │     │          INACTIF          │
-│             │             │     │             │             │     │             │             │
-│        ┌────▼────┐        │     │        ┌────▼────┐        │     │        ┌────▼────┐        │
-│        │Documents│        │     │        │Documents│        │     │        │Documents│        │
-│        │ privés  │        │     │        │ privés  │        │     │        │ privés  │        │
-│        └─────────┘        │     │        └─────────┘        │     │        └─────────┘        │
-│          ▲     ▲          │     │          ▲     ▲          │     │          ▲     ▲          │
-│          │     │          │     │          │     │          │     │          │     │          │
-│          │     │          │     │          │     │          │     │          │     │          │
-│       AUCUN  LIMITÉ       │     │       LIMITÉ  PARTIEL     │     │      SÉLECTIF COMPLET     │
-│       ACCÈS  (selon       │     │      (coffres (coffres    │     │     (coffres  (tous       │
-│              partage)     │     │      assignés) assignés)  │     │     assignés) documents)  │
-│          │     │          │     │          │     │          │     │          │     │          │
-│     ┌────┴──┐ ┌┴────┐     │     │     ┌────┴──┐ ┌┴────┐     │     │     ┌────┴──┐ ┌┴────┐     │
-│     │ Wakil │ │Wakil│     │     │     │ Wakil │ │Wakil│     │     │     │ Wakil │ │Wakil│     │
-│     │ Std.  │ │Princ│     │     │     │ Std.  │ │Princ│     │     │     │ Std.  │ │Princ│     │
-│     └───────┘ └─────┘     │     │     └───────┘ └─────┘     │     │     └───────┘ └─────┘     │
-│                           │     │                           │     │                           │
-└───────────────────────────┘     └───────────────────────────┘     └───────────────────────────┘
-             │                                 │                                 │
-             ├─────────────────────────────────┼─────────────────────────────────┤
-             │                                 │                                 │
-             │         DÉCLARATION DE          │          VALIDATION DU          │
-             └────────────► DÉCÈS ◄────────────┘────────────► DÉCÈS ◄────────────┘
-                          par Wakils                  après période
-                                                     de contestation
-```
+*\* Only if assigned by the Musi*
 
-### Processus de récupération de compte
+## 🛡️ Technical implementation
 
-La récupération de compte nécessite l'approbation de plusieurs Wakils, avec un score de confiance cumulé supérieur à 75%. Le processus préserve la sécurité tout en permettant la restauration de l'accès.
+### Guards NestJS
 
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│                 │     │                 │     │                 │     │                 │
-│     Compte      │     │  Récupération   │     │  Nouveau mot    │     │  Configuration  │
-│   verrouillé    │     │    en cours     │     │    de passe     │     │   restaurée     │
-│                 │     │                 │     │                 │     │                 │
-└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
-         │                      │                      │                      │
-         │                      │                      │                      │
-         │    Initiation        │    Approbations      │     Archivage       │
-         └──────────────────────►    (Score > 75%)     │  + Re-création      │
-                                └──────────────────────►    des documents     │
-                                                       └──────────────────────►
-                                                         Wakils restaurés
+```typescript
+// Endpoint protected by role
+@Roles('ROLE_ADMIN')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Get('/admin/users')
+async getAllUsers() { ... }
+
+// Endpoint accessible to Musis
+@Roles('ROLE_MUSI')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Get('/testament')
+async getTestament() { ... }
+
+// Endpoint accessible to Wakils
+@Roles('ROLE_WAKIL')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Get('/my-mandates')
+async getMyMandates() { ... }
+
+// Endpoint accessible to both Musis and Wakils
+@Roles('ROLE_MUSI', 'ROLE_WAKIL') // OR logic
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Get('/dashboard')
+async getDashboard() { ... }
 ```
 
-#### Étapes détaillées du processus
+### Enum roles
 
-1. **Compte verrouillé** : Le Musi ne peut plus accéder à son compte suite à la perte de sa phrase mnémonique.
-   
-2. **Récupération en cours** : 
-   - Le Musi initie une demande de récupération depuis un nouvel appareil
-   - Notification automatique envoyée à tous les Wakils désignés
-   - Période d'attente des approbations (score de confiance > 75%)
-   - Vérification d'identité par canaux secondaires
+```typescript
+export enum RoleUser {
+  ROLE_ADMIN = 'ROLE_ADMIN',
+  ROLE_MUSI = 'ROLE_MUSI',
+  ROLE_WAKIL = 'ROLE_WAKIL'
+}
 
-3. **Nouveau mot de passe et gestion du contenu inaccessible** :
-   - Génération d'une nouvelle phrase mnémonique après validation des approbations
-   - **Archivage sécurisé** : 
-     - Les données chiffrées avec l'ancienne clé (irrécupérables) sont marquées comme "archivées" 
-     - Ces données restent stockées mais sont flaggées comme inaccessibles dans la base de données
-     - Aucune tentative de déchiffrement n'est possible sans la clé perdue
-     - Un identifiant d'archive est créé pour lier l'ancien et le nouveau compte
-   - **Re-création du compte** :
-     - Création d'un nouveau wallet avec nouvelle paire de clés
-     - Migration des métadonnées non chiffrées (date de création, identifiants, etc.)
-     - Création d'une nouvelle structure de données vide
+// Interface for user with roles
+interface UserWithRoles {
+  id: string;
+  email: string;
+  roles: RoleUser[]; // Array of roles
+  hasRole(role: RoleUser): boolean;
+}
+```
 
-4. **Configuration restaurée** :
-   - Récupération complète de la liste des Wakils (leurs clés publiques étant stockées séparément)
-   - Conservation de la configuration des droits d'accès des Wakils
-   - Maintien de l'intégrité du système de score de confiance
-   - Indication claire au Musi des données perdues vs restaurées
+### Database Configuration
 
-### Limitations techniques
+```sql
+CREATE TYPE "musi_roles_enum" AS ENUM(
+  'ROLE_ADMIN', 
+  'ROLE_MUSI', 
+  'ROLE_WAKIL'
+);
 
-L'archivage lors d'une récupération implique des restrictions inévitables :
+CREATE TABLE "musi" (
+  "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  "email" varchar UNIQUE NOT NULL,
+  "roles" musi_roles_enum[] DEFAULT ARRAY['ROLE_MUSI'], -- Array for multi-roles
+  "status" musi_status_enum DEFAULT 'pending',
+  -- other fields...
+);
 
-- Les documents chiffrés avec l'ancienne clé perdue sont **irrécupérables** techniquement
-- Les nouveaux documents devront être recréés par le Musi
-- Seules les données structurelles et relationnelles peuvent être restaurées
-- L'historique des transactions reste disponible à des fins d'audit, mais le contenu chiffré des documents reste inaccessible
+-- Junction table for multiple roles (alternative)
+CREATE TABLE "user_roles" (
+  "user_id" uuid REFERENCES "musi"("id"),
+  "role" musi_roles_enum,
+  PRIMARY KEY ("user_id", "role")
+);
+```
 
-## 🔒 Considérations de sécurité
+## 🎯 Role Assignment
 
-### Chiffrement et contrôle d'accès
+### Assignment Process
 
-Ce RBAC fonctionne en conjonction avec le système de chiffrement E2EE :
+1. **ROLE_MUSI**: Automatic assignment upon registration
+2. **ROLE_WAKIL**: Assignment after accepting an invitation
+3. **ROLE_ADMIN**: Manual assignment by an existing administrator
 
-1. Les permissions définissent si une action est autorisée
-2. Le chiffrement E2EE détermine si les données peuvent techniquement être déchiffrées
+### Admin Assignment Workflow
 
-Cette double protection garantit que même en cas de contournement du RBAC, les données restent inaccessibles sans les clés cryptographiques appropriées.
+```typescript
+// Endpoint to assign a role (ROLE_ADMIN only)
+@Roles('ROLE_ADMIN')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Patch('/admin/users/:id/role')
+async assignRole(
+  @Param('id') userId: string,
+  @Body() roleDto: { role: RoleUser }
+) {
+  return this.userService.updateRole(userId, roleDto.role);
+}
+```
 
-### Accès différencié des Wakils
+## 📊 Management Rules
 
-La conception du système respecte les principes suivants :
+### MR1 - Role Assignment
+- A user can have multiple roles (e.g., ROLE_MUSI + ROLE_WAKIL)
+- A Wakil can also be a Musi and vice versa
+- Only ROLE_ADMIN can modify other users' roles
+- Self-assignment of roles is forbidden
 
-1. **Wakil principal** : Désigné explicitement par le Musi comme administrateur de confiance, il aura accès à l'ensemble des documents et coffres-forts après la validation du décès.
+### MR2 - Page Access
+- Page access is determined by the user's main role
+- PENDING users only have access to verification pages
+- INACTIVE users have no access
 
-2. **Wakil standard** : N'aura accès qu'aux coffres-forts spécifiquement assignés par le Musi, même après la validation du décès. Cette restriction garantit la segmentation des données sensibles et respecte l'intention du Musi quant à qui peut accéder à quelles informations.
+### MR3 - Role Hierarchy
+- ROLE_ADMIN > ROLE_MUSI = ROLE_WAKIL
+- Administrators have access to all read functionalities
+- Musis and Wakils have separate and complementary domains of action
 
-3. **Attribution des coffres** : Le Musi doit explicitement attribuer les coffres-forts aux Wakils standards, définissant ainsi précisément quelles données chaque Wakil pourra consulter après son décès.
+## 🔄 Multi-role Management
 
-### Validation des transitions d'état
+### Typical Use Cases
 
-Les transitions d'état (comme la validation d'un décès) requièrent :
-- Des approbations multiples
-- Un délai de sécurité
-- Des notifications à tous les intervenants
-- Des mécanismes de contestation
+1. **Musi becoming Wakil**: A user creates their testament (ROLE_MUSI) then accepts to be a representative for a friend (+ ROLE_WAKIL)
 
-### Audit et traçabilité
+2. **Wakil becoming Musi**: A representative decides to create their own testament (+ ROLE_MUSI)
 
-Toutes les actions relatives aux permissions sont :
-- Journalisées de manière sécurisée
-- Horodatées
-- Signées cryptographiquement
-- Consultables par les Wakils principaux
+3. **Unified Interface**: The user sees a combined dashboard with access to both types of functionalities
 
-## 📝 Maintenance et évolution
+### Access Logic
 
-Le système RBAC devra évoluer avec les besoins du projet. Un processus de revue et mise à jour est nécessaire :
+- If user has `ROLE_MUSI` → Access to Musi pages
+- If user has `ROLE_WAKIL` → Access to Wakil pages
+- If user has both → Access to both types of pages
+- Contextual navigation based on active role
 
-1. Documenter les modifications de permissions
-2. Tester rigoureusement les changements de rôles
-3. Informer les utilisateurs des changements de privilèges
-4. Auditer régulièrement l'utilisation des permissions
+## 📝 Implementation Notes
+
+This RBAC is designed to be:
+- **Extensible**: Easy to add new roles
+- **Granular**: Fine-grained access control by page and functionality
+- **Secure**: Double verification (JWT + Roles)
+- **Manageable**: Admin interface to manage permissions
+- **Flexible**: Support for multi-roles for complex use cases
 
 ---
 
-Ce document est une version préliminaire du RBAC et sera ajusté au fur et à mesure de l'évolution du projet et de la définition de la stack technique. 
+**Version**: v1.1 - English translation
+**Last update**: July 2025 

@@ -16,9 +16,15 @@ import {
 import fastifyCookie from '@fastify/cookie';
 
 async function bootstrap() {
+  const adapter = new FastifyAdapter({
+    logger: process.env.NODE_ENV !== 'prod',
+  });
+
+  await adapter.register(fastifyCookie);
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: process.env.NODE_ENV !== 'prod' }),
+    adapter,
   );
 
   const config = new DocumentBuilder()
@@ -43,7 +49,6 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  await app.register(fastifyCookie);
   await app.listen(process.env.PORT ?? 8000, '0.0.0.0');
 }
 bootstrap();
