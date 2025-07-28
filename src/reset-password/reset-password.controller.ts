@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Query,
   Res,
@@ -72,7 +73,7 @@ export class ResetPasswordController {
     });
   }
 
-  @Post('reset')
+  @Patch('reset')
   @ApiOperation({
     summary: 'Retrieves a ResetPassword reset resource',
     description: 'Retrieves a ResetPassword reset resource',
@@ -98,7 +99,7 @@ export class ResetPasswordController {
   })
   @ApiResponse({
     example: { message: 'Password updated with success' },
-    status: 201,
+    status: 200,
   })
   async resetPassword(
     @Body() body: { token: string; plainPassword: string },
