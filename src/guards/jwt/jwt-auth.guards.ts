@@ -77,7 +77,8 @@ export class JwtAuthGuard implements CanActivate {
         );
       }
     } catch (error) {
-      throw new UnauthorizedException('Authentication error', error.message);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new UnauthorizedException('Authentication error', message);
     }
 
     return false;
