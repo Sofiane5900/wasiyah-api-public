@@ -10,6 +10,7 @@ import { UrlGeneratorModule } from '../common/url-generator/url-generator.module
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshToken } from 'src/refresh-token/refresh-token.entity';
 import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
+import { SessionModule } from 'src/session/session.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.reposito
     forwardRef(() => MusiModule),
     UrlGeneratorModule,
     TypeOrmModule.forFeature([RefreshToken]),
+    SessionModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard, MailService, RefreshTokenRepository],

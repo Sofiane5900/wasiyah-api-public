@@ -2,12 +2,14 @@ import { AuthService } from '../../src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { MusiRepository } from '../../src/musi/musi.repository';
 import { RefreshTokenRepository } from '../../src/refresh-token/refresh-token.repository';
+import { SessionService } from '../../src/session/session.service';
+import { Session } from '../../src/session/session.entity';
 import {
   UnauthorizedException,
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { RoleUser } from '../../src/enum/Roles';
 import { Musi } from '../../src/musi/musi.entity';
 import { RefreshToken } from '../../src/refresh-token/refresh-token.entity';
@@ -23,7 +25,9 @@ describe('AuthService', () => {
   let jwtService: JwtService;
   let musiRepository: MusiRepository;
   let refreshTokenRepository: RefreshTokenRepository;
+  let sessionService: SessionService;
   let mockReply: FastifyReply;
+  let mockRequest: FastifyRequest;
 
   const mockMusi: Partial<Musi> = {
     id: '1',
@@ -39,6 +43,14 @@ describe('AuthService', () => {
     email: 'test@example.com',
     expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     createdAt: new Date(),
+  };
+
+  // Mock session save
+  const mockSession = <Session>{
+    id: '1',
+    ipAdress: '127.0.0.1',
+    dateTimeStamp: new Date(),
+    user: mockMusi as Musi,
   };
 
   beforeEach(() => {
@@ -58,10 +70,16 @@ describe('AuthService', () => {
       delete: vi.fn(),
     } as unknown as RefreshTokenRepository;
 
+    // Mock sessionService
+    sessionService = {
+      save: vi.fn().mockResolvedValue(mockSession),
+    } as unknown as SessionService;
+
     service = new AuthService(
       musiRepository,
       jwtService,
       refreshTokenRepository,
+      sessionService,
     );
 
     mockReply = {
@@ -69,6 +87,11 @@ describe('AuthService', () => {
       send: vi.fn(),
       clearCookie: vi.fn(),
     } as unknown as FastifyReply;
+
+    // Mock request with l'IP
+    mockRequest = {
+      ip: '127.0.0.1',
+    } as unknown as FastifyRequest;
 
     vi.clearAllMocks();
   });
@@ -130,6 +153,9 @@ describe('AuthService', () => {
       const musi = { ...mockMusi, id: '1' } as Musi;
       vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
 
+      // Mock sessionService.save
+      vi.spyOn(sessionService, 'save').mockResolvedValue(mockSession);
+
       // Mock createRefreshToken
       vi.spyOn(service, 'createRefreshToken').mockResolvedValue(
         'new-refresh-token',
@@ -139,7 +165,12 @@ describe('AuthService', () => {
       const cookieSpy = vi.spyOn(mockReply, 'cookie');
       const sendSpy = vi.spyOn(mockReply, 'send');
 
-      await service.login('test@example.com', 'password', mockReply);
+      await service.login(
+        'test@example.com',
+        'password',
+        mockReply,
+        mockRequest,
+      );
 
       // Vérifier que validateUser a été appelé
       expect(service.validateUser).toHaveBeenCalledWith(
@@ -162,6 +193,13 @@ describe('AuthService', () => {
       // Vérifier que findOneBy a été appelé
       expect(musiRepository.findOneBy).toHaveBeenCalledWith({
         email: 'test@example.com',
+      });
+
+      // Vérifier que sessionService.save a été appelé avec les bons paramètres
+      expect(sessionService.save).toHaveBeenCalledWith({
+        ipAdress: '127.0.0.1',
+        dateTimeStamp: expect.any(Date),
+        user: '1',
       });
 
       // Vérifier que createRefreshToken a été appelé
@@ -205,11 +243,17 @@ describe('AuthService', () => {
       const sendSpy = vi.spyOn(mockReply, 'send');
 
       await expect(
-        service.login('test@example.com', 'wrong-password', mockReply),
+        service.login(
+          'test@example.com',
+          'wrong-password',
+          mockReply,
+          mockRequest,
+        ),
       ).rejects.toThrow(UnauthorizedException);
 
       expect(cookieSpy).not.toHaveBeenCalled();
       expect(sendSpy).not.toHaveBeenCalled();
+      expect(sessionService.save).not.toHaveBeenCalled();
     });
 
     it("devrait lever une exception si l'email n'est pas vérifié", async () => {
@@ -224,11 +268,12 @@ describe('AuthService', () => {
       const sendSpy = vi.spyOn(mockReply, 'send');
 
       await expect(
-        service.login('test@example.com', 'password', mockReply),
+        service.login('test@example.com', 'password', mockReply, mockRequest),
       ).rejects.toThrow(UnauthorizedException);
 
       expect(cookieSpy).not.toHaveBeenCalled();
       expect(sendSpy).not.toHaveBeenCalled();
+      expect(sessionService.save).not.toHaveBeenCalled();
     });
 
     it('devrait lever une exception si le Musi est introuvable après validation', async () => {
@@ -244,11 +289,42 @@ describe('AuthService', () => {
       const sendSpy = vi.spyOn(mockReply, 'send');
 
       await expect(
-        service.login('test@example.com', 'password', mockReply),
+        service.login('test@example.com', 'password', mockReply, mockRequest),
       ).rejects.toThrow(NotFoundException);
 
       expect(cookieSpy).not.toHaveBeenCalled();
       expect(sendSpy).not.toHaveBeenCalled();
+      expect(sessionService.save).not.toHaveBeenCalled();
+    });
+
+    it('devrait lever une exception si le tracking de session échoue', async () => {
+      const safeMusi = {
+        id: '1',
+        email: 'test@example.com',
+        roles: RoleUser.ROLE_MUSI,
+        isEmailVerified: true,
+      };
+      vi.spyOn(service, 'validateUser').mockResolvedValue(safeMusi);
+      const musi = { ...mockMusi, id: '1' } as Musi;
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
+
+      // Mock sessionService.save pour retourner null/undefined
+      vi.spyOn(sessionService, 'save').mockResolvedValue(null);
+
+      const cookieSpy = vi.spyOn(mockReply, 'cookie');
+      const sendSpy = vi.spyOn(mockReply, 'send');
+
+      await expect(
+        service.login('test@example.com', 'password', mockReply, mockRequest),
+      ).rejects.toThrow(UnauthorizedException);
+
+      expect(cookieSpy).not.toHaveBeenCalled();
+      expect(sendSpy).not.toHaveBeenCalled();
+      expect(sessionService.save).toHaveBeenCalledWith({
+        ipAdress: '127.0.0.1',
+        dateTimeStamp: expect.any(Date),
+        user: '1',
+      });
     });
 
     it('devrait configurer les cookies en mode sécurisé en production', async () => {
@@ -263,12 +339,18 @@ describe('AuthService', () => {
       vi.spyOn(jwtService, 'sign').mockReturnValue('new-access-token');
       const musi = { ...mockMusi, id: '1' } as Musi;
       vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
+      vi.spyOn(sessionService, 'save').mockResolvedValue(mockSession);
       vi.spyOn(service, 'createRefreshToken').mockResolvedValue(
         'new-refresh-token',
       );
       const cookieSpy = vi.spyOn(mockReply, 'cookie');
 
-      await service.login('test@example.com', 'password', mockReply);
+      await service.login(
+        'test@example.com',
+        'password',
+        mockReply,
+        mockRequest,
+      );
 
       expect(cookieSpy).toHaveBeenCalledWith(
         'access_token',

@@ -1,9 +1,9 @@
 import {
   Entity,
   Column,
-  OneToOne,
   JoinColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Musi } from '../musi/musi.entity';
@@ -38,7 +38,7 @@ export class Session {
     description: 'User associated with this death declaration',
     type: () => Musi,
   })
-  @OneToOne(() => Musi)
+  @ManyToOne(() => Musi)
   @JoinColumn()
   user: Musi;
 }

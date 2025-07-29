@@ -33,8 +33,12 @@ export class AuthController {
       },
     },
   })
-  async login(@Body() body: LoginDto, @Res() reply: FastifyReply) {
-    return this.authService.login(body.email, body.password, reply);
+  async login(
+    @Body() body: LoginDto,
+    @Res() reply: FastifyReply,
+    @Req() req: FastifyRequest,
+  ) {
+    return this.authService.login(body.email, body.password, reply, req);
   }
 
   @Post('refresh-token/invalidate')
