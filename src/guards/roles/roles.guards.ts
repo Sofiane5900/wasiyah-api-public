@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { Musi } from '../../musi/musi.entity';
 import { FastifyRequest } from 'fastify';
+import { RoleUser } from 'src/enum/Roles';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -14,7 +15,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const requiredRoles = this.reflector.get<string[]>(
+    const requiredRoles = this.reflector.get<RoleUser[]>(
       'roles',
       context.getHandler(),
     );
