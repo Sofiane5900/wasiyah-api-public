@@ -29,4 +29,8 @@ export class ResetPassword {
   @ApiProperty()
   @Column({ type: 'varchar', length: 64 })
   token: string;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 32 })
+  selector: string;
 }

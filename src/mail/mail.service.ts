@@ -40,9 +40,9 @@ export class MailService {
     await this.sendEmail(email, subject, html);
   }
 
-  async sendResetPasswordEmail(email: string, token: string): Promise<void> {
+  async sendResetPasswordEmail(email: string, param: string): Promise<void> {
     const link = this.urlGeneratorService.generateAbsolute(
-      'reset-password/validate?token=' + token,
+      'reset-password/validate/' + param,
     );
 
     const subject = 'Reset your password';

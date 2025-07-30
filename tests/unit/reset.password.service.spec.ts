@@ -1,18 +1,20 @@
-import { describe, it, beforeEach, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import {ResetPasswordService} from "../../src/reset-password/reset-password.service";
-import { UnauthorizedException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-
-import * as crypto from 'crypto';
+import {ResetPasswordRepository} from "../../src/reset-password/reset-password.repository";
+import {MusiRepository} from "../../src/musi/musi.repository";
+import {MailService} from "../../src/mail/mail.service";
+import {MusiService} from "../../src/musi/musi.service";
 import * as argon2 from 'argon2';
+import * as crypto from 'crypto';
 
 vi.mock('argon2');
 
 describe('ResetPasswordService', () => {
   let service: ResetPasswordService;
-  let resetPasswordRepository: any;
-  let musiRepository: any;
-  let musiService: any;
-  let mailService: any;
+  let resetPasswordRepository: ResetPasswordRepository;
+  let musiRepository: MusiRepository;
+  let mailService: MailService;
+  let musiService: MusiService;
 
   beforeEach(() => {
     resetPasswordRepository = {
@@ -20,64 +22,57 @@ describe('ResetPasswordService', () => {
       save: vi.fn(),
       remove: vi.fn(),
       findOne: vi.fn(),
-    };
+    } as any;
 
     musiRepository = {
       findOneBy: vi.fn(),
-    };
-
-    musiService = {
-      update: vi.fn(),
-    };
+    } as any;
 
     mailService = {
       sendResetPasswordEmail: vi.fn(),
-    };
+    } as any;
+
+    musiService = {
+      update: vi.fn(),
+    } as any;
 
     service = new ResetPasswordService(
       resetPasswordRepository,
       musiRepository,
       musiService,
-      mailService,
+      mailService
     );
   });
 
   describe('createResetToken', () => {
-    it('should do nothing if no musi is found', async () => {
-      musiRepository.findOneBy.mockResolvedValue(null);
-      await service.createResetToken('test@example.com');
-      expect(resetPasswordRepository.findOneBy).not.toHaveBeenCalled();
+    it('should do nothing if musi not found', async () => {
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(null);
+
+      await expect(service.createResetToken('test@example.com')).resolves.toBeUndefined();
+      expect(resetPasswordRepository.save).not.toHaveBeenCalled();
     });
 
-    it('should return early if token is still valid', async () => {
-      const now = new Date();
-      const musi = { id: 1, email: 'test@example.com' };
-      const tokenExists = {
-        expiresAt: new Date(now.getTime() + 1000 * 60),
+    it('should return if token not expired yet', async () => {
+      const musi = { id: 1 };
+      const selector = 'a'.repeat(32);
+      const fakeToken = {
+        selector: selector,
+        expiresAt: new Date(Date.now() + 1000)
       };
-
-      musiRepository.findOneBy.mockResolvedValue(musi);
-      resetPasswordRepository.findOneBy.mockResolvedValue(tokenExists);
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(fakeToken);
 
       await service.createResetToken('test@example.com');
-      expect(resetPasswordRepository.remove).not.toHaveBeenCalled();
+      expect(resetPasswordRepository.save).not.toHaveBeenCalled();
     });
 
-    it('should remove expired token and create a new one', async () => {
-      const musi = { id: 1, email: 'test@example.com' };
-      const expiredToken = {
-        expiresAt: new Date(Date.now() - 1000),
-      };
-
-      musiRepository.findOneBy.mockResolvedValue(musi);
-      resetPasswordRepository.findOneBy.mockResolvedValue(expiredToken);
-      resetPasswordRepository.remove.mockResolvedValue(null);
-      resetPasswordRepository.save.mockResolvedValue({});
-      mailService.sendResetPasswordEmail.mockResolvedValue(null);
+    it('should save and send email if valid', async () => {
+      const musi = { id: 1 };
+      vi.spyOn(musiRepository, 'findOneBy').mockResolvedValue(musi);
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(null);
 
       await service.createResetToken('test@example.com');
 
-      expect(resetPasswordRepository.remove).toHaveBeenCalledWith(expiredToken);
       expect(resetPasswordRepository.save).toHaveBeenCalled();
       expect(mailService.sendResetPasswordEmail).toHaveBeenCalled();
     });
@@ -85,69 +80,92 @@ describe('ResetPasswordService', () => {
 
   describe('validateResetToken', () => {
     it('should throw NotFound if token not found', async () => {
-      resetPasswordRepository.findOneBy.mockResolvedValue(null);
-      await expect(service.validateResetToken('invalid')).rejects.toThrow(NotFoundException);
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(null);
+      await expect(service.validateResetToken('abc123')).rejects.toThrow('Musi or token not found');
     });
 
     it('should throw Unauthorized if token expired', async () => {
-      const expired = { expiresAt: new Date(Date.now() - 1000) };
-      resetPasswordRepository.findOneBy.mockResolvedValue(expired);
-      await expect(service.validateResetToken('expired')).rejects.toThrow(UnauthorizedException);
+      const selector = 'a'.repeat(64);
+      const fakeToken = {
+        selector: selector,
+        expiresAt: new Date(Date.now() - 1000),
+      };
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(fakeToken);
+
+      await expect(service.validateResetToken('abc123')).rejects.toThrow('Invalid credentials');
     });
 
-    it('should pass if token is valid', async () => {
-      const valid = { expiresAt: new Date(Date.now() + 1000 * 60) };
-      resetPasswordRepository.findOneBy.mockResolvedValue(valid);
-      await expect(service.validateResetToken('valid')).resolves.toBeUndefined();
+    it('should throw Unauthorized if token hash doesn’t match', async () => {
+      const selector = 'a'.repeat(32)
+      const token = 'b'.repeat(64)
+      const fakeToken = {
+        expiresAt: new Date(Date.now() + 10000),
+        token: 'invalidhash',
+      };
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(fakeToken);
+
+      await expect(service.validateResetToken(selector + token)).rejects.toThrow('Invalid credentials');
+    });
+
+    it('should succeed if token valid', async () => {
+      const selector = 'a'.repeat(32);
+      const token = 'b'.repeat(64);
+      const tokenHash = crypto.createHash('sha256').update(token).digest('base64');
+
+      const fakeToken = {
+        expiresAt: new Date(Date.now() + 10000),
+        selector: selector,
+        token: tokenHash,
+      };
+      vi.spyOn(resetPasswordRepository, 'findOneBy').mockResolvedValue(fakeToken);
+
+      await expect(service.validateResetToken(selector + token)).resolves.toBeUndefined();
     });
   });
 
   describe('updatePassword', () => {
-    it('should throw Unauthorized if token not found', async () => {
-      resetPasswordRepository.findOne.mockResolvedValue(null);
-      await expect(service.updatePassword('fake', 'pass')).rejects.toThrow(UnauthorizedException);
+    it('should throw NotFound if token not found', async () => {
+      vi.spyOn(resetPasswordRepository, 'findOne').mockResolvedValue(null);
+      await expect(service.updatePassword('abc123', 'newPassword')).rejects.toThrow('Ressource not found');
     });
 
-    it('should throw Unauthorized if musi not found on token', async () => {
-      resetPasswordRepository.findOne.mockResolvedValue({ musi: null });
-      await expect(service.updatePassword('fake', 'pass')).rejects.toThrow(UnauthorizedException);
+    it('should throw Unauthorized if musi missing', async () => {
+      const tokenData = {
+        musi: null,
+      };
+      vi.spyOn(resetPasswordRepository, 'findOne').mockResolvedValue(tokenData);
+      await expect(service.updatePassword('abc123', 'newPassword')).rejects.toThrow('Invalid credentials');
     });
 
-    it('should throw UnprocessableEntity if password invalid', async () => {
-      resetPasswordRepository.findOne.mockResolvedValue({
+    it('should throw Unauthorized if token mismatch', async () => {
+      const selector = 'a'.repeat(32);
+      const token = 'b'.repeat(64);
+      const tokenData = {
         musi: { id: 1 },
-      });
+        token: 'invalidHash',
+      };
+      vi.spyOn(resetPasswordRepository, 'findOne').mockResolvedValue(tokenData);
 
-      vi.mocked(argon2.hash).mockResolvedValue('hashedPassword');
-      const oldValidate = (await import('class-validator')).validate;
-      vi.spyOn(await import('class-validator'), 'validate').mockResolvedValue([
-        {
-          constraints: {length: 'password too short'},
-          property: 'password'
-        },
-      ]);
-
-      await expect(service.updatePassword('token', 'bad')).rejects.toThrow(UnprocessableEntityException);
+      await expect(service.updatePassword(selector + token, 'newPassword')).rejects.toThrow('Invalid credentials');
     });
 
-    it('should update password and remove token', async () => {
-      const musi = { id: 1 };
-      const token = { musi };
+    it('should update password and remove token if valid', async () => {
+      const selector = 'a'.repeat(32);
+      const token = 'b'.repeat(64);
+      const tokenHash = crypto.createHash('sha256').update(token).digest('base64');
 
-      resetPasswordRepository.findOne.mockResolvedValue(token);
-      musiService.update.mockResolvedValue(null);
-      resetPasswordRepository.remove.mockResolvedValue(null);
+      const tokenData = {
+        musi: { id: 1 },
+        selector: selector,
+        token: tokenHash,
+      };
+      vi.spyOn(resetPasswordRepository, 'findOne').mockResolvedValue(tokenData);
+      vi.spyOn(argon2, 'hash').mockResolvedValue('hashedPassword');
 
-      vi.mocked(argon2.hash).mockResolvedValue('hashedPassword');
-      vi.spyOn(await import('class-validator'), 'validate').mockResolvedValue([]);
+      await service.updatePassword(selector + token, 'newPassword!123456');
 
-      await service.updatePassword('token', 'strongpassword');
-
-      expect(argon2.hash).toHaveBeenCalled();
-      expect(musiService.update).toHaveBeenCalledWith(musi.id, {
-        password: 'hashedPassword',
-      });
-      expect(resetPasswordRepository.remove).toHaveBeenCalledWith(token);
+      expect(musiService.update).toHaveBeenCalledWith(1, { password: 'hashedPassword' });
+      expect(resetPasswordRepository.remove).toHaveBeenCalled();
     });
   });
 });

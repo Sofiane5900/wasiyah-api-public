@@ -42,46 +42,63 @@ export class ResetPasswordService {
       }
     }
 
-    const rawToken = crypto.randomBytes(32).toString('hex');
-    const tokenHash = crypto
-      .createHash('sha256')
-      .update(rawToken)
-      .digest('hex');
+    const selector = crypto.randomBytes(16).toString('hex');
+    const token = crypto.randomBytes(32).toString('base64url');
+    const tokenHash = this.createHash(token);
+    const urlParam = `${selector}${token}`;
 
-    const resetPassword = new ResetPassword();
-    resetPassword.musi = musi;
-    resetPassword.expiresAt = new Date(Date.now() + 15 * 60 * 1000);
-    resetPassword.token = tokenHash;
+    const resetPassword = Object.assign(new ResetPassword(), {
+      musi: musi,
+      selector: selector,
+      token: tokenHash,
+      requestedAt: new Date(),
+      expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+    });
 
     await this.resetPasswordRepository.save(resetPassword);
-    await this.maileService.sendResetPasswordEmail(email, tokenHash);
+    await this.maileService.sendResetPasswordEmail(email, urlParam);
   }
 
-  async validateResetToken(token: string): Promise<void> {
-    const tokenExists = await this.resetPasswordRepository.findOneBy({ token });
+  async validateResetToken(param: string): Promise<void> {
+    const selector = param.slice(0, 32);
+    const token = param.slice(32);
+    const tokenRequested = await this.resetPasswordRepository.findOneBy({
+      selector,
+    });
 
-    if (!tokenExists) {
+    if (!tokenRequested) {
       throw new NotFoundException('Musi or token not found');
     }
 
-    if (tokenExists && tokenExists.expiresAt < new Date()) {
+    if (tokenRequested && tokenRequested.expiresAt < new Date()) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (this.createHash(token) !== tokenRequested.token) {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
 
-  async updatePassword(token: string, plainPassword: string): Promise<void> {
-    const tokenExists = await this.resetPasswordRepository.findOne({
-      where: { token },
+  async updatePassword(param: string, plainPassword: string): Promise<void> {
+    const selector = param.slice(0, 32);
+    const token = param.slice(32);
+
+    const tokenRequested = await this.resetPasswordRepository.findOne({
+      where: { selector },
       relations: { musi: true },
     });
 
-    if (!tokenExists) {
+    if (!tokenRequested) {
+      throw new NotFoundException('Ressource not found');
+    }
+
+    const musi: Musi = tokenRequested.musi;
+
+    if (!musi) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const musi: Musi = tokenExists.musi;
-
-    if (!musi) {
+    if (this.createHash(token) !== tokenRequested.token) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -99,6 +116,10 @@ export class ResetPasswordService {
     const passwordHash = await argon2.hash(plainPassword);
 
     await this.musiService.update(musi.id, { password: passwordHash });
-    await this.resetPasswordRepository.remove(tokenExists);
+    await this.resetPasswordRepository.remove(tokenRequested);
+  }
+
+  private createHash(token: string): string {
+    return crypto.createHash('sha256').update(token).digest('base64');
   }
 }

@@ -2,9 +2,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
-  Query,
   Res,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -56,17 +56,17 @@ export class ResetPasswordController {
     });
   }
 
-  @Get('validate')
+  @Get('validate/:param')
   @ApiOperation({ summary: 'Retrieves a ResetPassword validate resource' })
   @ApiResponse({
     example: { message: 'Token is validate' },
     status: 200,
   })
   async getToken(
-    @Query('token') token: string,
+    @Param('param') param: string,
     @Res() reply: FastifyReply,
   ): Promise<FastifyReply> {
-    await this.resetPasswordService.validateResetToken(token);
+    await this.resetPasswordService.validateResetToken(param);
 
     return reply.status(200).send({
       message: 'Reset password token validated',
@@ -82,7 +82,7 @@ export class ResetPasswordController {
     schema: {
       type: 'object',
       properties: {
-        token: {
+        param: {
           type: 'string',
           description: 'The reset token received by email.',
           example: 'string',
@@ -93,7 +93,7 @@ export class ResetPasswordController {
           example: 'string',
         },
       },
-      required: ['token', 'plainPassword'],
+      required: ['param', 'plainPassword'],
     },
     required: true,
   })
@@ -102,11 +102,11 @@ export class ResetPasswordController {
     status: 200,
   })
   async resetPassword(
-    @Body() body: { token: string; plainPassword: string },
+    @Body() body: { param: string; plainPassword: string },
     @Res() reply: FastifyReply,
   ): Promise<FastifyReply> {
     await this.resetPasswordService.updatePassword(
-      body.token,
+      body.param,
       body.plainPassword,
     );
 
