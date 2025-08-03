@@ -37,7 +37,7 @@ export class Testament {
     description: 'Version of the testament',
     type: Number,
   })
-  @Column()
+  @Column({ type: Number })
   version: number;
 
   @ApiProperty({
