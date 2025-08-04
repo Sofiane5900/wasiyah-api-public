@@ -27,6 +27,8 @@ async function bootstrap() {
     adapter,
   );
 
+  app.enableCors();
+
   const config = new DocumentBuilder()
     .setTitle('Wasiyah API')
     .setDescription('Wasiyah API documentation')
