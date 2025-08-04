@@ -27,6 +27,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { RefreshTokenMiddleware } from './refresh-token/refresh-token.middleware';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { SessionModule } from './session/session.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @Module({
   imports: [
@@ -73,6 +74,7 @@ import { SessionModule } from './session/session.module';
     WakilModule,
     RefreshTokenModule,
     SessionModule,
+    ResetPasswordModule,
   ],
   controllers: [AppController],
   providers: [AppService, UniqueEntityConstraint, RefreshTokenMiddleware],

@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Optional,
+} from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { UrlGeneratorService } from '../common/url-generator/url-generator.service';
 import { JwtService } from '@nestjs/jwt';
@@ -8,7 +12,7 @@ export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly urlGeneratorService: UrlGeneratorService,
-    private readonly jwtService: JwtService,
+    @Optional() private readonly jwtService: JwtService,
   ) {}
 
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
@@ -33,6 +37,16 @@ export class MailService {
 
     const subject = 'Verify your email address';
     const html = `<p>Click here to verify your account :</p><a href="${link}">${link}</a>`;
+    await this.sendEmail(email, subject, html);
+  }
+
+  async sendResetPasswordEmail(email: string, param: string): Promise<void> {
+    const link = this.urlGeneratorService.generateAbsolute(
+      'reset-password/validate/' + param,
+    );
+
+    const subject = 'Reset your password';
+    const html = `<p>Click here to reset your password :</p><a href="${link}">${link}</a>`;
     await this.sendEmail(email, subject, html);
   }
 }

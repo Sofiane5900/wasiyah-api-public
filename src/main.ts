@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {
@@ -39,7 +40,6 @@ async function bootstrap() {
   };
 
   SwaggerModule.setup('api', app, documentFactory, options);
-
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
     new ValidationPipe({
