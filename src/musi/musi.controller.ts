@@ -11,7 +11,7 @@ import {
 import { MusiService } from './musi.service';
 import { UpdateMusiDto } from './dto/update-musi.dto';
 import { Musi } from './musi.entity';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import {
   ApiDeleteRessource,
   ApiGetResource,
@@ -54,7 +54,6 @@ export class MusiController {
   // Create a musi
   @Post()
   @ApiPostRessource(MusiResponseDto)
-  @ApiBody({ type: RegisterMusiDto })
   async create(
     @Body() registerMusiDto: RegisterMusiDto,
   ): Promise<MusiResponseDto> {
