@@ -26,7 +26,6 @@ export class SessionService {
     const findByIdUser = await this.sessionRepository.findOne({
       where: { user: { id: userId } },
     });
-    console.log('console log : => findByIdUser', userId);
 
     if (!findByIdUser) {
       throw new NotFoundException(`Session not found for user ID: ${userId}`);

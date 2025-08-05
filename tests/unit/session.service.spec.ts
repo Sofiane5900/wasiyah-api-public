@@ -2,6 +2,7 @@ import { SessionService } from '../../src/session/session.service';
 import { SessionRepository } from '../../src/session/session.repository';
 import { Session } from '../../src/session/session.entity';
 import { Musi } from '../../src/musi/musi.entity';
+import { RoleUser } from '../../src/enum/Roles';
 import { NotFoundException } from '@nestjs/common';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
@@ -12,7 +13,7 @@ describe('SessionService', () => {
   const mockMusi: Partial<Musi> = {
     id: '1',
     email: 'test@example.com',
-    roles: ['ROLE_MUSI'],
+    roles: [RoleUser.ROLE_MUSI],
     isEmailVerified: true,
   };
 
@@ -214,25 +215,6 @@ describe('SessionService', () => {
         where: { user: { id: userId } },
       });
       expect(result).toEqual(expectedSession);
-    });
-
-    it('should display a console message for debugging', async () => {
-      const userId = '1';
-      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-      const expectedSession = { ...mockSession };
-
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(
-        expectedSession as Session,
-      );
-
-      await service.findSessionByUserId(userId);
-
-      expect(consoleSpy).toHaveBeenCalledWith(
-        'console log : => findByIdUser',
-        userId,
-      );
-
-      consoleSpy.mockRestore();
     });
   });
 
