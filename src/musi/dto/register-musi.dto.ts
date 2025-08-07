@@ -50,6 +50,7 @@ export class RegisterMusiDto {
   @ApiProperty({
     description: 'birth date',
     type: Date,
+    format: 'date',
   })
   birthDate: Date;
 }
