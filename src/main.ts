@@ -27,7 +27,11 @@ async function bootstrap() {
     adapter,
   );
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Wasiyah API')
