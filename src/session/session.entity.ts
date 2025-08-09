@@ -35,6 +35,39 @@ export class Session {
   ipAdress: string;
 
   @ApiProperty({
+    description: 'Browser the session was connected from',
+    type: String,
+    example:
+      'Chrome || Firefox || Safari || Edge || Opera || Internet Explorer',
+  })
+  @Column({ type: String, nullable: true })
+  browser: string;
+
+  @ApiProperty({
+    description: 'Os the session was connected from',
+    type: String,
+    example: 'Windows 10 || Linux || MacOS',
+  })
+  @Column({ type: String, nullable: true })
+  os: string;
+
+  @ApiProperty({
+    description: 'Device type the session was connected from',
+    type: String,
+    example: 'Desktop || Mobile || Tablet',
+  })
+  @Column({ type: String, nullable: true })
+  deviceType: string;
+
+  @ApiProperty({
+    description: 'Device model the session was connected from',
+    type: String,
+    example: 'iPhone 16 || Samsung Galaxy S25 || MacBook Pro',
+  })
+  @Column({ type: 'varchar', nullable: true })
+  deviceModel: string;
+
+  @ApiProperty({
     description: 'User associated with this death declaration',
     type: () => Musi,
   })

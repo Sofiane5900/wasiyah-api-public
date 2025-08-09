@@ -3,11 +3,13 @@ import { SessionService } from './session.service';
 import { SessionRepository } from './session.repository';
 import { SessionController } from './session.controller';
 import { Session } from './session.entity';
+import { MusiRepository } from 'src/musi/musi.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  providers: [SessionService, SessionRepository],
+  imports: [TypeOrmModule.forFeature([Session])],
+  providers: [SessionService, SessionRepository, MusiRepository],
   controllers: [SessionController],
-  imports: [Session],
-  exports: [SessionService, SessionRepository, Session],
+  exports: [SessionService, SessionRepository],
 })
 export class SessionModule {}

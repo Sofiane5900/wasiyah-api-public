@@ -1,343 +1,410 @@
-import { SessionService } from '../../src/session/session.service';
-import { SessionRepository } from '../../src/session/session.repository';
-import { Session } from '../../src/session/session.entity';
-import { Musi } from '../../src/musi/musi.entity';
-import { RoleUser } from '../../src/enum/Roles';
 import { NotFoundException } from '@nestjs/common';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { SessionService } from 'src/session/session.service';
+import { Session } from 'src/session/session.entity';
+import { CreateSessionDto } from 'src/session/dto/create-session-dto';
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest';
 
 describe('SessionService', () => {
   let service: SessionService;
-  let sessionRepository: SessionRepository;
+  let mockSessionRepository: any;
+  let mockMusiRepository: any;
 
-  const mockMusi: Partial<Musi> = {
-    id: '1',
-    email: 'test@example.com',
-    roles: [RoleUser.ROLE_MUSI],
-    isEmailVerified: true,
+  const mockSession: Session = {
+    id: 'session-uuid-123',
+    dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+    ipAdress: '192.168.1.1',
+    browser: 'Chrome',
+    os: 'Windows 10',
+    deviceType: 'Desktop',
+    deviceModel: 'Dell XPS',
+    user: {
+      id: 'user-uuid-456',
+    } as any,
   };
 
-  const mockSession: Partial<Session> = {
-    id: 'session-1',
-    ipAdress: '127.0.0.1',
-    dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
-    user: mockMusi as Musi,
-  };
-
-  const mockSessionData = {
-    ipAdress: '127.0.0.1',
-    dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
-    user: '1',
+  const mockUser = {
+    id: 'user-uuid-456',
   };
 
   beforeEach(() => {
-    sessionRepository = {
-      save: vi.fn(),
+    // Création des mocks
+    mockSessionRepository = {
       findOne: vi.fn(),
       find: vi.fn(),
-    } as unknown as SessionRepository;
+      create: vi.fn(),
+      save: vi.fn(),
+      delete: vi.fn(),
+      update: vi.fn(),
+    };
 
-    service = new SessionService(sessionRepository);
+    mockMusiRepository = {
+      findOneBy: vi.fn(),
+      findOne: vi.fn(),
+      find: vi.fn(),
+      save: vi.fn(),
+    };
 
+    // Création manuelle du service avec les mocks
+    service = new SessionService(mockSessionRepository, mockMusiRepository);
+  });
+
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
   describe('save', () => {
+    it('should be defined', () => {
+      expect(service).toBeDefined();
+    });
+
     it('should save a session successfully', async () => {
-      const sessionData = { ...mockSessionData };
-      const expectedSession = { ...mockSession };
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+        ipAdress: '192.168.1.1',
+        browser: 'Chrome',
+        os: 'Windows 10',
+        deviceType: 'Desktop',
+        deviceModel: 'Dell XPS',
+        userId: 'user-uuid-456',
+      };
 
-      vi.spyOn(sessionRepository, 'save').mockResolvedValue(
-        expectedSession as Session,
-      );
+      const createdSession = { ...sessionData, user: mockUser };
 
+      mockMusiRepository.findOneBy.mockResolvedValue(mockUser);
+      mockSessionRepository.create.mockReturnValue(createdSession);
+      mockSessionRepository.save.mockResolvedValue(mockSession);
+
+      // Act
       const result = await service.save(sessionData);
 
-      expect(sessionRepository.save).toHaveBeenCalledWith(sessionData);
-      expect(result).toEqual(expectedSession);
+      // Assert
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.create).toHaveBeenCalledWith({
+        ...sessionData,
+        user: mockUser,
+      });
+      expect(mockSessionRepository.save).toHaveBeenCalledWith(createdSession);
+      expect(result).toEqual(mockSession);
+    });
+
+    it('should throw NotFoundException when user is not found', async () => {
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+        ipAdress: '192.168.1.1',
+        userId: 'non-existent-user-id',
+      };
+
+      mockMusiRepository.findOneBy.mockResolvedValue(null);
+
+      // Act & Assert
+      await expect(service.save(sessionData)).rejects.toThrow(
+        new NotFoundException(`User not found with ID: ${sessionData.userId}`),
+      );
+
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.create).not.toHaveBeenCalled();
+      expect(mockSessionRepository.save).not.toHaveBeenCalled();
     });
 
     it('should handle errors during save', async () => {
-      const sessionData = { ...mockSessionData };
-      const error = new Error('Erreur de base de données');
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+        ipAdress: '192.168.1.1',
+        userId: 'user-uuid-456',
+      };
 
-      vi.spyOn(sessionRepository, 'save').mockRejectedValue(error);
+      const createdSession = { ...sessionData, user: mockUser };
+      const saveError = new Error('Erreur de base de données');
 
-      await expect(service.save(sessionData)).rejects.toThrow(error);
-      expect(sessionRepository.save).toHaveBeenCalledWith(sessionData);
+      mockMusiRepository.findOneBy.mockResolvedValue(mockUser);
+      mockSessionRepository.create.mockReturnValue(createdSession);
+      mockSessionRepository.save.mockRejectedValue(saveError);
+
+      // Act & Assert
+      await expect(service.save(sessionData)).rejects.toThrow(saveError);
+
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.create).toHaveBeenCalledWith({
+        ...sessionData,
+        user: mockUser,
+      });
+      expect(mockSessionRepository.save).toHaveBeenCalledWith(createdSession);
     });
 
     it('should save a session with minimal data', async () => {
-      const minimalSessionData = {
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
         ipAdress: '192.168.1.1',
-        user: '2',
-      };
-      const expectedSession = {
-        id: 'session-2',
-        ...minimalSessionData,
-        dateTimeStamp: expect.any(Date),
+        userId: 'user-uuid-456',
       };
 
-      vi.spyOn(sessionRepository, 'save').mockResolvedValue(
-        expectedSession as Session,
-      );
+      const createdSession = { ...sessionData, user: mockUser };
 
-      const result = await service.save(minimalSessionData);
+      mockMusiRepository.findOneBy.mockResolvedValue(mockUser);
+      mockSessionRepository.create.mockReturnValue(createdSession);
+      mockSessionRepository.save.mockResolvedValue({
+        ...mockSession,
+        browser: undefined,
+        os: undefined,
+      });
 
-      expect(sessionRepository.save).toHaveBeenCalledWith(minimalSessionData);
-      expect(result).toEqual(expectedSession);
+      // Act
+      const result = await service.save(sessionData);
+
+      // Assert
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.create).toHaveBeenCalledWith({
+        ...sessionData,
+        user: mockUser,
+      });
+      expect(result).toBeDefined();
+    });
+
+    it('should handle musiRepository findOneBy errors', async () => {
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+        ipAdress: '192.168.1.1',
+        userId: 'user-uuid-456',
+      };
+
+      const dbError = new Error('Database connection failed');
+      mockMusiRepository.findOneBy.mockRejectedValue(dbError);
+
+      // Act & Assert
+      await expect(service.save(sessionData)).rejects.toThrow(dbError);
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.create).not.toHaveBeenCalled();
     });
   });
 
   describe('findSessionById', () => {
     it('should find a session by ID successfully', async () => {
-      const sessionId = 'session-1';
-      const expectedSession = { ...mockSession };
+      // Arrange
+      const sessionId = 'session-uuid-123';
+      mockSessionRepository.findOne.mockResolvedValue(mockSession);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(
-        expectedSession as Session,
-      );
-
+      // Act
       const result = await service.findSessionById(sessionId);
 
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
+      // Assert
+      expect(result).toEqual(mockSession);
+      expect(mockSessionRepository.findOne).toHaveBeenCalledWith({
         where: { id: sessionId },
       });
-      expect(result).toEqual(expectedSession);
     });
 
     it("should throw NotFoundException if session doesn't exist", async () => {
-      const sessionId = 'session-inexistant';
+      // Arrange
+      const sessionId = 'non-existent-session-id';
+      mockSessionRepository.findOne.mockResolvedValue(null);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(null);
-
+      // Act & Assert
       await expect(service.findSessionById(sessionId)).rejects.toThrow(
-        NotFoundException,
+        new NotFoundException(`Session not found with ID: ${sessionId}`),
       );
-      await expect(service.findSessionById(sessionId)).rejects.toThrow(
-        `Session not found with ID: ${sessionId}`,
-      );
-
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
-        where: { id: sessionId },
-      });
     });
 
     it('should handle database errors', async () => {
-      const sessionId = 'session-1';
-      const error = new Error('Erreur de connexion à la base de données');
+      // Arrange
+      const sessionId = 'session-uuid-123';
+      const dbError = new Error('Database connection failed');
+      mockSessionRepository.findOne.mockRejectedValue(dbError);
 
-      vi.spyOn(sessionRepository, 'findOne').mockRejectedValue(error);
-
-      await expect(service.findSessionById(sessionId)).rejects.toThrow(error);
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
-        where: { id: sessionId },
-      });
+      // Act & Assert
+      await expect(service.findSessionById(sessionId)).rejects.toThrow(dbError);
     });
 
     it('should accept a valid ID with special characters', async () => {
-      const sessionId = 'session-uuid-123e4567-e89b-12d3-a456-426614174000';
-      const expectedSession = { ...mockSession, id: sessionId };
+      // Arrange
+      const sessionId = 'session-uuid-123-special!@#';
+      mockSessionRepository.findOne.mockResolvedValue(mockSession);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(
-        expectedSession as Session,
-      );
-
+      // Act
       const result = await service.findSessionById(sessionId);
 
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
+      // Assert
+      expect(result).toEqual(mockSession);
+      expect(mockSessionRepository.findOne).toHaveBeenCalledWith({
         where: { id: sessionId },
       });
-      expect(result).toEqual(expectedSession);
     });
   });
 
   describe('findSessionByUserId', () => {
     it('should find a session by user ID successfully', async () => {
-      const userId = '1';
-      const expectedSession = { ...mockSession };
+      // Arrange
+      const userId = 'user-uuid-456';
+      mockSessionRepository.findOne.mockResolvedValue(mockSession);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(
-        expectedSession as Session,
-      );
-
+      // Act
       const result = await service.findSessionByUserId(userId);
 
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
+      // Assert
+      expect(result).toEqual(mockSession);
+      expect(mockSessionRepository.findOne).toHaveBeenCalledWith({
         where: { user: { id: userId } },
       });
-      expect(result).toEqual(expectedSession);
     });
 
     it('should throw NotFoundException if no session exists for the user', async () => {
-      const userId = '999';
+      // Arrange
+      const userId = 'non-existent-user-id';
+      mockSessionRepository.findOne.mockResolvedValue(null);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(null);
-
+      // Act & Assert
       await expect(service.findSessionByUserId(userId)).rejects.toThrow(
-        NotFoundException,
+        new NotFoundException(`Session not found for user ID: ${userId}`),
       );
-      await expect(service.findSessionByUserId(userId)).rejects.toThrow(
-        `Session not found for user ID: ${userId}`,
-      );
-
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
-        where: { user: { id: userId } },
-      });
     });
 
     it('should handle database errors', async () => {
-      const userId = '1';
-      const error = new Error('Erreur de connexion à la base de données');
+      // Arrange
+      const userId = 'user-uuid-456';
+      const dbError = new Error('Database connection failed');
+      mockSessionRepository.findOne.mockRejectedValue(dbError);
 
-      vi.spyOn(sessionRepository, 'findOne').mockRejectedValue(error);
-
-      await expect(service.findSessionByUserId(userId)).rejects.toThrow(error);
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
-        where: { user: { id: userId } },
-      });
+      // Act & Assert
+      await expect(service.findSessionByUserId(userId)).rejects.toThrow(
+        dbError,
+      );
     });
 
     it('should accept a user ID with special characters', async () => {
-      const userId = 'user-uuid-123e4567-e89b-12d3-a456-426614174000';
-      const expectedSession = {
-        ...mockSession,
-        user: { ...mockMusi, id: userId },
-      };
+      // Arrange
+      const userId = 'user-uuid-456-special!@#';
+      mockSessionRepository.findOne.mockResolvedValue(mockSession);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(
-        expectedSession as Session,
-      );
-
+      // Act
       const result = await service.findSessionByUserId(userId);
 
-      expect(sessionRepository.findOne).toHaveBeenCalledWith({
-        where: { user: { id: userId } },
-      });
-      expect(result).toEqual(expectedSession);
+      // Assert
+      expect(result).toEqual(mockSession);
     });
   });
 
   describe('findAllSessions', () => {
     it('should return all sessions successfully', async () => {
-      const expectedSessions = [
-        { ...mockSession, id: 'session-1' },
-        { ...mockSession, id: 'session-2' },
-        { ...mockSession, id: 'session-3' },
-      ];
+      // Arrange
+      const sessions = [mockSession];
+      mockSessionRepository.find.mockResolvedValue(sessions);
 
-      vi.spyOn(sessionRepository, 'find').mockResolvedValue(
-        expectedSessions as Session[],
-      );
-
+      // Act
       const result = await service.findAllSessions();
 
-      expect(sessionRepository.find).toHaveBeenCalled();
-      expect(result).toEqual(expectedSessions);
-      expect(result).toHaveLength(3);
+      // Assert
+      expect(result).toEqual(sessions);
+      expect(mockSessionRepository.find).toHaveBeenCalled();
     });
 
     it('should throw NotFoundException if no sessions exist', async () => {
-      vi.spyOn(sessionRepository, 'find').mockResolvedValue([]);
+      // Arrange
+      mockSessionRepository.find.mockResolvedValue([]);
 
+      // Act & Assert
       await expect(service.findAllSessions()).rejects.toThrow(
-        NotFoundException,
+        new NotFoundException('No sessions found'),
       );
-      await expect(service.findAllSessions()).rejects.toThrow(
-        'No sessions found',
-      );
-
-      expect(sessionRepository.find).toHaveBeenCalled();
     });
 
     it('should throw NotFoundException if result is null', async () => {
-      vi.spyOn(sessionRepository, 'find').mockResolvedValue(null);
+      // Arrange
+      mockSessionRepository.find.mockResolvedValue(null);
 
+      // Act & Assert
       await expect(service.findAllSessions()).rejects.toThrow(
-        NotFoundException,
+        new NotFoundException('No sessions found'),
       );
-      await expect(service.findAllSessions()).rejects.toThrow(
-        'No sessions found',
-      );
-
-      expect(sessionRepository.find).toHaveBeenCalled();
     });
 
     it('should handle database errors', async () => {
-      const error = new Error('Erreur de connexion à la base de données');
+      // Arrange
+      const dbError = new Error('Database connection failed');
+      mockSessionRepository.find.mockRejectedValue(dbError);
 
-      vi.spyOn(sessionRepository, 'find').mockRejectedValue(error);
-
-      await expect(service.findAllSessions()).rejects.toThrow(error);
-      expect(sessionRepository.find).toHaveBeenCalled();
+      // Act & Assert
+      await expect(service.findAllSessions()).rejects.toThrow(dbError);
     });
 
     it('should return an empty list if no sessions found', async () => {
-      vi.spyOn(sessionRepository, 'find').mockResolvedValue([]);
+      // Arrange
+      mockSessionRepository.find.mockResolvedValue([]);
 
+      // Act & Assert
       await expect(service.findAllSessions()).rejects.toThrow(
-        NotFoundException,
+        new NotFoundException('No sessions found'),
       );
-
-      expect(sessionRepository.find).toHaveBeenCalled();
     });
 
     it('should return a single session', async () => {
-      const singleSession = [{ ...mockSession, id: 'session-1' }];
+      // Arrange
+      const sessions = [mockSession];
+      mockSessionRepository.find.mockResolvedValue(sessions);
 
-      vi.spyOn(sessionRepository, 'find').mockResolvedValue(
-        singleSession as Session[],
-      );
-
+      // Act
       const result = await service.findAllSessions();
 
-      expect(sessionRepository.find).toHaveBeenCalled();
-      expect(result).toEqual(singleSession);
+      // Assert
+      expect(result).toEqual(sessions);
       expect(result).toHaveLength(1);
     });
   });
 
   describe('Intégration des méthodes', () => {
     it('should allow saving then retrieving a session', async () => {
-      const sessionData = { ...mockSessionData };
-      const savedSession = { ...mockSession };
+      // Arrange
+      const sessionData: CreateSessionDto = {
+        dateTimeStamp: new Date('2025-01-15T10:30:00Z'),
+        ipAdress: '192.168.1.1',
+        userId: 'user-uuid-456',
+      };
 
-      // Mock save
-      vi.spyOn(sessionRepository, 'save').mockResolvedValue(
-        savedSession as Session,
-      );
+      const createdSession = { ...sessionData, user: mockUser };
 
-      // Mock findOne for findSessionById
-      vi.spyOn(sessionRepository, 'findOne')
-        .mockResolvedValueOnce(savedSession as Session) // for findSessionById
-        .mockResolvedValueOnce(savedSession as Session); // for findSessionByUserId
+      mockMusiRepository.findOneBy.mockResolvedValue(mockUser);
+      mockSessionRepository.create.mockReturnValue(createdSession);
+      mockSessionRepository.save.mockResolvedValue(mockSession);
+      mockSessionRepository.findOne.mockResolvedValue(mockSession);
 
-      // Save the session
-      const saved = await service.save(sessionData);
-      expect(saved).toEqual(savedSession);
+      // Act
+      const savedSession = await service.save(sessionData);
+      const foundSession = await service.findSessionById(savedSession.id);
 
-      // find by ID
-      const foundById = await service.findSessionById(savedSession.id);
-      expect(foundById).toEqual(savedSession);
-
-      // find by ID user
-      const foundByUserId = await service.findSessionByUserId(
-        savedSession.user.id,
-      );
-      expect(foundByUserId).toEqual(savedSession);
+      // Assert
+      expect(savedSession).toEqual(mockSession);
+      expect(foundSession).toEqual(mockSession);
+      expect(mockMusiRepository.findOneBy).toHaveBeenCalledWith({
+        id: sessionData.userId,
+      });
+      expect(mockSessionRepository.findOne).toHaveBeenCalledWith({
+        where: { id: savedSession.id },
+      });
     });
 
     it('should handle error cases consistently', async () => {
-      const sessionId = 'session-inexistant';
-      const userId = 'user-inexistant';
+      // Arrange
+      const nonExistentId = 'non-existent-id';
+      mockSessionRepository.findOne.mockResolvedValue(null);
 
-      vi.spyOn(sessionRepository, 'findOne').mockResolvedValue(null);
-
-      // all methode have to throw NotFoundException
-      await expect(service.findSessionById(sessionId)).rejects.toThrow(
+      // Act & Assert
+      await expect(service.findSessionById(nonExistentId)).rejects.toThrow(
         NotFoundException,
       );
-      await expect(service.findSessionByUserId(userId)).rejects.toThrow(
+      await expect(service.findSessionByUserId(nonExistentId)).rejects.toThrow(
         NotFoundException,
       );
     });

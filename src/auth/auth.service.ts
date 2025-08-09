@@ -13,6 +13,7 @@ import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.reposito
 import { Musi } from 'src/musi/musi.entity';
 import { randomBytes } from 'crypto';
 import { SessionService } from 'src/session/session.service';
+import { UAParser } from 'ua-parser-js';
 
 interface SafeMusi {
   id: string;
@@ -77,12 +78,20 @@ export class AuthService {
     if (!musi) {
       throw new NotFoundException('Musi not found.');
     }
+    const parseHeader = new UAParser(req.headers['user-agent']);
+    const device = parseHeader.getDevice();
 
     const trackConnection = await this.sessionService.save({
       ipAdress: req.ip,
       dateTimeStamp: new Date(),
-      user: musi.id,
+      browser: parseHeader.getBrowser().name,
+      os: parseHeader.getOS().name,
+      deviceType: device.type ?? 'Desktop',
+      deviceModel: device.model,
+      userId: musi.id, // Assuming user is a string ID, adjust type as necessary
     });
+
+    console.log(trackConnection, ' ====> track connection');
 
     if (!trackConnection) {
       throw new UnauthorizedException('Failed to track connection');
