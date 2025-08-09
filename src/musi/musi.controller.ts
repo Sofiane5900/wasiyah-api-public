@@ -46,6 +46,8 @@ export class MusiController {
 
   // Retrieve a musi by ID
   @Get(':id')
+  @Roles('ROLE_ADMIN', 'ROLE_MUSI')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiGetResource(MusiResponseDto)
   async findOne(@Param('id') id: string): Promise<MusiResponseDto | null> {
     return await this.musiService.findOneById(id);
@@ -62,6 +64,8 @@ export class MusiController {
 
   // Update a musi
   @Patch(':id')
+  @Roles('ROLE_ADMIN', 'ROLE_MUSI')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiPatchRessource(Musi)
   async update(
     @Param('id') id: string,
@@ -72,6 +76,8 @@ export class MusiController {
 
   // Delete a musi
   @Delete(':id')
+  @Roles('ROLE_ADMIN', 'ROLE_MUSI')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiDeleteRessource(Musi)
   @ApiParam({
     name: 'id',
