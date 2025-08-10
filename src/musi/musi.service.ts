@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Musi } from './musi.entity';
-import { CreateMusiDto } from './dto/create-musi.dto';
+import { RegisterMusiDto } from './dto/register-musi.dto';
 import { UpdateMusiDto } from './dto/update-musi.dto';
+import { RoleUser } from '../enum/Roles';
 import * as argon2 from 'argon2';
 import { MusiResponseDto } from './dto/musi-response.dto';
 import { plainToClass } from 'class-transformer';
@@ -16,10 +17,11 @@ export class MusiService {
   ) {}
 
   // Create a musi
-  async createUser(createMusiDto: CreateMusiDto): Promise<MusiResponseDto> {
-    const hashedPassword = await argon2.hash(createMusiDto.password);
+  async createUser(registerMusiDto: RegisterMusiDto): Promise<MusiResponseDto> {
+    const hashedPassword = await argon2.hash(registerMusiDto.password);
     const musi = await this.musiRepository.save({
-      ...createMusiDto,
+      ...registerMusiDto,
+      roles: [RoleUser.ROLE_MUSI],
       password: hashedPassword,
     });
 

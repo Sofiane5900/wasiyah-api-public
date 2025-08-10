@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import { Test, TestingModule } from '@nestjs/testing';
 import { MusiService } from 'src/musi/musi.service';
 import { Musi } from 'src/musi/musi.entity';
-import { CreateMusiDto } from 'src/musi/dto/create-musi.dto';
 import { UpdateMusiDto } from 'src/musi/dto/update-musi.dto';
 import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -13,6 +12,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { RoleUser } from 'src/enum/Roles';
 import { StatusUser } from 'src/enum/User';
 import { MusiRepository } from '../../src/musi/musi.repository';
+import { RegisterMusiDto } from 'src/musi/dto/register-musi.dto';
 
 // Mockers pour argon2
 vi.mock('argon2', () => ({
@@ -46,7 +46,7 @@ describe('MusiService', () => {
     email: 'john.doe@example.com',
     password: 'hashed_password',
     isEmailVerified: false,
-    roles: RoleUser.ROLE_MUSI,
+    roles: [RoleUser.ROLE_MUSI],
     birthDate: new Date('1990-01-01'),
     creationDate: new Date('2010-01-01'),
     twoFactorEnabled: false,
@@ -109,21 +109,21 @@ describe('MusiService', () => {
 
   describe('createMusi', () => {
     it('should create a new musi with hashed password', async () => {
-      const CreateMusiDto: CreateMusiDto = {
+      const registerMusiDto: RegisterMusiDto = {
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe@example.com',
         password: 'password123',
         birthDate: new Date('2000-01-01'),
-        roles: RoleUser.ROLE_MUSI,
       };
 
-      const result = await musiService.createUser(CreateMusiDto);
+      const result = await musiService.createUser(registerMusiDto);
 
       expect(argon2.hash).toHaveBeenCalledWith('password123');
       expect(musiRepository.save).toHaveBeenCalledWith({
-        ...CreateMusiDto,
+        ...registerMusiDto,
         password: 'hashed_password',
+        roles: [RoleUser.ROLE_MUSI],
       });
 
       expect(plainToClass).toHaveBeenCalled();

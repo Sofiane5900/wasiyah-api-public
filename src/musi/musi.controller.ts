@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MusiService } from './musi.service';
-import { CreateMusiDto } from './dto/create-musi.dto';
 import { UpdateMusiDto } from './dto/update-musi.dto';
 import { Musi } from './musi.entity';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
@@ -25,6 +24,7 @@ import { MusiResponseDto } from './dto/musi-response.dto';
 import { JwtAuthGuard } from 'src/guards/jwt/jwt-auth.guards';
 import { MailService } from 'src/mail/mail.service';
 import { MusiRepository } from './musi.repository';
+import { RegisterMusiDto } from './dto/register-musi.dto';
 
 @ApiTags('musis')
 @Controller('musis')
@@ -56,8 +56,10 @@ export class MusiController {
   // Create a musi
   @Post()
   @ApiPostRessource(MusiResponseDto)
-  async create(@Body() CreateMusiDto: CreateMusiDto): Promise<MusiResponseDto> {
-    const musi = await this.musiService.createUser(CreateMusiDto);
+  async create(
+    @Body() registerMusiDto: RegisterMusiDto,
+  ): Promise<MusiResponseDto> {
+    const musi = await this.musiService.createUser(registerMusiDto);
     await this.mailService.sendVerificationEmail(musi.email);
     return musi;
   }
