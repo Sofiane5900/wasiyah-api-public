@@ -71,9 +71,9 @@ Audience: front-end developers and API consumers who need to integrate the passw
 - Failure responses: If the token is invalid/expired or the password does not meet policy requirements, the API returns an error (4xx) with an explanatory message. Exact error codes/messages depend on the server-side implementation.
 
 ## Known status codes & messages (from controller)
-- `201 Created — request endpoint
-- `200 OK — validate endpoint
-- `200 OK — reset endpoint
+- `201 Created` — request endpoint
+- `200 OK` — validate endpoint
+- `200 OK` — reset endpoint
 - `422 Unprocessable Entity` — if submitted email is malformed or non-complex password
 - `404 Not Found` — Returned when the provided reset token does not exist in the system or has already been used.
 - `401 Unauthorized` — Returned when the provided reset token is invalid or has expired, and the request cannot be authorized.
