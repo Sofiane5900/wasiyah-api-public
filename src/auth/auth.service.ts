@@ -5,13 +5,15 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import * as argon2 from 'argon2';
 import { RoleUser } from 'src/enum/Roles';
 import { MusiRepository } from '../musi/musi.repository';
 import { RefreshTokenRepository } from 'src/refresh-token/refresh-token.repository';
 import { Musi } from 'src/musi/musi.entity';
 import { randomBytes } from 'crypto';
+import { SessionService } from 'src/session/session.service';
+import { UAParser } from 'ua-parser-js';
 
 interface SafeMusi {
   id: string;
@@ -26,6 +28,7 @@ export class AuthService {
     private readonly musiRepository: MusiRepository,
     private readonly jwtService: JwtService,
     private readonly refreshTokenRepository: RefreshTokenRepository,
+    private readonly sessionService: SessionService,
   ) {}
 
   async validateUser(
@@ -51,6 +54,7 @@ export class AuthService {
     email: string,
     password: string,
     reply: FastifyReply,
+    req: FastifyRequest,
   ): Promise<void> {
     // "safeMusi" does not contain the password.
     // We name it "safe" to distinguish it from the full Musi entity.
@@ -74,6 +78,25 @@ export class AuthService {
     if (!musi) {
       throw new NotFoundException('Musi not found.');
     }
+    const parseHeader = new UAParser(req.headers['user-agent']);
+    const device = parseHeader.getDevice();
+
+    const trackConnection = await this.sessionService.save({
+      ipAdress: req.ip,
+      dateTimeStamp: new Date(),
+      browser: parseHeader.getBrowser().name,
+      os: parseHeader.getOS().name,
+      deviceType: device.type ?? 'Desktop',
+      deviceModel: device.model,
+      userId: musi.id, // Assuming user is a string ID, adjust type as necessary
+    });
+
+    console.log(trackConnection, ' ====> track connection');
+
+    if (!trackConnection) {
+      throw new UnauthorizedException('Failed to track connection');
+    }
+
     const refreshToken = await this.createRefreshToken(musi);
 
     reply.cookie('access_token', accessToken, {

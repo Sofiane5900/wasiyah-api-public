@@ -59,7 +59,6 @@ export class MusiService {
     const musi = await this.musiRepository.findOne({
       where: { id },
     });
-    console.log('musi', musi);
 
     if (!musi) {
       throw new NotFoundException();

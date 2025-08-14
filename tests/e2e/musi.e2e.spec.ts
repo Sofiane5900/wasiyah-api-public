@@ -1,15 +1,25 @@
 import 'reflect-metadata';
-import { test, expect } from 'vitest';
+import { test, expect, beforeAll, afterAll } from 'vitest';
 import axios from 'axios';
 import { MusiResponseDto } from '../../src/musi/dto/musi-response.dto';
 import { Musi } from '../../src/musi/musi.entity';
 import process from 'node:process';
 import dotenv from 'dotenv';
-import {UnprocessableEntityException} from "@nestjs/common";
+import { UnprocessableEntityException } from '@nestjs/common';
 
 dotenv.config({ path: '.env.test' });
 
 const BASE_URL = process.env.BASE_TEST_URL;
+
+// Configuration axios avec headers pour simuler une requête réelle
+const axiosConfig = {
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Forwarded-For': '127.0.0.1',
+    'User-Agent': 'Test-Agent/1.0',
+  },
+  timeout: 10000,
+};
 
 const musi = new Musi();
 musi.firstName = 'E2E';
@@ -21,10 +31,10 @@ musi.creationDate = new Date('2010-01-01');
 
 test('Musi E2E - should create a new musi', async () => {
   try {
-    const response = await axios.post(`${BASE_URL}/musis`, musi);
+    const response = await axios.post(`${BASE_URL}/musis`, musi, axiosConfig);
 
     expect(response.status).toBe(201);
-    const body = (await response.data) as MusiResponseDto;
+    const body = response.data as MusiResponseDto;
     expect(body).toMatchObject({
       email: musi.email,
       firstName: musi.firstName,
@@ -38,48 +48,76 @@ test('Musi E2E - should create a new musi', async () => {
 }, 10000);
 
 test('Musi E2E - test wrong password', async () => {
-  musi.email = `musi-e2e-${Date.now()}-${Math.floor(Math.random() * 1000)}@example.com`;
-  musi.password = 'abcdef';
+  const testMusi = { ...musi };
+  testMusi.email = `musi-e2e-${Date.now()}-${Math.floor(Math.random() * 1000)}@example.com`;
+  testMusi.password = 'abcdef';
 
   try {
-    await axios.post(`${BASE_URL}/musis`, musi);
+    await axios.post(`${BASE_URL}/musis`, testMusi, axiosConfig);
+    throw new Error('Expected validation error but request succeeded');
   } catch (error) {
+    if (error.message === 'Expected validation error but request succeeded') {
+      throw error;
+    }
+
     expect(error?.response?.status).toBe(422);
-    const body = (await error?.response?.data) as UnprocessableEntityException;
+    const body = error?.response?.data as UnprocessableEntityException;
     expect(body).toMatchObject({
       title: 'Validation Failed',
       type: 'UnprocessableEntityException',
-      message: ['Your password must contain at least: 8 characters, 1 uppercase letter, 1 number, and 1 special character'],
+      message: [
+        'Your password must contain at least: 8 characters, 1 uppercase letter, 1 number, and 1 special character',
+      ],
       error: 'Unprocessable Entity',
     });
   }
-}, 10000)
+}, 10000);
 
 test('Musi E2E - test unique email', async () => {
-  musi.password = 'T3stP@ssword!';
+  const testMusi = { ...musi };
+  testMusi.password = 'T3stP@ssword!';
 
   try {
-    await axios.post(`${BASE_URL}/musis`, musi);
+    await axios.post(`${BASE_URL}/musis`, testMusi, axiosConfig);
+    throw new Error(
+      'Expected unique email constraint error but request succeeded',
+    );
   } catch (error) {
+    if (
+      error.message ===
+      'Expected unique email constraint error but request succeeded'
+    ) {
+      throw error;
+    }
+
     expect(error?.response?.status).toBe(422);
-    const body = (await error?.response?.data) as UnprocessableEntityException;
+    const body = error?.response?.data as UnprocessableEntityException;
     expect(body).toMatchObject({
       title: 'Validation Failed',
       type: 'UnprocessableEntityException',
-      message: ['Cet email à déjà un compte'],
+      message: ['This email is already associated with an account'],
       error: 'Unprocessable Entity',
     });
   }
-}, 10000)
+}, 10000);
 
-test('Musi E2E - test wrong email', async () => {
-  musi.email = 'email@.com';
+test('Musi E2E - test wrong email format', async () => {
+  const testMusi = { ...musi };
+  testMusi.email = 'email@.com';
+  testMusi.password = 'T3stP@ssword!';
 
   try {
-    await axios.post(`${BASE_URL}/musis`, musi);
+    await axios.post(`${BASE_URL}/musis`, testMusi, axiosConfig);
+    throw new Error('Expected email validation error but request succeeded');
   } catch (error) {
+    if (
+      error.message === 'Expected email validation error but request succeeded'
+    ) {
+      throw error;
+    }
+
     expect(error?.response?.status).toBe(422);
-    const body = (await error?.response?.data) as UnprocessableEntityException;
+    const body = error?.response?.data as UnprocessableEntityException;
     expect(body).toMatchObject({
       title: 'Validation Failed',
       type: 'UnprocessableEntityException',
@@ -87,4 +125,4 @@ test('Musi E2E - test wrong email', async () => {
       error: 'Unprocessable Entity',
     });
   }
-}, 10000)
+}, 10000);

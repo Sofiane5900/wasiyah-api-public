@@ -12,6 +12,8 @@ import { PosthumousMessage } from '../posthumous-message/posthumous-mesage.entit
 import { Safe } from '../safe/safe.entity';
 import { RoleUser } from '../enum/Roles';
 import { StatusUser } from '../enum/User';
+
+import { Session } from '../session/session.entity';
 import { ResetPassword } from '../reset-password/reset-password.entity';
 
 @Entity()
@@ -122,6 +124,9 @@ export class Musi {
 
   @OneToMany(() => Appoint, 'user')
   appointments: Appoint[];
+
+  @OneToMany(() => Session, 'user')
+  sessions: Session[];
 
   @OneToMany(() => ResetPassword, 'musi')
   resetPassword: ResetPassword[];
