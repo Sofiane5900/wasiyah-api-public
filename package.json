@@ -11,6 +11,9 @@
       "brace-expansion": "^2.0.2",
       "tmp": "0.2.4",
       "nodemailer": "^7.0.7"
+    },
+    "auditConfig": {
+      "ignoreCves": ["CVE-2025-57319"]
     }
   },
   "scripts": {
