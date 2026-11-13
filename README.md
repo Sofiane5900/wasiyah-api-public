@@ -1,216 +1,216 @@
 # Wasiyah API 🔐📜
 
-## À propos du projet
+## About the project
 
-Wasiyah API est le backend d'une application web sécurisée destinée à créer et gérer des testaments conformes à la législation islamique. Cette API fournit les services nécessaires pour gérer les utilisateurs, les testaments, et assure la sécurité des données sensibles.
+Wasiyah API is the backend of a secure web application designed to create and manage wills compliant with Islamic law. This API provides the services needed to manage users, wills, and ensures the security of sensitive data.
 
-### Fonctionnalités principales
+### Key features
 
-- ✅ Gestion des testaments conformes à la législation islamique
-- 🔐 Support pour le chiffrement de bout en bout (E2EE)
-- 💰 API pour la gestion des actifs numériques et physiques
-- 📝 Stockage sécurisé des dernières volontés
-- 👥 Gestion des bénéficiaires et exécuteurs testamentaires
-- 🔄 Versionnement des testaments
+- ✅ Management of wills compliant with Islamic law
+- 🔐 Support for end-to-end encryption (E2EE)
+- 💰 API for managing digital and physical assets
+- 📝 Secure storage of last wills
+- 👥 Management of beneficiaries and executors
+- 🔄 Will versioning
 
-## Technologies utilisées
+## Technologies used
 
-- [NestJS](https://nestjs.com/) - Framework Node.js progressif
-- [Fastify](https://www.fastify.io/) - Serveur web rapide et à faible surcharge
-- [PostgreSQL](https://www.postgresql.org/) - Base de données relationnelle robuste
-- [TypeORM](https://typeorm.io/) - ORM pour TypeScript et JavaScript
-- [JWT](https://jwt.io/) - Authentification sécurisée
-- [Swagger](https://swagger.io/) - Documentation de l'API
-- [PNPM](https://pnpm.io/) - Gestionnaire de paquets rapide et économe en espace disque
-- [Vitest](https://vitest.dev/) - Framework de test unitaire et d'intégration
-- [Playwright](https://playwright.dev/) - Framework de test end-to-end
+- [NestJS](https://nestjs.com/) - Progressive Node.js framework
+- [Fastify](https://www.fastify.io/) - Fast, low-overhead web server
+- [PostgreSQL](https://www.postgresql.org/) - Robust relational database
+- [TypeORM](https://typeorm.io/) - ORM for TypeScript and JavaScript
+- [JWT](https://jwt.io/) - Secure authentication
+- [Swagger](https://swagger.io/) - API documentation
+- [PNPM](https://pnpm.io/) - Fast, disk-space-efficient package manager
+- [Vitest](https://vitest.dev/) - Unit and integration testing framework
+- [Playwright](https://playwright.dev/) - End-to-end testing framework
 
 ## Installation
 
-### Prérequis
-- Node.js (v18 ou supérieur)
-- PostgreSQL (v14 ou supérieur)
-- PNPM (v8 ou supérieur)
+### Prerequisites
+- Node.js (v18 or higher)
+- PostgreSQL (v14 or higher)
+- PNPM (v8 or higher)
 
-### Étapes d'installation
+### Installation steps
 
-1. Cloner le dépôt
+1. Clone the repository
 ```bash
-git clone https://github.com/votre-username/wasiyah-api.git
+git clone https://github.com/your-username/wasiyah-api.git
 cd wasiyah-api
 ```
 
-2. Installer les dépendances avec PNPM
+2. Install dependencies with PNPM
 ```bash
 pnpm install
 ```
 
 3. Configuration
 ```bash
-# Configurer les variables d'environnement
+# Configure environment variables
 cp .env.example .env
 ```
 
-4. Démarrer le service
+4. Start the service
 ```bash
-# Mode développement
+# Development mode
 pnpm dev
 
-# Mode production
+# Production mode
 pnpm build
 pnpm start
 ```
 
-## Structure du projet
+## Project structure
 
 ```
 wasiyah-api/
 ├── src/
-│   ├── main.ts                # Point d'entrée de l'application
-│   ├── app.module.ts          # Module principal
-│   ├── auth/                  # Authentification
-│   ├── users/                 # Gestion des utilisateurs
-│   ├── testaments/            # Gestion des testaments
-│   ├── crypto/                # Services de cryptographie
-│   └── common/                # Utilitaires partagés
+│   ├── main.ts                # Application entry point
+│   ├── app.module.ts          # Main module
+│   ├── auth/                  # Authentication
+│   ├── users/                 # User management
+│   ├── testaments/            # Will management
+│   ├── crypto/                # Cryptography services
+│   └── common/                # Shared utilities
 ├── test/
-│   ├── unit/                  # Tests unitaires (Vitest)
-│   ├── integration/           # Tests d'intégration (Vitest)
-│   └── e2e/                   # Tests end-to-end (Playwright)
-├── dist/                      # Code compilé
+│   ├── unit/                  # Unit tests (Vitest)
+│   ├── integration/           # Integration tests (Vitest)
+│   └── e2e/                   # End-to-end tests (Playwright)
+├── dist/                      # Compiled code
 └── ...
 ```
 
 ## Tests
 
-Le projet utilise plusieurs niveaux de tests pour assurer la qualité du code :
+The project uses several levels of testing to ensure code quality:
 
-### Tests unitaires et d'intégration (Vitest)
+### Unit and integration tests (Vitest)
 
 ```bash
-# Exécuter tous les tests
+# Run all tests
 pnpm test
 
-# Exécuter les tests en mode watch
+# Run tests in watch mode
 pnpm test:watch
 
-# Générer un rapport de couverture
+# Generate a coverage report
 pnpm test:coverage
 ```
 
-### Tests end-to-end (Playwright)
+### End-to-end tests (Playwright)
 
 ```bash
-# Exécuter les tests e2e en mode headless
+# Run e2e tests in headless mode
 pnpm test:e2e
 
-# Générer un rapport HTML des tests e2e
+# Generate an HTML report of e2e tests
 pnpm test:e2e:report
 ```
 
 ## API Endpoints
 
-L'API expose les endpoints suivants :
+The API exposes the following endpoints:
 
-- **Auth** : `/api/auth` - Authentification et gestion des sessions
-- **Users** : `/api/users` - Gestion des utilisateurs
-- **Testaments** : `/api/testaments` - Gestion des testaments
-- **Assets** : `/api/assets` - Gestion des actifs
-- **Beneficiaries** : `/api/beneficiaries` - Gestion des bénéficiaires
+- **Auth**: `/api/auth` - Authentication and session management
+- **Users**: `/api/users` - User management
+- **Testaments**: `/api/testaments` - Will management
+- **Assets**: `/api/assets` - Asset management
+- **Beneficiaries**: `/api/beneficiaries` - Beneficiary management
 
-Une documentation complète de l'API est disponible via Swagger à l'adresse `/api/docs` lorsque l'application est en cours d'exécution en mode développement.
+Full API documentation is available via Swagger at `/api/docs` when the application is running in development mode.
 
-## Sécurité
+## Security
 
-L'API Wasiyah implémente plusieurs niveaux de sécurité :
+The Wasiyah API implements several layers of security:
 
-- Authentification JWT
-- Validation des données entrantes
-- Protection contre les attaques CSRF
+- JWT authentication
+- Input data validation
+- CSRF attack protection
 - Rate limiting
-- Support pour le chiffrement E2EE (les données sensibles sont chiffrées côté client)
+- Support for E2EE encryption (sensitive data is encrypted client-side)
 
-## Contribution
+## Contributing
 
-Les contributions au projet Wasiyah API sont les bienvenues ! Ce projet utilise Git Flow pour gérer le cycle de développement.
+Contributions to the Wasiyah API project are welcome! This project uses Git Flow to manage the development cycle.
 
-### Workflow Git Flow
+### Git Flow workflow
 
-Nous utilisons [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) pour organiser notre travail. Voici les principales branches :
+We use [Git Flow](https://nvie.com/posts/a-successful-git-branching-model/) to organize our work. Here are the main branches:
 
-- `main` : Code en production
-- `develop` : Code en développement, intégration continue
-- `feature/*` : Nouvelles fonctionnalités
-- `release/*` : Préparation des versions pour la production
-- `hotfix/*` : Corrections urgentes en production
-- `bugfix/*` : Corrections de bugs en développement
+- `main`: Production code
+- `develop`: Development code, continuous integration
+- `feature/*`: New features
+- `release/*`: Production release preparation
+- `hotfix/*`: Urgent production fixes
+- `bugfix/*`: Development bug fixes
 
-### Comment contribuer
+### How to contribute
 
-1. Forkez le dépôt
-2. Clonez votre fork et configurez Git Flow
+1. Fork the repository
+2. Clone your fork and set up Git Flow
    ```bash
-   git clone https://github.com/votre-username/wasiyah-api.git
+   git clone https://github.com/your-username/wasiyah-api.git
    cd wasiyah-api
    git flow init -d
    ```
 
-3. Installez les dépendances avec PNPM
+3. Install dependencies with PNPM
    ```bash
    pnpm install
    ```
 
-4. Créez une branche de fonctionnalité
+4. Create a feature branch
    ```bash
-   git flow feature start nom-de-votre-fonctionnalite
+   git flow feature start your-feature-name
    ```
 
-5. Travaillez sur votre fonctionnalité et committez vos changements
+5. Work on your feature and commit your changes
    ```bash
    git add .
-   git commit -m 'feat: ajouter une fonctionnalité incroyable'
+   git commit -m 'feat: add an amazing feature'
    ```
 
-6. Assurez-vous que les tests passent
+6. Make sure tests pass
    ```bash
    pnpm test
    pnpm test:e2e
    ```
 
-7. Publiez votre branche de fonctionnalité
+7. Publish your feature branch
    ```bash
-   git flow feature publish nom-de-votre-fonctionnalite
+   git flow feature publish your-feature-name
    ```
 
-8. Ouvrez une Pull Request vers la branche `develop`
+8. Open a Pull Request to the `develop` branch
 
-9. Une fois la PR approuvée et fusionnée, terminez votre branche de fonctionnalité
+9. Once the PR is approved and merged, finish your feature branch
    ```bash
-   git flow feature finish nom-de-votre-fonctionnalite
+   git flow feature finish your-feature-name
    ```
 
-### Conventions de commit
+### Commit conventions
 
-Nous suivons les [Conventional Commits](https://www.conventionalcommits.org/) pour nos messages de commit :
+We follow [Conventional Commits](https://www.conventionalcommits.org/) for our commit messages:
 
-- `feat:` - Nouvelle fonctionnalité
-- `fix:` - Correction de bug
-- `docs:` - Modifications de la documentation
-- `style:` - Formatage, point-virgules manquants, etc.
-- `refactor:` - Refactorisation du code
-- `test:` - Ajout ou correction de tests
-- `chore:` - Tâches de maintenance, mises à jour de dépendances, etc.
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `style:` - Formatting, missing semicolons, etc.
+- `refactor:` - Code refactoring
+- `test:` - Adding or fixing tests
+- `chore:` - Maintenance tasks, dependency updates, etc.
 
-Veuillez vous assurer que votre code respecte les normes de codage du projet et inclut des tests appropriés.
+Please make sure your code follows the project's coding standards and includes appropriate tests.
 
-## Licence
+## License
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ## Contact
 
-Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue sur GitHub.
+For any questions or suggestions, feel free to open an issue on GitHub.
 
 ---
 
-⚠️ **Note importante sur la sécurité** : Wasiyah API traite des informations sensibles et personnelles. Assurez-vous de suivre les meilleures pratiques en matière de sécurité lors du développement et du déploiement.
+⚠️ **Important security note**: Wasiyah API handles sensitive and personal information. Make sure to follow best security practices during development and deployment.
